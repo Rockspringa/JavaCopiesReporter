@@ -5,19 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>edu.mooncoder</groupId>
-    <artifactId>ObjectScript</artifactId>
-    <version>1.0</version>
+    <artifactId>BetrayalOfFriends</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.github.vbmacher</groupId>
-            <artifactId>java-cup-runtime</artifactId>
-            <version>11b</version>
-        </dependency>
-    </dependencies>
 </project>
