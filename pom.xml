@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>edu.mooncoder</groupId>
-    <artifactId>BetrayalOfFriends</artifactId>
+    <artifactId>RML</artifactId>
     <version>1.0</version>
 
     <properties>
