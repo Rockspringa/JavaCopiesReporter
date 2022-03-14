@@ -35,7 +35,8 @@ BlockComments = "/*" .* ~"*/"
 // To token
 Visibility = ("private" | "public" | "protected") {Spaces}
 UnaryOperators = "++" | "--"
-LogicOperators = "==" | "!=" | "<" | ">" | "<=" | ">="
+LogicOperators = "&&" | "||" | "&" | "^" | "|"
+RelationalOperators = "==" | "!=" | "<" | ">" | "<=" | ">="
 
 Type = ("int" | "boolean" | "String" | "char" | "double") {Spaces}
 
@@ -58,28 +59,34 @@ Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
 <YYINITIAL> {
     {Visibility}                 { return symbol(Tokens.VISIBILITY); }
     {Type}                       { return symbol(Tokens.TYPE); }
-    "Object"                     { return symbol(Tokens.OBJECT); }
     "new" {Spaces}               { return symbol(Tokens.NEW); }
     "final" {Spaces}             { return symbol(Tokens.FINAL); }
     "import" {Spaces}            { return symbol(Tokens.IMPORT); }
     "package" {Spaces}           { return symbol(Tokens.PACKAGE); }
     "class" {Spaces}             { return symbol(Tokens.CLASS); }
     "void" {Spaces}              { return symbol(Tokens.VOID); }
-    "this"                       { /*return symbol(Tokens.THIS);*/ }
     "if"                         { return symbol(Tokens.IF); }
-    "else" {Spaces}+ "if"        { return symbol(Tokens.ELIF); }
     "else"                       { return symbol(Tokens.ELSE); }
     "for"                        { return symbol(Tokens.FOR); }
-    "while"                      { /*return symbol(Tokens.WHILE);*/ }
-    "do"                         { /*return symbol(Tokens.DO);*/ }
-    "switch"                     { /*return symbol(Tokens.WHILE);*/ }
+    "while"                      { return symbol(Tokens.WHILE); }
+    "do"                         { return symbol(Tokens.DO); }
+    "switch"                     { return symbol(Tokens.SWITCH); }
     "break"                      { return symbol(Tokens.BREAK); }
     "return"                     { return symbol(Tokens.RETURN); }
+    "true" | "false"             { return symbol(Tokens.BOOL); }
 }
 
 // Variables
 <YYINITIAL> {
   \"                             { string.setLength(0); yybegin(LITERAL); }
+
+  "'" \\t "'"                    { return symbol(Tokens.CHAR, '\t'); }
+  "'" \\n "'"                    { return symbol(Tokens.CHAR, '\n'); }
+  "'" \\r "'"                    { return symbol(Tokens.CHAR, '\r'); }
+  "'" \\\" "'"                   { return symbol(Tokens.CHAR, '\"'); }
+  "'" \\ "'"                     { return symbol(Tokens.CHAR, '\\'); }
+  "'" [^\n\r\"\\] "'"            { return symbol(Tokens.CHAR, yytext().charAt(1)); }
+
   {Int}                          { return symbol(Tokens.ENTERO); }
   {Double}                       { return symbol(Tokens.DECIMAL); }
   {Id}                           { return symbol(Tokens.ID); }
@@ -98,10 +105,13 @@ Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
 
 // Operadores
 <YYINITIAL> {
-    {UnaryOperators}             { /*return symbol(Tokens.UNARY);*/ }
+    {UnaryOperators}             { return symbol(Tokens.UNARY); }
     {LogicOperators}             { return symbol(Tokens.LOGIC); }
+    {RelationalOperators}        { return symbol(Tokens.RELATIONAL); }
+    "!"                          { return symbol(Tokens.NEGAR); }
     "*"                          { return symbol(Tokens.POR); }
     "/"                          { return symbol(Tokens.DIV); }
+    "%"                          { return symbol(Tokens.MOD); }
     "-"                          { return symbol(Tokens.MENOS); }
     "+"                          { return symbol(Tokens.MAS); }
     "="                          { return symbol(Tokens.IGUAL); }
@@ -112,15 +122,15 @@ Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
 
   [^\n\r\"\\]+                   { string.append(yytext()); }
 
-  \\t                          { string.append('\t'); }
+  \\t                            { string.append('\t'); }
 
-  \\n                          { string.append('\n'); }
+  \\n                            { string.append('\n'); }
 
-  \\r                          { string.append('\r'); }
+  \\r                            { string.append('\r'); }
 
-  \\\"                         { string.append('\"'); }
+  \\\"                           { string.append('\"'); }
 
-  \\                           { string.append('\\'); }
+  \\                             { string.append('\\'); }
 }
 
 [^] { System.out.println("error: " + (yyline + 1) + ", " + (yycolumn + 1)); }

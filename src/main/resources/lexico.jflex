@@ -65,14 +65,14 @@ Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
     "package" {Spaces}           { return symbol(Tokens.PACKAGE); }
     "class" {Spaces}             { return symbol(Tokens.CLASS); }
     "void" {Spaces}              { return symbol(Tokens.VOID); }
-    "this"                       { /*return symbol(Tokens.THIS);*/ }
     "if"                         { return symbol(Tokens.IF); }
-    "else" {Spaces}+ "if"        { return symbol(Tokens.ELIF); }
     "else"                       { return symbol(Tokens.ELSE); }
     "for"                        { return symbol(Tokens.FOR); }
     "while"                      { return symbol(Tokens.WHILE); }
     "do"                         { return symbol(Tokens.DO); }
     "switch"                     { return symbol(Tokens.SWITCH); }
+    "case"                      { return symbol(Tokens.BREAK); }
+    "default"                     { return symbol(Tokens.RETURN); }
     "break"                      { return symbol(Tokens.BREAK); }
     "return"                     { return symbol(Tokens.RETURN); }
     "true" | "false"             { return symbol(Tokens.BOOL); }
@@ -87,7 +87,7 @@ Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
   "'" \\r "'"                    { return symbol(Tokens.CHAR, '\r'); }
   "'" \\\" "'"                   { return symbol(Tokens.CHAR, '\"'); }
   "'" \\ "'"                     { return symbol(Tokens.CHAR, '\\'); }
-  "'" [^\n\r\"\\] "'"            { return symbol(Tokens.CHAR, yytext().charAt(1); }
+  "'" [^\n\r\"\\] "'"            { return symbol(Tokens.CHAR, yytext().charAt(1)); }
 
   {Int}                          { return symbol(Tokens.ENTERO); }
   {Double}                       { return symbol(Tokens.DECIMAL); }
@@ -102,6 +102,7 @@ Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
     "("                          { return symbol(Tokens.PAR_IZQ); }
     ")"                          { return symbol(Tokens.PAR_DER); }
     ";"                          { return symbol(Tokens.SEPARADOR); }
+    ":"                          { return symbol(Tokens.COLON); }
     ","                          { return symbol(Tokens.COMA); }
 }
 

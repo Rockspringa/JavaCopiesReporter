@@ -12,25 +12,30 @@ parser code {:
 :}
 
 terminal PACKAGE, IMPORT, CLASS, VISIBILITY, FINAL;
-terminal ID;
-terminal PUNTO, SEPARADOR, LLA_IZQ, LLA_DER, VOID,
+terminal ID, VOID, ENTERO, DECIMAL, CHAR;
+terminal PUNTO, SEPARADOR, LLA_IZQ, LLA_DER,
          TYPE, COMA, PAR_IZQ, PAR_DER, LOGIC, BREAK,
-         IF, ELIF, ELSE, FOR, NEW, OBJECT, LITERAL, MAS,
-         MENOS, DIV, POR, ENTERO, DECIMAL, RETURN, IGUAL,
-         NEGADO;
+         IF, ELSE, FOR, NEW, LITERAL, MAS, MENOS, DO, MOD,
+         DIV, POR, RETURN, IGUAL, SWITCH, UNARY,
+         NEGAR, RELATIONAL, BOOL, WHILE;
 
 non terminal syntax;
 non terminal packag, imports, clase;
 non terminal class_items, pack_item, attr_inv;
-non terminal full_dec, var_dec, more_dec, assign, valor,
-             func, string, numero, dec_func,
-             dec_attr, instruct, body, for, bool,
-             cic_inst, control, if, elif, else, for_dec,
-             for_bool, expr, type;
+non terminal constructor, full_dec, dec_func, else,
+             for, while, do_while, if;
+non terminal var_dec, more_dec, assign, valor, func, string,
+             numero, dec_attr, instruct, body, bool, cic_inst,
+             control, for_dec, for_bool, expr, type, control_,
+             fun_body, if_, concat;
 
 precedence left MAS, MENOS;
-precedence left POR, DIV;
-precedence left NEGADO;
+precedence left POR, DIV, MOD;
+precedence left UNARY;
+
+precedence left LOGIC;
+precedence left NEGAR;
+precedence left RELATIONAL;
 
 start with syntax;
 
@@ -53,6 +58,11 @@ clase     ::= VISIBILITY CLASS ID LLA_IZQ class_items LLA_DER
               CLASS ID LLA_IZQ class_items LLA_DER
               ;
 
+constructor ::= VISIBILITY ID fun_body
+                |
+                ID fun_body
+                ;
+
 class_items ::= VISIBILITY FINAL full_dec class_items
                 |
                 VISIBILITY full_dec class_items
@@ -64,6 +74,10 @@ class_items ::= VISIBILITY FINAL full_dec class_items
                 VISIBILITY dec_func class_items
                 |
                 dec_func class_items
+                |
+                constructor class_items
+                |
+                SEPARADOR class_items
                 |
                 ;
 
@@ -85,50 +99,74 @@ attr_inv ::= valor
              attr_inv COMA valor
              ;
 
-dec_func ::= type ID PAR_IZQ dec_attr PAR_DER LLA_IZQ body LLA_DER
+dec_func ::= type ID fun_body
              |
-             VOID ID PAR_IZQ dec_attr PAR_DER LLA_IZQ body LLA_DER
+             VOID ID fun_body
              ;
 
 instruct ::= full_dec
              |
-             assign
+             assign SEPARADOR
              |
-             func
+             concat SEPARADOR
              |
              RETURN SEPARADOR
              |
              RETURN valor SEPARADOR
              |
+             for
+             |
              if
              |
-             for
+             while
+             |
+             do_while
+             |
+             SEPARADOR
              ;
 
-body     ::= instruct body
+body     ::= body instruct
              |
              ;
 
-bool     ::= valor LOGIC valor;
+fun_body ::= PAR_IZQ dec_attr PAR_DER LLA_IZQ body LLA_DER;
 
-cic_inst ::= instruct cic_inst
+bool     ::= bool LOGIC bool
              |
-             BREAK SEPARADOR cic_inst
+             NEGAR bool
+             |
+             valor RELATIONAL valor
+             |
+             PAR_IZQ bool PAR_DER
+             |
+             BOOL
              ;
 
-control  ::= LLA_IZQ cic_inst LLA_DER
+cic_inst ::= cic_inst instruct
+             |
+             cic_inst BREAK SEPARADOR
+             |
+             ;
+
+control  ::= LLA_IZQ body LLA_DER
              |
              instruct
              ;
-              
-if       ::= IF PAR_IZQ bool PAR_DER LLA_IZQ body LLA_DER elif else
-             ;
 
-elif     ::= ELIF PAR_IZQ bool PAR_DER LLA_IZQ body LLA_DER elif
+control_ ::= LLA_IZQ cic_inst LLA_DER
              |
+             instruct
+             |
+             BREAK SEPARADOR
              ;
 
-else     ::= ELSE LLA_IZQ body LLA_DER
+if       ::= IF if_ else
+             ;
+
+if_      ::= PAR_IZQ bool PAR_DER LLA_IZQ body LLA_DER
+             ;
+
+else     ::= ELSE control
              |
              ;
 
@@ -139,11 +177,15 @@ for_dec  ::= type var_dec more_dec SEPARADOR
 
 for_bool ::= bool SEPARADOR | SEPARADOR;
 
-for      ::= FOR PAR_DER for_dec for_bool assign control;
+for      ::= FOR PAR_IZQ for_dec for_bool assign PAR_DER control_;
 
-func     ::= ID PAR_IZQ attr_inv PAR_DER SEPARADOR
+while    ::= WHILE PAR_IZQ bool PAR_DER control_;
+
+do_while ::= DO control_ WHILE PAR_IZQ bool PAR_DER SEPARADOR;
+
+func     ::= ID PAR_IZQ attr_inv PAR_DER
              |
-             ID PAR_IZQ PAR_DER SEPARADOR
+             ID PAR_IZQ PAR_DER
              ;
 
 full_dec ::= type var_dec more_dec SEPARADOR;
@@ -157,7 +199,7 @@ more_dec ::= COMA var_dec more_dec
              |
              ;
 
-type     ::= TYPE | OBJECT;
+type     ::= TYPE | ID;
 
 assign   ::= ID IGUAL valor;
 
@@ -165,12 +207,29 @@ valor    ::= string
              |
              expr
              |
-             NEW OBJECT PAR_IZQ PAR_DER
+             BOOL
+             |
+             NEW concat
+             ;
+
+concat   ::= func PUNTO concat
+             |
+             ID PUNTO concat
+             |
+             func
+             |
+             ID
              ;
 
 string   ::= LITERAL
              |
+             CHAR
+             |
              string MAS LITERAL
+             |
+             string MAS BOOL
+             |
+             string MAS CHAR
              |
              string MAS numero
              |
@@ -185,12 +244,18 @@ expr     ::= expr MAS expr
              |
              expr DIV expr
              |
+             expr MOD expr
+             |
              PAR_IZQ expr PAR_DER
              |
              MENOS expr
-             %prec NEGADO
+             %prec UNARY
+             |
+             UNARY expr
+             |
+             expr UNARY
              |
              numero
              ;
 
-numero   ::= ID | ENTERO | DECIMAL;
+numero   ::= concat | ENTERO | DECIMAL;
