@@ -13,17 +13,17 @@ parser code {:
 
 terminal PACKAGE, IMPORT, CLASS, VISIBILITY, FINAL;
 terminal ID, VOID, ENTERO, DECIMAL, CHAR;
-terminal PUNTO, SEPARADOR, LLA_IZQ, LLA_DER,
+terminal PUNTO, SEPARADOR, COLON, LLA_IZQ, LLA_DER,
          TYPE, COMA, PAR_IZQ, PAR_DER, LOGIC, BREAK,
          IF, ELSE, FOR, NEW, LITERAL, MAS, MENOS, DO, MOD,
          DIV, POR, RETURN, IGUAL, SWITCH, UNARY,
-         NEGAR, RELATIONAL, BOOL, WHILE;
+         NEGAR, RELATIONAL, BOOL, WHILE, CASE, DEFAULT;
 
 non terminal syntax;
 non terminal packag, imports, clase;
 non terminal class_items, pack_item, attr_inv;
 non terminal constructor, full_dec, dec_func, else,
-             for, while, do_while, if;
+             for, while, do_while, if, switch, case;
 non terminal var_dec, more_dec, assign, valor, func, string,
              numero, dec_attr, instruct, body, bool, cic_inst,
              control, for_dec, for_bool, expr, type, control_,
@@ -63,21 +63,21 @@ constructor ::= VISIBILITY ID fun_body
                 ID fun_body
                 ;
 
-class_items ::= VISIBILITY FINAL full_dec class_items
+class_items ::= class_items VISIBILITY FINAL full_dec
                 |
-                VISIBILITY full_dec class_items
+                class_items VISIBILITY full_dec
                 |
-                FINAL full_dec class_items
+                class_items FINAL full_dec
                 |
-                full_dec class_items
+                class_items full_dec
                 |
-                VISIBILITY dec_func class_items
+                class_items VISIBILITY dec_func
                 |
-                dec_func class_items
+                class_items dec_func
                 |
-                constructor class_items
+                class_items constructor
                 |
-                SEPARADOR class_items
+                class_items SEPARADOR
                 |
                 ;
 
@@ -121,6 +121,8 @@ instruct ::= full_dec
              while
              |
              do_while
+             |
+             switch
              |
              SEPARADOR
              ;
@@ -182,6 +184,13 @@ for      ::= FOR PAR_IZQ for_dec for_bool assign PAR_DER control_;
 while    ::= WHILE PAR_IZQ bool PAR_DER control_;
 
 do_while ::= DO control_ WHILE PAR_IZQ bool PAR_DER SEPARADOR;
+
+switch   ::= SWITCH PAR_IZQ valor PAR_DER LLA_IZQ case LLA_DER;
+
+case     ::= case CASE valor COLON cic_inst
+             |
+             case DEFAULT COLON cic_inst
+             ;
 
 func     ::= ID PAR_IZQ attr_inv PAR_DER
              |

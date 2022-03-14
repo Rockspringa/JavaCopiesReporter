@@ -5,7 +5,7 @@ import edu.mooncoder.model.analyzer.syntax.Tokens;
 
 %%
 
-%class JavaLexer
+%class JsonLexer
 %unicode
 %cupsym Tokens
 %cup

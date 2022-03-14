@@ -71,6 +71,8 @@ Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
     "while"                      { return symbol(Tokens.WHILE); }
     "do"                         { return symbol(Tokens.DO); }
     "switch"                     { return symbol(Tokens.SWITCH); }
+    "case"                      { return symbol(Tokens.BREAK); }
+    "default"                     { return symbol(Tokens.RETURN); }
     "break"                      { return symbol(Tokens.BREAK); }
     "return"                     { return symbol(Tokens.RETURN); }
     "true" | "false"             { return symbol(Tokens.BOOL); }
@@ -100,6 +102,7 @@ Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
     "("                          { return symbol(Tokens.PAR_IZQ); }
     ")"                          { return symbol(Tokens.PAR_DER); }
     ";"                          { return symbol(Tokens.SEPARADOR); }
+    ":"                          { return symbol(Tokens.COLON); }
     ","                          { return symbol(Tokens.COMA); }
 }
 
