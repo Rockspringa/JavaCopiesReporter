@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>edu.mooncoder</groupId>
-    <artifactId>ObjectScript</artifactId>
+    <artifactId>OSRN</artifactId>
     <version>1.0</version>
 
     <properties>
@@ -13,11 +13,4 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.github.vbmacher</groupId>
-            <artifactId>java-cup-runtime</artifactId>
-            <version>11b</version>
-        </dependency>
-    </dependencies>
 </project>
