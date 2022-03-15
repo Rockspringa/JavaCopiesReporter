@@ -1,0 +1,105 @@
+package edu.mooncoder.model.analyzer.syntax;
+
+import edu.mooncoder.model.containers.Osrn;
+import edu.mooncoder.model.wrapper.*;
+import edu.mooncoder.model.analyzer.lexic.JsonLexer;
+
+parser code {:
+  private Osrn osrn;
+
+  public Osrn getOsrn() { return osrn; }
+
+  public JsonParser(JsonLexer lexer) {
+    super(lexer);
+  }
+:}
+
+terminal String ID, LITERAL;
+terminal double NUMBER;
+terminal boolean BOOLEAN;
+terminal NULL, CUR_IZQ, CUR_DER, BRA_IZQ, BRA_DER, COLON, COMMA;
+
+non terminal syntax;
+non terminal Object value;
+non terminal OsrnWrapper pair, obj, obj_, content, array, array_;
+
+start with syntax;
+
+syntax     ::= content
+               {: osrn = OsrnWrapper.close(); :}
+               ;
+
+content    ::= CUR_IZQ obj_ CUR_DER
+               ;
+
+array      ::= BRA_IZQ array_:array BRA_DER
+               |
+               BRA_IZQ BRA_DER
+               {: ArrayWrapper.addEmpty(); :}
+               ;
+
+array_     ::= value:value
+               {: ArrayWrapper.addFirst(value); :}
+               |
+               array_ COMMA value:value
+               {: ArrayWrapper.add(value); :}
+               |
+               array_ COLON:colon error
+               {: System.out.println("Se esperaba una coma o un ']'"); :}
+               |
+               array_ COMMA:comma error
+               {: System.out.println("Se esperaba un <valor>"); :}
+               ;
+
+obj_       ::= obj
+               |
+               {: OsrnWrapper.addEmpty(); :}
+               ;
+
+obj        ::= pair
+               {: OsrnWrapper.addFirstPair(PairWrapper.getPair()); :}
+               |
+               obj COMMA pair
+               {: OsrnWrapper.addPair(PairWrapper.getPair()); :}
+               |
+               obj COMMA error
+               {: System.out.println("Se esperaba un '}' o un par clave-valor"); :}
+               ;
+
+pair       ::= ID:key COLON value:value
+               {: PairWrapper.setPair(key, value); :}
+               |
+               LITERAL:key COLON value:value
+               {: PairWrapper.setPair(key, value); :}
+               |
+               ID error
+               {: System.out.println("Se esperaba un ':'"); :}
+               |
+               LITERAL error
+               {: System.out.println("Se esperaba un ':'"); :}
+               |
+               ID COLON error
+               {: System.out.println("Se esperaba un <valor>"); :}
+               |
+               LITERAL COLON error
+               {: System.out.println("Se esperaba un <valor>"); :}
+               ;
+
+value      ::= LITERAL:obj
+               {: RESULT = obj; :}
+               |
+               NUMBER:obj
+               {: RESULT = obj; :}
+               |
+               BOOLEAN:obj
+               {: RESULT = obj; :}
+               |
+               NULL:obj
+               {: RESULT = obj; :}
+               |
+               content
+               {: RESULT = OsrnWrapper.close(); :}
+               |
+               array
+               {: RESULT = ArrayWrapper.close(); :}
+               ;

@@ -1,0 +1,43 @@
+{
+  "Score" : "2.75",
+  "Clases" : [
+    {
+      "Nombre" : "clase1"
+    },
+    {
+      "Nombre" : "clase2"
+    }
+  ],
+  "Variables" : [
+    {
+      "Nombre" : "var1",
+      "Tipo" : "int",
+      "Funcion" : "funcion1, funcion2"
+    },
+    {
+      "Nombre" : "var2",
+      "Tipo" :"int",
+      "Funcion" : "funcion2, Clase hola"
+    }
+  ],
+  "Metodos" : [
+    {
+      "Nombre" : "metodo1",
+      "Tipo" :"void",
+      "Paremetros" : 2
+    },
+    {
+      "Nombre" : "metodo2",
+      "Tipo" :"String",
+      "Parametros" : 0
+    }
+  ],
+  "Comentarios" : [
+    {
+      "Texto" : "hola es un comentario"
+    },
+    {
+      "Texto" : "otro coment"
+    }
+  ]
+}

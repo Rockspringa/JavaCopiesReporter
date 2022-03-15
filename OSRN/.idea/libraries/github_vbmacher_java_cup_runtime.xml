@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="github.vbmacher.java.cup.runtime" type="repository">
+    <properties maven-id="com.github.vbmacher:java-cup-runtime:11b" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/github/vbmacher/java-cup-runtime/11b/java-cup-runtime-11b.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
