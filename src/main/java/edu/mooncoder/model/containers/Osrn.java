@@ -1,7 +1,7 @@
 package edu.mooncoder.model.containers;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class Osrn {
     private static int spaces = 0;
@@ -9,9 +9,13 @@ public class Osrn {
 
     public void addPair(String key, Object value) {
         if (map == null) {
-            map = new HashMap<>();
+            map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         }
         map.put(key, value);
+    }
+
+    public Object getValue(String key) {
+        return map.get(key);
     }
 
     @Override
@@ -23,7 +27,8 @@ public class Osrn {
 
         for (Map.Entry<String, Object> pair : map.entrySet()) {
             addSpaces(buf);
-            buf.append(String.format("\"%s\": ", pair.getKey()));
+            addFormattedObject(pair.getKey(), buf);
+            buf.append(": ");
             addFormattedObject(pair.getValue(), buf);
             buf.append(",\n");
         }
@@ -62,9 +67,7 @@ public class Osrn {
             addSpaces(buf);
             buf.append("]");
         } else if (obj instanceof String str) {
-            buf.append("\"");
-            buf.append(str);
-            buf.append("\"");
+            buf.append(String.format("\"%s\"", str));
         } else {
             buf.append(obj);
         }

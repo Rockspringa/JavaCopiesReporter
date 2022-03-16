@@ -13,6 +13,8 @@ import edu.mooncoder.model.analyzer.syntax.Tokens;
 %public
 %line
 %column
+%caseless
+%ignorecase
 
 %{
   private StringBuffer string = new StringBuffer();
@@ -22,7 +24,7 @@ import edu.mooncoder.model.analyzer.syntax.Tokens;
   }
 
   private Symbol symbol(int type, Object value) {
-    if (value instanceof String string)
+    if (type == Tokens.LITERAL)
       return new Symbol(type, yyline + 1, yycolumn - string.length(), value);
     else
       return new Symbol(type, yyline + 1, yycolumn + 1, value);
@@ -54,7 +56,7 @@ Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
   \"                             { string.setLength(0); yybegin(LITERAL); }
   {Number}                       { return symbol(Tokens.NUMBER, Double.parseDouble(yytext())); }
   {Boolean}                      { return symbol(Tokens.BOOLEAN, Boolean.parseBoolean(yytext())); }
-  {Null}                      { return symbol(Tokens.NULL, null); }
+  {Null}                         { return symbol(Tokens.NULL, null); }
   {Id}                           { return symbol(Tokens.ID, yytext()); }
 }
 

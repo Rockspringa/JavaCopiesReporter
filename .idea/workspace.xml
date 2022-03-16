@@ -5,23 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b173d11a-1aca-44c2-9014-d0d6e63a80a2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/github_vbmacher_java_cup_runtime.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Prueba.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/analyzer/lexic/JsonLexer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/analyzer/syntax/JsonParser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/analyzer/syntax/Tokens.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/containers/Osrn.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/containers/Pair.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/types/ErrorType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/wrapper/ArrayWrapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/wrapper/OsrnWrapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/wrapper/PairWrapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/exceptions/TypeNotMatchException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/services/OsrnFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/services/OsrnManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/containers/Osrn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/containers/Osrn.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/lexico.jflex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lexico.jflex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/sintaxis.cup" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/sintaxis.cup" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/translate.sh" beforeDir="false" afterPath="$PROJECT_DIR$/translate.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/containers/Osrn.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/containers/Osrn.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +23,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -117,7 +109,8 @@
       <workItem from="1647283322666" duration="3247000" />
       <workItem from="1647288764448" duration="3118000" />
       <workItem from="1647293782801" duration="10617000" />
-      <workItem from="1647314766939" duration="6520000" />
+      <workItem from="1647314766939" duration="6929000" />
+      <workItem from="1647407933807" duration="4351000" />
     </task>
     <servers />
   </component>
