@@ -4,8 +4,35 @@ import java.util.List;
 import java.util.ArrayList;
 
 import edu.mooncoder.model.analyzer.lexic.JavaLexer;
+import edu.mooncoder.model.wrappers.Variable;
+import edu.mooncoder.model.containers.*;
 
 parser code {:
+  List<Variable> vars = new ArrayList<>();
+
+  private void addVar(String name, String type) {
+    vars.add(new Variable(name, type));
+  }
+
+  private void setScope(String scope) {
+    for (Variable var : vars) {
+      var.setScope(scope);
+      VariablesHolder.addVariable(var);
+    }
+  }
+
+  private void addMethod(String name, String type) {
+    setScope(String.format("Metodo %s", name));
+    MethodsHolder.addMethod(name, type, vars.toArray(new Variable[0]));
+    vars.clear();
+  }
+
+  private void addClass(String name) {
+    setScope(String.format("Clase %s", name));
+    ClassesHolder.addClass(name);
+    vars.clear();
+  }
+
   public JavaParser(JavaLexer lexer) {
     super(lexer);
   }
@@ -16,18 +43,18 @@ terminal ID, VOID, ENTERO, DECIMAL, CHAR;
 terminal PUNTO, SEPARADOR, COLON, LLA_IZQ, LLA_DER,
          TYPE, COMA, PAR_IZQ, PAR_DER, LOGIC, BREAK,
          IF, ELSE, FOR, NEW, LITERAL, MAS, MENOS, DO, MOD,
-         DIV, POR, RETURN, IGUAL, SWITCH, UNARY,
-         NEGAR, RELATIONAL, BOOL, WHILE, CASE, DEFAULT;
+         DIV, POR, RETURN, IGUAL, SWITCH, UNARY, IGUAL_,
+         NEGAR, RELATIONAL1, RELATIONAL2, BOOL, WHILE, CASE, DEFAULT;
 
 non terminal syntax;
 non terminal packag, imports, clase;
 non terminal class_items, pack_item, attr_inv;
 non terminal constructor, full_dec, dec_func, else,
              for, while, do_while, if, switch, case;
-non terminal var_dec, more_dec, assign, valor, func, string,
-             numero, dec_attr, instruct, body, bool, cic_inst,
+non terminal var_dec, more_dec, assign, assign_, valor, func, string,
+             numero, dec_attr, instruct, body, bool, bool_, cic_inst,
              control, for_dec, for_bool, expr, type, control_,
-             fun_body, if_, concat;
+             fun_body, if_, concat, concat_, valor_, var_mods;
 
 precedence left MAS, MENOS;
 precedence left POR, DIV, MOD;
@@ -35,7 +62,7 @@ precedence left UNARY;
 
 precedence left LOGIC;
 precedence left NEGAR;
-precedence left RELATIONAL;
+precedence left RELATIONAL1, RELATIONAL2;
 
 start with syntax;
 
@@ -53,9 +80,11 @@ imports  ::= IMPORT ID pack_item SEPARADOR imports
              |
              ;
 
-clase     ::= VISIBILITY CLASS ID LLA_IZQ class_items LLA_DER
+clase     ::= VISIBILITY CLASS ID:id LLA_IZQ class_items LLA_DER
+              {: addClass((String) id); :}
               |
-              CLASS ID LLA_IZQ class_items LLA_DER
+              CLASS ID:id LLA_IZQ class_items LLA_DER
+              {: addClass((String) id); :}
               ;
 
 constructor ::= VISIBILITY ID fun_body
@@ -65,9 +94,11 @@ constructor ::= VISIBILITY ID fun_body
 
 class_items ::= class_items VISIBILITY FINAL full_dec
                 |
-                class_items VISIBILITY full_dec
+                class_items FINAL VISIBILITY full_dec
                 |
                 class_items FINAL full_dec
+                |
+                class_items VISIBILITY full_dec
                 |
                 class_items full_dec
                 |
@@ -88,9 +119,11 @@ pack_item ::= PUNTO ID pack_item
               PUNTO POR
               ;
 
-dec_attr ::= type ID COMA dec_attr
+dec_attr ::= type:type ID:id COMA dec_attr
+             {: addVar((String) id, (String) type); :}
              |
-             type ID
+             type:type ID:id
+             {: addVar((String) id, (String) type); :}
              |
              ;
 
@@ -99,16 +132,16 @@ attr_inv ::= valor
              attr_inv COMA valor
              ;
 
-dec_func ::= type ID fun_body
+dec_func ::= type:type ID:id fun_body
+             {: addMethod((String) id, (String) type); :}
              |
-             VOID ID fun_body
+             VOID:type ID:id fun_body
+             {: addMethod((String) id, (String) type); :}
              ;
 
 instruct ::= full_dec
              |
              assign SEPARADOR
-             |
-             concat SEPARADOR
              |
              RETURN SEPARADOR
              |
@@ -133,15 +166,22 @@ body     ::= body instruct
 
 fun_body ::= PAR_IZQ dec_attr PAR_DER LLA_IZQ body LLA_DER;
 
-bool     ::= bool LOGIC bool
+bool_    ::= NEGAR bool_
              |
-             NEGAR bool
+             valor_ RELATIONAL1 valor_
              |
-             valor RELATIONAL valor
+             expr RELATIONAL2 expr
              |
-             PAR_IZQ bool PAR_DER
+             PAR_IZQ bool_ PAR_DER
              |
              BOOL
+             ;
+
+bool     ::= bool LOGIC bool
+             |
+             bool_
+             |
+             concat
              ;
 
 cic_inst ::= cic_inst instruct
@@ -162,11 +202,10 @@ control_ ::= LLA_IZQ cic_inst LLA_DER
              BREAK SEPARADOR
              ;
 
-if       ::= IF if_ else
+if       ::= if_ else
              ;
 
-if_      ::= PAR_IZQ bool PAR_DER LLA_IZQ body LLA_DER
-             ;
+if_      ::= IF PAR_IZQ bool PAR_DER LLA_IZQ body LLA_DER;
 
 else     ::= ELSE control
              |
@@ -179,7 +218,8 @@ for_dec  ::= type var_dec more_dec SEPARADOR
 
 for_bool ::= bool SEPARADOR | SEPARADOR;
 
-for      ::= FOR PAR_IZQ for_dec for_bool assign PAR_DER control_;
+for      ::= FOR PAR_IZQ for_dec for_bool assign PAR_DER control_
+             ;
 
 while    ::= WHILE PAR_IZQ bool PAR_DER control_;
 
@@ -201,29 +241,64 @@ full_dec ::= type var_dec more_dec SEPARADOR;
 
 var_dec  ::= ID
              |
-             assign
+             assign_
              ;
 
 more_dec ::= COMA var_dec more_dec
              |
              ;
 
-type     ::= TYPE | ID;
+type     ::= TYPE:type
+             {: RESULT = type; :}
+             |
+             ID:type
+             {: RESULT = type; :}
+             ;
 
-assign   ::= ID IGUAL valor;
+assign_  ::= ID IGUAL valor
+             ;
 
-valor    ::= string
+assign   ::= assign_
+             |
+             ID IGUAL_ valor
+             |
+             expr
+             ;
+
+valor_   ::= string
              |
              expr
              |
              BOOL
              |
-             NEW concat
+             NEW concat_
              ;
 
-concat   ::= func PUNTO concat
+valor    ::= valor_
              |
-             ID PUNTO concat
+             BOOL LOGIC bool_
+             |
+             NEGAR bool_
+             |
+             valor_ RELATIONAL1 bool_
+             |
+             expr RELATIONAL2 expr
+             |
+             valor_ RELATIONAL1 string
+             |
+             valor_ RELATIONAL1 NEW concat_
+             ;
+
+concat_  ::= func PUNTO concat_
+             |
+             ID PUNTO concat_
+             |
+             func
+             ;
+
+concat   ::= func PUNTO concat_
+             |
+             ID PUNTO concat_
              |
              func
              |
@@ -233,6 +308,8 @@ concat   ::= func PUNTO concat
 string   ::= LITERAL
              |
              CHAR
+             |
+             expr MAS string
              |
              string MAS LITERAL
              |

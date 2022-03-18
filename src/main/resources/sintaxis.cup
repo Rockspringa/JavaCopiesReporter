@@ -3,18 +3,345 @@ package edu.mooncoder.model.analyzer.syntax;
 import java.util.List;
 import java.util.ArrayList;
 
-import edu.mooncoder.model.analyzer.lexic.JsonLexer;
+import edu.mooncoder.model.analyzer.lexic.JavaLexer;
+import edu.mooncoder.model.wrappers.Variable;
+import edu.mooncoder.model.containers.*;
 
 parser code {:
-  public JsonParser(JsonLexer lexer) {
+  List<Variable> vars = new ArrayList<>();
+
+  private void addVar(String name, String type) {
+    vars.add(new Variable(name, type));
+  }
+
+  private void setScope(String scope) {
+    for (Variable var : vars) {
+      var.setScope(scope);
+      VariablesHolder.addVariable(var);
+    }
+  }
+
+  private void addMethod(String name, String type) {
+    setScope(String.format("Metodo %s", name));
+    MethodsHolder.addMethod(name, type, vars.toArray(new Variable[0]));
+    vars.clear();
+  }
+
+  private void addClass(String name) {
+    setScope(String.format("Clase %s", name));
+    ClassesHolder.addClass(name);
+    vars.clear();
+  }
+
+  public JavaParser(JavaLexer lexer) {
     super(lexer);
   }
 :}
 
 terminal PACKAGE, IMPORT, CLASS, VISIBILITY, FINAL;
+terminal ID, VOID, ENTERO, DECIMAL, CHAR;
+terminal PUNTO, SEPARADOR, COLON, LLA_IZQ, LLA_DER,
+         TYPE, COMA, PAR_IZQ, PAR_DER, LOGIC, BREAK,
+         IF, ELSE, FOR, NEW, LITERAL, MAS, MENOS, DO, MOD,
+         DIV, POR, RETURN, IGUAL, SWITCH, UNARY, IGUAL_,
+         NEGAR, RELATIONAL1, RELATIONAL2, BOOL, WHILE, CASE, DEFAULT;
 
 non terminal syntax;
+non terminal packag, imports, clase;
+non terminal class_items, pack_item, attr_inv;
+non terminal constructor, full_dec, dec_func, else,
+             for, while, do_while, if, switch, case;
+non terminal var_dec, more_dec, assign, assign_, valor, func, string,
+             numero, dec_attr, instruct, body, bool, bool_, cic_inst,
+             control, for_dec, for_bool, expr, type, control_,
+             fun_body, if_, concat, concat_, valor_, var_mods;
+
+precedence left MAS, MENOS;
+precedence left POR, DIV, MOD;
+precedence left UNARY;
+
+precedence left LOGIC;
+precedence left NEGAR;
+precedence left RELATIONAL1, RELATIONAL2;
 
 start with syntax;
 
 syntax ::= packag imports clase;
+
+packag   ::= PACKAGE ID pack_item SEPARADOR
+             |
+             PACKAGE ID SEPARADOR
+             |
+             ;
+
+imports  ::= IMPORT ID pack_item SEPARADOR imports
+             |
+             IMPORT ID SEPARADOR imports
+             |
+             ;
+
+clase     ::= VISIBILITY CLASS ID:id LLA_IZQ class_items LLA_DER
+              {: addClass((String) id); :}
+              |
+              CLASS ID:id LLA_IZQ class_items LLA_DER
+              {: addClass((String) id); :}
+              ;
+
+constructor ::= VISIBILITY ID fun_body
+                |
+                ID fun_body
+                ;
+
+class_items ::= class_items VISIBILITY FINAL full_dec
+                |
+                class_items FINAL VISIBILITY full_dec
+                |
+                class_items FINAL full_dec
+                |
+                class_items VISIBILITY full_dec
+                |
+                class_items full_dec
+                |
+                class_items VISIBILITY dec_func
+                |
+                class_items dec_func
+                |
+                class_items constructor
+                |
+                class_items SEPARADOR
+                |
+                ;
+
+pack_item ::= PUNTO ID pack_item
+              |
+              PUNTO ID
+              |
+              PUNTO POR
+              ;
+
+dec_attr ::= type:type ID:id COMA dec_attr
+             {: addVar((String) id, (String) type); :}
+             |
+             type:type ID:id
+             {: addVar((String) id, (String) type); :}
+             |
+             ;
+
+attr_inv ::= valor
+             |
+             attr_inv COMA valor
+             ;
+
+dec_func ::= type:type ID:id fun_body
+             {: addMethod((String) id, (String) type); :}
+             |
+             VOID:type ID:id fun_body
+             {: addMethod((String) id, (String) type); :}
+             ;
+
+instruct ::= full_dec
+             |
+             assign SEPARADOR
+             |
+             RETURN SEPARADOR
+             |
+             RETURN valor SEPARADOR
+             |
+             for
+             |
+             if
+             |
+             while
+             |
+             do_while
+             |
+             switch
+             |
+             SEPARADOR
+             ;
+
+body     ::= body instruct
+             |
+             ;
+
+fun_body ::= PAR_IZQ dec_attr PAR_DER LLA_IZQ body LLA_DER;
+
+bool_    ::= NEGAR bool_
+             |
+             valor_ RELATIONAL1 valor_
+             |
+             expr RELATIONAL2 expr
+             |
+             PAR_IZQ bool_ PAR_DER
+             |
+             BOOL
+             ;
+
+bool     ::= bool LOGIC bool
+             |
+             bool_
+             |
+             concat
+             ;
+
+cic_inst ::= cic_inst instruct
+             |
+             cic_inst BREAK SEPARADOR
+             |
+             ;
+
+control  ::= LLA_IZQ body LLA_DER
+             |
+             instruct
+             ;
+
+control_ ::= LLA_IZQ cic_inst LLA_DER
+             |
+             instruct
+             |
+             BREAK SEPARADOR
+             ;
+
+if       ::= if_ else
+             ;
+
+if_      ::= IF PAR_IZQ bool PAR_DER LLA_IZQ body LLA_DER;
+
+else     ::= ELSE control
+             |
+             ;
+
+for_dec  ::= type var_dec more_dec SEPARADOR
+             |
+             SEPARADOR
+             ;
+
+for_bool ::= bool SEPARADOR | SEPARADOR;
+
+for      ::= FOR PAR_IZQ for_dec for_bool assign PAR_DER control_
+             ;
+
+while    ::= WHILE PAR_IZQ bool PAR_DER control_;
+
+do_while ::= DO control_ WHILE PAR_IZQ bool PAR_DER SEPARADOR;
+
+switch   ::= SWITCH PAR_IZQ valor PAR_DER LLA_IZQ case LLA_DER;
+
+case     ::= case CASE valor COLON cic_inst
+             |
+             case DEFAULT COLON cic_inst
+             ;
+
+func     ::= ID PAR_IZQ attr_inv PAR_DER
+             |
+             ID PAR_IZQ PAR_DER
+             ;
+
+full_dec ::= type var_dec more_dec SEPARADOR;
+
+var_dec  ::= ID
+             |
+             assign_
+             ;
+
+more_dec ::= COMA var_dec more_dec
+             |
+             ;
+
+type     ::= TYPE:type
+             {: RESULT = type; :}
+             |
+             ID:type
+             {: RESULT = type; :}
+             ;
+
+assign_  ::= ID IGUAL valor
+             ;
+
+assign   ::= assign_
+             |
+             ID IGUAL_ valor
+             |
+             expr
+             ;
+
+valor_   ::= string
+             |
+             expr
+             |
+             BOOL
+             |
+             NEW concat_
+             ;
+
+valor    ::= valor_
+             |
+             BOOL LOGIC bool_
+             |
+             NEGAR bool_
+             |
+             valor_ RELATIONAL1 bool_
+             |
+             expr RELATIONAL2 expr
+             |
+             valor_ RELATIONAL1 string
+             |
+             valor_ RELATIONAL1 NEW concat_
+             ;
+
+concat_  ::= func PUNTO concat_
+             |
+             ID PUNTO concat_
+             |
+             func
+             ;
+
+concat   ::= func PUNTO concat_
+             |
+             ID PUNTO concat_
+             |
+             func
+             |
+             ID
+             ;
+
+string   ::= LITERAL
+             |
+             CHAR
+             |
+             expr MAS string
+             |
+             string MAS LITERAL
+             |
+             string MAS BOOL
+             |
+             string MAS CHAR
+             |
+             string MAS numero
+             |
+             string MAS PAR_IZQ expr PAR_DER
+             ;
+
+expr     ::= expr MAS expr
+             |
+             expr POR expr
+             |
+             expr MENOS expr
+             |
+             expr DIV expr
+             |
+             expr MOD expr
+             |
+             PAR_IZQ expr PAR_DER
+             |
+             MENOS expr
+             %prec UNARY
+             |
+             UNARY expr
+             |
+             expr UNARY
+             |
+             numero
+             ;
+
+numero   ::= concat | ENTERO | DECIMAL;
