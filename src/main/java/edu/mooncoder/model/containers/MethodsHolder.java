@@ -23,6 +23,9 @@ public class MethodsHolder {
     }
 
     public static List<Method> clean() {
+        if (inst == null) {
+            inst = new MethodsHolder();
+        }
         List<Method> methods = inst.methods;
         inst = null;
         return methods;

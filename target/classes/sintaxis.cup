@@ -1,9 +1,9 @@
-package edu.mooncoder.model.analyzer.syntax;
+package edu.mooncoder.controllers.analyzer.syntax;
 
 import java.util.List;
 import java.util.ArrayList;
 
-import edu.mooncoder.model.analyzer.lexic.JavaLexer;
+import edu.mooncoder.controllers.analyzer.lexic.JavaLexer;
 import edu.mooncoder.model.wrappers.Variable;
 import edu.mooncoder.model.containers.*;
 

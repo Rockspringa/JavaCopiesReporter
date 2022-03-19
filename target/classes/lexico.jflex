@@ -1,8 +1,8 @@
-package edu.mooncoder.model.analyzer.lexic;
+package edu.mooncoder.controllers.analyzer.lexic;
 
 import java_cup.runtime.Symbol;
 
-import edu.mooncoder.model.analyzer.syntax.Tokens;
+import edu.mooncoder.controllers.analyzer.syntax.Tokens;
 import edu.mooncoder.model.containers.CommentsHolder;
 
 %%
@@ -58,7 +58,7 @@ Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
 
 // Ignores
 <YYINITIAL> {
-  "static" {Spaces}              { /* ignorar */ }
+  "static" {Spaces}              { /* ignorar */ }++++++++++++++++++++++++++++++++¿
   {BlockComments} |
   {LineComments}                 { CommentsHolder.addComment(yytext()); }
   {Spaces}                       { if (error.length() != 0) { System.out.println(error); error.setLength(0); } }

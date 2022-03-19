@@ -22,6 +22,9 @@ public class ClassesHolder {
     }
 
     public static List<Class> clean() {
+        if (inst == null) {
+            inst = new ClassesHolder();
+        }
         List<Class> classes = inst.classNames;
         inst = null;
         return classes;

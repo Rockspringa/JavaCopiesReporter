@@ -22,6 +22,9 @@ public class CommentsHolder {
     }
 
     public static List<Comment> clean() {
+        if (inst == null) {
+            inst = new CommentsHolder();
+        }
         List<Comment> classes = inst.comments;
         inst = null;
         return classes;

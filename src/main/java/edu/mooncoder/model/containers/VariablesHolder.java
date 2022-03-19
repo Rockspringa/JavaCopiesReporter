@@ -22,6 +22,9 @@ public class VariablesHolder {
     }
 
     public static List<Variable> clean() {
+        if (inst == null) {
+            inst = new VariablesHolder();
+        }
         List<Variable> variables = inst.variables;
         inst = null;
         return variables;

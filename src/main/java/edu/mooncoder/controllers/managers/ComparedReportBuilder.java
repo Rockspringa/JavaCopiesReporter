@@ -1,14 +1,21 @@
-package edu.mooncoder.model.containers;
+package edu.mooncoder.controllers.managers;
 
+import edu.mooncoder.model.containers.ClassesHolder;
+import edu.mooncoder.model.containers.CommentsHolder;
+import edu.mooncoder.model.containers.MethodsHolder;
+import edu.mooncoder.model.containers.VariablesHolder;
 import edu.mooncoder.model.wrappers.Class;
 import edu.mooncoder.model.wrappers.Comment;
 import edu.mooncoder.model.wrappers.Method;
 import edu.mooncoder.model.wrappers.Variable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class OsrnHolder {
-    private double score = 0; // TODO: se debe pasar a String
+public class ComparedReportBuilder {
+    private double score = 0;
     private double cantComments = 0;
     private double cantVariables = 0;
     private double cantMethods = 0;
@@ -64,8 +71,8 @@ public class OsrnHolder {
     public void closeSecondProject() {
         comments2 = getComments();
         variables2 = getVariables();
-        methods2 = MethodsHolder.clean();
-        classes2 = ClassesHolder.clean();
+        methods2 = getMethods();
+        classes2 = getClasses();
     }
 
     public Map<String, Object> getReportTable() {
@@ -197,27 +204,3 @@ public class OsrnHolder {
         table.put("Clases", repeatedList);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

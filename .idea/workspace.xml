@@ -5,34 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b173d11a-1aca-44c2-9014-d0d6e63a80a2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/containers/ClassesHolder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/containers/CommentsHolder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/containers/MethodsHolder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/containers/OsrnHolder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/containers/VariablesHolder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/wrappers/Class.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/wrappers/Comment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/wrappers/Method.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/wrappers/Variable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/managers/ProjectsComparer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/services/ComparerService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OSRN.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Prueba.jav" beforeDir="false" afterPath="$PROJECT_DIR$/Prueba.jav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/analyzer/lexic/JavaLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/analyzer/lexic/JavaLexer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/analyzer/syntax/JavaParser.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/analyzer/syntax/Tokens.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/analyzer/lexic/JavaLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/analyzer/lexic/JavaLexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/analyzer/syntax/JavaParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/analyzer/syntax/JavaParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/analyzer/syntax/Tokens.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/analyzer/syntax/Tokens.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/containers/OsrnHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/managers/ComparedReportBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/lexico.jflex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lexico.jflex" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/sintaxis.cup" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/sintaxis.cup" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/analyzer/lexic/JavaLexer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/analyzer/lexic/JavaLexer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/analyzer/syntax/JavaParser$CUP$JavaParser$actions.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/analyzer/syntax/JavaParser$CUP$JavaParser$actions.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/analyzer/syntax/JavaParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/analyzer/syntax/JavaParser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/analyzer/syntax/Tokens.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/analyzer/syntax/Tokens.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/lexico.jflex" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lexico.jflex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sintaxis.cup" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sintaxis.cup" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/containers/OsrnHolder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/translate.sh" beforeDir="false" afterPath="$PROJECT_DIR$/translate.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,7 +110,11 @@
       <workItem from="1647473125048" duration="2389000" />
       <workItem from="1647484466085" duration="9350000" />
       <workItem from="1647555869567" duration="15503000" />
-      <workItem from="1647582328151" duration="2778000" />
+      <workItem from="1647582328151" duration="3120000" />
+      <workItem from="1647630447602" duration="807000" />
+      <workItem from="1647647393427" duration="1117000" />
+      <workItem from="1647657907969" duration="535000" />
+      <workItem from="1647661858134" duration="11082000" />
     </task>
     <servers />
   </component>
