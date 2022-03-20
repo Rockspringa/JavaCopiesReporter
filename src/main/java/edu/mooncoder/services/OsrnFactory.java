@@ -1,10 +1,9 @@
 package edu.mooncoder.services;
 
-import edu.mooncoder.model.analyzer.lexic.JsonLexer;
-import edu.mooncoder.model.analyzer.syntax.JsonParser;
+import edu.mooncoder.controllers.analyzer.lexic.JsonLexer;
+import edu.mooncoder.controllers.analyzer.syntax.JsonParser;
 import edu.mooncoder.model.containers.Osrn;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
 import java.io.StringReader;

@@ -1,4 +1,4 @@
-package edu.mooncoder.model.wrapper;
+package edu.mooncoder.controllers.wrapper;
 
 import edu.mooncoder.model.containers.Pair;
 

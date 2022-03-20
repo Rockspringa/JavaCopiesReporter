@@ -1,4 +1,4 @@
-package edu.mooncoder.model.wrapper;
+package edu.mooncoder.controllers.wrapper;
 
 import edu.mooncoder.model.containers.Osrn;
 import edu.mooncoder.model.containers.Pair;
@@ -32,6 +32,9 @@ public class OsrnWrapper {
     }
 
     public static Osrn close() {
+        if (instances.size() == 0 || instances.size() <= level) {
+            addEmpty();
+        }
         Osrn osrn = instances.get(level).osrn;
         instances.remove(level--);
         return osrn;

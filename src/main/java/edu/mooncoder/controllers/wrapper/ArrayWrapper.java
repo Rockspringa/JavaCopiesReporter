@@ -1,6 +1,4 @@
-package edu.mooncoder.model.wrapper;
-
-import edu.mooncoder.model.containers.Osrn;
+package edu.mooncoder.controllers.wrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +28,9 @@ public class ArrayWrapper {
     }
 
     public static Object[] close() {
+        if (instances.size() == 0 || instances.size() <= level) {
+            addEmpty();
+        }
         Object[] list = instances.get(level).list.toArray(new Object[0]);
         instances.remove(level--);
         return list;

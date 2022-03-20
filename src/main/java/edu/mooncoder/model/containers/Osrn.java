@@ -5,12 +5,13 @@ import java.util.TreeMap;
 
 public class Osrn {
     private static int spaces = 0;
-    private Map<String, Object> map;
+    private final Map<String, Object> map;
+
+    public Osrn() {
+        map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    }
 
     public void addPair(String key, Object value) {
-        if (map == null) {
-            map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-        }
         map.put(key, value);
     }
 
@@ -20,8 +21,10 @@ public class Osrn {
 
     @Override
     public String toString() {
-        StringBuffer buf = new StringBuffer();
+        if (map.isEmpty())
+            return "{}";
 
+        StringBuffer buf = new StringBuffer();
         buf.append("{\n");
         spaces += 2;
 

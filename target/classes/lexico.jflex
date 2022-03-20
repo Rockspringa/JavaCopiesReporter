@@ -1,8 +1,9 @@
-package edu.mooncoder.model.analyzer.lexic;
+package edu.mooncoder.controllers.analyzer.lexic;
 
 import java_cup.runtime.Symbol;
 
-import edu.mooncoder.model.analyzer.syntax.Tokens;
+import edu.mooncoder.controllers.wrapper.ErrorWrapper;
+import edu.mooncoder.controllers.analyzer.syntax.Tokens;
 
 %%
 
@@ -18,12 +19,22 @@ import edu.mooncoder.model.analyzer.syntax.Tokens;
 
 %{
   private StringBuffer string = new StringBuffer();
+  private StringBuffer error = new StringBuffer();
 
   private Symbol symbol(int type) {
+    chargeError();
     return new Symbol(type, yyline + 1, yycolumn + 1);
   }
 
+  private void chargeError() {
+    if (error.length() != 0) {
+      ErrorWrapper.addLexicalError(yyline + 1, yycolumn + 1 - error.length(), error.toString());
+      error.setLength(0);
+    }
+  }
+
   private Symbol symbol(int type, Object value) {
+    chargeError();
     if (type == Tokens.LITERAL)
       return new Symbol(type, yyline + 1, yycolumn - string.length(), value);
     else
@@ -48,12 +59,12 @@ Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
 
 // Ignores
 <YYINITIAL> {
-  {Spaces}                       { /* ignore */ }
+  {Spaces}                       { chargeError(); }
 }
 
 // Variables
 <YYINITIAL> {
-  \"                             { string.setLength(0); yybegin(LITERAL); }
+  \"                             { chargeError(); string.setLength(0); yybegin(LITERAL); }
   {Number}                       { return symbol(Tokens.NUMBER, Double.parseDouble(yytext())); }
   {Boolean}                      { return symbol(Tokens.BOOLEAN, Boolean.parseBoolean(yytext())); }
   {Null}                         { return symbol(Tokens.NULL, null); }
@@ -73,17 +84,17 @@ Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
 <LITERAL> {
   \"                             { yybegin(YYINITIAL); return symbol(Tokens.LITERAL, string.toString()); }
 
-  [^\n\r\"\\]+                   { string.append(yytext()); }
+  [^\n\r\"\\]+                   { chargeError(); string.append(yytext()); }
 
-  \\t                            { string.append('\t'); }
+  \\t                            { chargeError(); string.append('\t'); }
 
-  \\n                            { string.append('\n'); }
+  \\n                            { chargeError(); string.append('\n'); }
 
-  \\r                            { string.append('\r'); }
+  \\r                            { chargeError(); string.append('\r'); }
 
-  \\\"                           { string.append('\"'); }
+  \\\"                           { chargeError(); string.append('\"'); }
 
-  \\                             { string.append('\\'); }
+  \\                             { chargeError(); string.append('\\'); }
 }
 
-[^] { System.out.println("error: " + (yyline + 1) + ", " + (yycolumn + 1)); }
+[^] { error.append(yytext()); }
