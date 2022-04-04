@@ -7,6 +7,7 @@ edu\mooncoder\rml\exceptions\syntactical\NullTagException.class
 edu\mooncoder\rml\model\tags\Row.class
 edu\mooncoder\rml\model\tags\Cell.class
 edu\mooncoder\rml\model\tags\Table.class
+edu\mooncoder\rml\exceptions\syntactical\IrreparableException.class
 edu\mooncoder\rml\exceptions\syntactical\TagNotAllowedException.class
 edu\mooncoder\rml\controllers\analyzer\syntax\HtmlParser$CUP$HtmlParser$actions.class
 edu\mooncoder\rml\controllers\builders\ResultBuilder.class
@@ -19,6 +20,7 @@ edu\mooncoder\rml\exceptions\SemanticalException.class
 edu\mooncoder\rml\model\variables\Text.class
 edu\mooncoder\rml\exceptions\syntactical\NotIntegerValueException.class
 edu\mooncoder\rml\controllers\builders\SymbolsTable.class
+edu\mooncoder\rml\services\ReadRml.class
 edu\mooncoder\rml\controllers\analyzer\syntax\Tokens.class
 edu\mooncoder\rml\controllers\builders\HtmlBuilder.class
 edu\mooncoder\rml\model\actions\VariableAction.class
@@ -38,4 +40,5 @@ edu\mooncoder\rml\model\contracts\Action.class
 edu\mooncoder\rml\model\contracts\Variable.class
 edu\mooncoder\rml\model\tags\Error.class
 edu\mooncoder\rml\exceptions\SyntaticalException.class
+edu\mooncoder\rml\exceptions\BadWrittenRmlException.class
 edu\mooncoder\rml\exceptions\semantical\NonePointerException.class

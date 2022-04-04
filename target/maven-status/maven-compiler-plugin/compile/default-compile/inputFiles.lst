@@ -1,8 +1,10 @@
 C:\Users\dylan\Desktop\Everything,+but+Nothing\Programacion+Eliminar\RML\src\main\java\edu\mooncoder\rml\controllers\builders\ErrorsReportBuilder.java
 C:\Users\dylan\Desktop\Everything,+but+Nothing\Programacion+Eliminar\RML\src\main\java\edu\mooncoder\rml\model\tags\Cell.java
 C:\Users\dylan\Desktop\Everything,+but+Nothing\Programacion+Eliminar\RML\src\main\java\edu\mooncoder\rml\model\tags\Document.java
+C:\Users\dylan\Desktop\Everything,+but+Nothing\Programacion+Eliminar\RML\src\main\java\edu\mooncoder\rml\exceptions\BadWrittenRmlException.java
 C:\Users\dylan\Desktop\Everything,+but+Nothing\Programacion+Eliminar\RML\src\main\java\edu\mooncoder\rml\exceptions\AnalysisException.java
 C:\Users\dylan\Desktop\Everything,+but+Nothing\Programacion+Eliminar\RML\src\main\java\edu\mooncoder\rml\controllers\builders\HtmlBuilder.java
+C:\Users\dylan\Desktop\Everything,+but+Nothing\Programacion+Eliminar\RML\src\main\java\edu\mooncoder\rml\exceptions\syntactical\UnexpectedTokenException.java
 C:\Users\dylan\Desktop\Everything,+but+Nothing\Programacion+Eliminar\RML\src\main\java\edu\mooncoder\rml\controllers\analyzer\lexic\HtmlLexer.java
 C:\Users\dylan\Desktop\Everything,+but+Nothing\Programacion+Eliminar\RML\src\main\java\edu\mooncoder\rml\model\contracts\Action.java
 C:\Users\dylan\Desktop\Everything,+but+Nothing\Programacion+Eliminar\RML\src\main\java\edu\mooncoder\rml\model\contracts\Tag.java
@@ -16,10 +18,13 @@ C:\Users\dylan\Desktop\Everything,+but+Nothing\Programacion+Eliminar\RML\src\mai
 C:\Users\dylan\Desktop\Everything,+but+Nothing\Programacion+Eliminar\RML\src\main\java\edu\mooncoder\rml\exceptions\semantical\TypeNotMatchException.java
 C:\Users\dylan\Desktop\Everything,+but+Nothing\Programacion+Eliminar\RML\src\main\java\edu\mooncoder\rml\exceptions\syntactical\NotIntegerValueException.java
 C:\Users\dylan\Desktop\Everything,+but+Nothing\Programacion+Eliminar\RML\src\main\java\edu\mooncoder\rml\model\variables\Int.java
+C:\Users\dylan\Desktop\Everything,+but+Nothing\Programacion+Eliminar\RML\src\main\java\edu\mooncoder\rml\exceptions\semantical\IndexOutOfLimitsException.java
 C:\Users\dylan\Desktop\Everything,+but+Nothing\Programacion+Eliminar\RML\src\main\java\edu\mooncoder\rml\controllers\operations\Arithmetic.java
+C:\Users\dylan\Desktop\Everything,+but+Nothing\Programacion+Eliminar\RML\src\main\java\edu\mooncoder\rml\exceptions\syntactical\IrreparableException.java
 C:\Users\dylan\Desktop\Everything,+but+Nothing\Programacion+Eliminar\RML\src\main\java\edu\mooncoder\rml\exceptions\lexical\NotRecognizedCharactersException.java
 C:\Users\dylan\Desktop\Everything,+but+Nothing\Programacion+Eliminar\RML\src\main\java\edu\mooncoder\rml\exceptions\syntactical\TagNotAllowedException.java
 C:\Users\dylan\Desktop\Everything,+but+Nothing\Programacion+Eliminar\RML\src\main\java\edu\mooncoder\rml\model\actions\ConstantAction.java
+C:\Users\dylan\Desktop\Everything,+but+Nothing\Programacion+Eliminar\RML\src\main\java\edu\mooncoder\rml\services\ReadRml.java
 C:\Users\dylan\Desktop\Everything,+but+Nothing\Programacion+Eliminar\RML\src\main\java\edu\mooncoder\rml\controllers\builders\SymbolsTable.java
 C:\Users\dylan\Desktop\Everything,+but+Nothing\Programacion+Eliminar\RML\src\main\java\edu\mooncoder\rml\model\accesors\Attribute.java
 C:\Users\dylan\Desktop\Everything,+but+Nothing\Programacion+Eliminar\RML\src\main\java\edu\mooncoder\rml\exceptions\SemanticalException.java
