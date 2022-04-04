@@ -1,8 +1,8 @@
-package edu.mooncoder.controllers.analyzer.syntax;
+package edu.mooncoder.osrn.controllers.analyzer.syntax;
 
-import edu.mooncoder.model.containers.Osrn;
-import edu.mooncoder.controllers.wrapper.*;
-import edu.mooncoder.controllers.analyzer.lexic.JsonLexer;
+import edu.mooncoder.osrn.model.containers.Osrn;
+import edu.mooncoder.osrn.controllers.wrapper.*;
+import edu.mooncoder.osrn.controllers.analyzer.lexic.JsonLexer;
 
 parser code {:
   private Osrn osrn;
@@ -19,9 +19,8 @@ parser code {:
 :}
 
 terminal String ID, LITERAL;
-terminal double NUMBER;
-terminal boolean BOOLEAN;
-terminal NULL, CUR_IZQ, CUR_DER, BRA_IZQ, BRA_DER, COLON, COMMA;
+terminal int INT;
+terminal CUR_IZQ, CUR_DER, BRA_IZQ, BRA_DER, COLON, COMMA;
 
 non terminal syntax;
 non terminal Object value;
@@ -101,13 +100,7 @@ pair       ::= ID:key COLON value:value
 value      ::= LITERAL:obj
                {: RESULT = obj; :}
                |
-               NUMBER:obj
-               {: RESULT = obj; :}
-               |
-               BOOLEAN:obj
-               {: RESULT = obj; :}
-               |
-               NULL:obj
+               INT:obj
                {: RESULT = obj; :}
                |
                content

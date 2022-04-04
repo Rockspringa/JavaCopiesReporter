@@ -1,9 +1,9 @@
-package edu.mooncoder.controllers.analyzer.lexic;
+package edu.mooncoder.osrn.controllers.analyzer.lexic;
 
 import java_cup.runtime.Symbol;
 
-import edu.mooncoder.controllers.wrapper.ErrorWrapper;
-import edu.mooncoder.controllers.analyzer.syntax.Tokens;
+import edu.mooncoder.osrn.controllers.wrapper.ErrorWrapper;
+import edu.mooncoder.osrn.controllers.analyzer.syntax.Tokens;
 
 %%
 
@@ -47,10 +47,7 @@ BreakLine = \n | \r | \r\n
 Spaces = {BreakLine} | [ \t\f]
 
 // To token
-Int = [0-9]+
-Number =  "-"? {Int} ("." {Int})?
-Boolean =  "true" | "false"
-Null = "null"
+Int = "-"? [0-9]+
 Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
 
 %state LITERAL
@@ -65,9 +62,7 @@ Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
 // Variables
 <YYINITIAL> {
   \"                             { chargeError(); string.setLength(0); yybegin(LITERAL); }
-  {Number}                       { return symbol(Tokens.NUMBER, Double.parseDouble(yytext())); }
-  {Boolean}                      { return symbol(Tokens.BOOLEAN, Boolean.parseBoolean(yytext())); }
-  {Null}                         { return symbol(Tokens.NULL, null); }
+  {Int}                          { return symbol(Tokens.INT, Integer.parseInt(yytext())); }
   {Id}                           { return symbol(Tokens.ID, yytext()); }
 }
 
@@ -84,17 +79,17 @@ Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
 <LITERAL> {
   \"                             { yybegin(YYINITIAL); return symbol(Tokens.LITERAL, string.toString()); }
 
-  [^\n\r\"\\]+                   { chargeError(); string.append(yytext()); }
+  [^\n\r\"\\]+                   { string.append(yytext()); }
 
-  \\t                            { chargeError(); string.append('\t'); }
+  \\t                            { string.append('\t'); }
 
-  \\n                            { chargeError(); string.append('\n'); }
+  \\n                            { string.append('\n'); }
 
-  \\r                            { chargeError(); string.append('\r'); }
+  \\r                            { string.append('\r'); }
 
-  \\\"                           { chargeError(); string.append('\"'); }
+  \\\"                           { string.append('\"'); }
 
-  \\                             { chargeError(); string.append('\\'); }
+  \\                             { string.append('\\'); }
 }
 
 [^] { error.append(yytext()); }
