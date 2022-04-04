@@ -5,20 +5,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b173d11a-1aca-44c2-9014-d0d6e63a80a2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/managers/ProjectsComparer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/services/ComparerService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/exceptions/JavaFilesHasErrorsException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/containers/ErrorsHolder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/types/ErrorType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/wrappers/Error.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prueba.jav" beforeDir="false" afterPath="$PROJECT_DIR$/Prueba.jav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/analyzer/lexic/JavaLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/analyzer/lexic/JavaLexer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/analyzer/syntax/JavaParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/analyzer/syntax/JavaParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/analyzer/syntax/Tokens.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/analyzer/syntax/Tokens.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/containers/OsrnHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/managers/ComparedReportBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/analyzer/lexic/JavaLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/analyzer/lexic/JavaLexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/analyzer/syntax/JavaParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/analyzer/syntax/JavaParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/managers/ComparedReportBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/managers/ComparedReportBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/managers/ProjectsComparer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/managers/ProjectsComparer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/containers/ClassesHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/containers/ClassesHolder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/wrappers/Class.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/wrappers/Class.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/wrappers/Variable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/wrappers/Variable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/services/ComparerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/services/ComparerService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/lexico.jflex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lexico.jflex" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/sintaxis.cup" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/sintaxis.cup" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/containers/OsrnHolder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/translate.sh" beforeDir="false" afterPath="$PROJECT_DIR$/translate.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/lexic/JavaLexer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/lexic/JavaLexer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/syntax/JavaParser$CUP$JavaParser$actions.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/syntax/JavaParser$CUP$JavaParser$actions.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/syntax/JavaParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/syntax/JavaParser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/syntax/Tokens.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/managers/ComparedReportBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/managers/ComparedReportBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/managers/ProjectsComparer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/managers/ProjectsComparer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/containers/ClassesHolder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/containers/ClassesHolder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/wrappers/Class.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/wrappers/Class.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/wrappers/Variable.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/wrappers/Variable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/services/ComparerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/services/ComparerService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/lexico.jflex" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lexico.jflex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/sintaxis.cup" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sintaxis.cup" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +86,9 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Betrayal Of Friends" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
@@ -114,7 +133,23 @@
       <workItem from="1647630447602" duration="807000" />
       <workItem from="1647647393427" duration="1117000" />
       <workItem from="1647657907969" duration="535000" />
-      <workItem from="1647661858134" duration="11082000" />
+      <workItem from="1647661858134" duration="11930000" />
+      <workItem from="1647829115499" duration="4967000" />
+      <workItem from="1647910065155" duration="1589000" />
+      <workItem from="1647919735954" duration="2022000" />
+      <workItem from="1647925363309" duration="4801000" />
+      <workItem from="1647971186953" duration="8189000" />
+      <workItem from="1648005274881" duration="7204000" />
+      <workItem from="1648065625849" duration="1046000" />
+      <workItem from="1648082311623" duration="173000" />
+      <workItem from="1648084937202" duration="2343000" />
+      <workItem from="1648098055974" duration="3195000" />
+      <workItem from="1648171296952" duration="6215000" />
+      <workItem from="1648181150621" duration="168000" />
+      <workItem from="1648234969221" duration="70000" />
+      <workItem from="1648235113516" duration="10000" />
+      <workItem from="1648430132361" duration="9000" />
+      <workItem from="1649051045477" duration="22000" />
     </task>
     <servers />
   </component>
@@ -134,6 +169,13 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$PROJECT_DIR$/../../../../../../Program Files/Java/jdk-17.0.2/lib/src.zip!/java.base/java/util/ArrayList.java</url>
+          <line>299</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint enabled="true" type="java-exception" />
       </default-breakpoints>

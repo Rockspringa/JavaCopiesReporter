@@ -8,28 +8,49 @@ import edu.mooncoder.model.wrappers.Variable;
 import edu.mooncoder.model.containers.*;
 
 parser code {:
+  List<Variable> attrFunc = new ArrayList<>();
+  List<String> methods = new ArrayList<>();
   List<Variable> vars = new ArrayList<>();
+
+  private void addAttr(String name, String type) {
+    attrFunc.add(new Variable(name, type));
+  }
 
   private void addVar(String name, String type) {
     vars.add(new Variable(name, type));
   }
 
-  private void setScope(String scope) {
+  private void addError(int line, int col, String msg) {
+    ErrorsHolder.addSyntacticalError(line, col, msg);
+  }
+
+  private void setScope(String scope, List<Variable> vars) {
     for (Variable var : vars) {
       var.setScope(scope);
       VariablesHolder.addVariable(var);
     }
   }
 
+  private void addConstructor(String name) {
+    setScope(String.format("Constructor %s", name), attrFunc);
+    setScope(String.format("Constructor %s", name), vars);
+    MethodsHolder.addMethod(name, name, attrFunc.toArray(new Variable[0]));
+    methods.add(name);
+    vars.clear();
+  }
+
   private void addMethod(String name, String type) {
-    setScope(String.format("Metodo %s", name));
-    MethodsHolder.addMethod(name, type, vars.toArray(new Variable[0]));
+    setScope(String.format("Metodo %s", name), attrFunc);
+    setScope(String.format("Metodo %s", name), vars);
+    MethodsHolder.addMethod(name, type, attrFunc.toArray(new Variable[0]));
+    methods.add(name);
     vars.clear();
   }
 
   private void addClass(String name) {
-    setScope(String.format("Clase %s", name));
-    ClassesHolder.addClass(name);
+    setScope(String.format("Clase %s", name), vars);
+    ClassesHolder.addClass(name, methods.toArray(new String[0]));
+    methods.clear();
     vars.clear();
   }
 
@@ -54,7 +75,7 @@ non terminal constructor, full_dec, dec_func, else,
 non terminal var_dec, more_dec, assign, assign_, valor, func, string,
              numero, dec_attr, instruct, body, bool, bool_, cic_inst,
              control, for_dec, for_bool, expr, type, control_,
-             fun_body, if_, concat, concat_, valor_, var_mods;
+             fun_body, if_, concat, concat_, valor_;
 
 precedence left MAS, MENOS;
 precedence left POR, DIV, MOD;
@@ -64,20 +85,41 @@ precedence left LOGIC;
 precedence left NEGAR;
 precedence left RELATIONAL1, RELATIONAL2;
 
+precedence left ELSE;
+
 start with syntax;
 
-syntax ::= packag imports clase;
+syntax ::= packag imports clase
+           |
+           {: addError(0, 0, "a <clase> para tener un archivo java valido (o util)"); :}
+           ;
 
 packag   ::= PACKAGE ID pack_item SEPARADOR
              |
              PACKAGE ID SEPARADOR
              |
+             |
+             PACKAGE ID SEPARADOR error:get
+             {: addError(getleft, getright, " <import>, un modificador de acceso o un <class>"); :}
+             |
+             PACKAGE ID pack_item SEPARADOR error:get
+             {: addError(getleft, getright, " <import>, un modificador de acceso o un <class>"); :}
+             |
+             PACKAGE error:get
+             {: addError(getleft, getright, " <paquete> valido despues de 'package'"); :}
              ;
 
 imports  ::= IMPORT ID pack_item SEPARADOR imports
              |
-             IMPORT ID SEPARADOR imports
              |
+             IMPORT ID SEPARADOR error:get imports
+             {: addError(getleft, getright, " <import>, un modificador de acceso o un <class>"); :}
+             |
+             IMPORT ID pack_item SEPARADOR error:get imports
+             {: addError(getleft, getright, " <import>, un modificador de acceso o un <class>"); :}
+             |
+             IMPORT ID error:get imports
+             {: addError(getleft, getright, " <punto> despues del <id> del paquete"); :}
              ;
 
 clase     ::= VISIBILITY CLASS ID:id LLA_IZQ class_items LLA_DER
@@ -85,11 +127,16 @@ clase     ::= VISIBILITY CLASS ID:id LLA_IZQ class_items LLA_DER
               |
               CLASS ID:id LLA_IZQ class_items LLA_DER
               {: addClass((String) id); :}
+              |
+              CLASS error:get class_items LLA_DER
+              {: addError(getleft, getright, " <id> despues de <clase>"); :}
               ;
 
-constructor ::= VISIBILITY ID fun_body
+constructor ::= VISIBILITY ID:id fun_body
+                {: addConstructor((String) id); :}
                 |
-                ID fun_body
+                ID:id fun_body
+                {: addConstructor((String) id); :}
                 ;
 
 class_items ::= class_items VISIBILITY FINAL full_dec
@@ -117,14 +164,22 @@ pack_item ::= PUNTO ID pack_item
               PUNTO ID
               |
               PUNTO POR
+              |
+              PUNTO error:get
+              {: addError(getleft, getright, " <id> o <*> despues del punto"); :}
               ;
 
 dec_attr ::= type:type ID:id COMA dec_attr
-             {: addVar((String) id, (String) type); :}
+             {: addAttr((String) id, (String) type); :}
              |
              type:type ID:id
-             {: addVar((String) id, (String) type); :}
+             {: addAttr((String) id, (String) type); :}
              |
+             type error:get dec_attr
+             {: addError(getleft, getright, " <id> despues del tipo del atributo"); :}
+             |
+             type ID COMA error:get
+             {: addError(getleft, getright, "a declaracion de atributo"); :}
              ;
 
 attr_inv ::= valor
@@ -137,6 +192,12 @@ dec_func ::= type:type ID:id fun_body
              |
              VOID:type ID:id fun_body
              {: addMethod((String) id, (String) type); :}
+             |
+             type error:get fun_body
+             {: addError(getleft, getright, " <id> para la declaracion de la funcion"); :}
+             |
+             VOID error:get fun_body
+             {: addError(getleft, getright, " <id> para la declaracion de la funcion"); :}
              ;
 
 instruct ::= full_dec
@@ -158,13 +219,34 @@ instruct ::= full_dec
              switch
              |
              SEPARADOR
+             |
+             assign error:get
+             {: addError(getleft, getright, "a <valor> o un <separador>"); :}
              ;
 
 body     ::= body instruct
              |
+             |
+             body error:get
+             {: addError(getleft, getright, "a instruccion valida"); :}
              ;
 
-fun_body ::= PAR_IZQ dec_attr PAR_DER LLA_IZQ body LLA_DER;
+fun_body ::= PAR_IZQ dec_attr PAR_DER LLA_IZQ body LLA_DER
+             |
+             PAR_IZQ PAR_DER LLA_IZQ body LLA_DER
+             |
+             PAR_IZQ dec_attr error:get LLA_IZQ body LLA_DER
+             {: addError(getleft, getright, "a <parentesis derecho>"); :}
+             |
+             PAR_IZQ error:get LLA_IZQ body LLA_DER
+             {: addError(getleft, getright, "a <parentesis derecho> o una declaracion de atributos"); :}
+             |
+             PAR_IZQ dec_attr PAR_DER error:get body LLA_DER
+             {: addError(getleft, getright, "a <llave izquierda>"); :}
+             |
+             PAR_IZQ PAR_DER error:get body LLA_DER
+             {: addError(getleft, getright, "a <llave izquierda>"); :}
+             ;
 
 bool_    ::= NEGAR bool_
              |
@@ -188,11 +270,17 @@ cic_inst ::= cic_inst instruct
              |
              cic_inst BREAK SEPARADOR
              |
+             |
+             cic_inst error:get
+             {: addError(getleft, getright, "a instruccion valida"); :}
              ;
 
 control  ::= LLA_IZQ body LLA_DER
              |
              instruct
+             |
+             error:get
+             {: addError(getleft, getright, " ambito valido"); :}
              ;
 
 control_ ::= LLA_IZQ cic_inst LLA_DER
@@ -200,18 +288,29 @@ control_ ::= LLA_IZQ cic_inst LLA_DER
              instruct
              |
              BREAK SEPARADOR
+             |
+             error:get
+             {: addError(getleft, getright, " ambito valido"); :}
              ;
 
-if       ::= if_ else
+if       ::= if_ control else
              ;
 
-if_      ::= IF PAR_IZQ bool PAR_DER LLA_IZQ body LLA_DER;
+if_      ::= IF PAR_IZQ bool PAR_DER
+             |
+             IF error:get bool PAR_DER
+             {: addError(getleft, getright, " <parentesis izquierdo>"); :}
+             |
+             IF PAR_IZQ bool error:get
+             {: addError(getleft, getright, " <parentesis derecho>"); :}
+             ;
 
 else     ::= ELSE control
              |
              ;
 
-for_dec  ::= type var_dec more_dec SEPARADOR
+for_dec  ::= type:type var_dec:id more_dec SEPARADOR
+             {: addVar((String) id, (String) type); :}
              |
              SEPARADOR
              ;
@@ -230,22 +329,36 @@ switch   ::= SWITCH PAR_IZQ valor PAR_DER LLA_IZQ case LLA_DER;
 case     ::= case CASE valor COLON cic_inst
              |
              case DEFAULT COLON cic_inst
+             |
              ;
 
 func     ::= ID PAR_IZQ attr_inv PAR_DER
              |
              ID PAR_IZQ PAR_DER
+             |
+             ID PAR_IZQ attr_inv error:get
+             {: addError(getleft, getright, " <parentesis derecho>"); :}
              ;
 
-full_dec ::= type var_dec more_dec SEPARADOR;
+full_dec ::= type:type var_dec:id more_dec SEPARADOR
+             {: addVar((String) id, (String) type); :}
+             ;
 
-var_dec  ::= ID
+var_dec  ::= ID:id
+             {: RESULT = id; :}
              |
-             assign_
+             assign_:id
+             {: RESULT = id; :}
+             |
+             ID error:get
+             {: addError(getleft, getright, " <igual> en la asignacion"); :}
              ;
 
 more_dec ::= COMA var_dec more_dec
              |
+             |
+             COMA error:get
+             {: addError(getleft, getright, "a declaracion extra que fuese valida"); :}
              ;
 
 type     ::= TYPE:type
@@ -255,7 +368,8 @@ type     ::= TYPE:type
              {: RESULT = type; :}
              ;
 
-assign_  ::= ID IGUAL valor
+assign_  ::= ID:id IGUAL valor
+             {: RESULT = id; :}
              ;
 
 assign   ::= assign_
@@ -272,6 +386,9 @@ valor_   ::= string
              BOOL
              |
              NEW concat_
+             |
+             NEW error:get
+             {: addError(getleft, getright, " llamado a constructor (o metodo)"); :}
              ;
 
 valor    ::= valor_
@@ -287,6 +404,9 @@ valor    ::= valor_
              valor_ RELATIONAL1 string
              |
              valor_ RELATIONAL1 NEW concat_
+             |
+             error:get
+             {: addError(getleft, getright, "a expresion valida"); :}
              ;
 
 concat_  ::= func PUNTO concat_
@@ -294,15 +414,24 @@ concat_  ::= func PUNTO concat_
              ID PUNTO concat_
              |
              func
+             |
+             func PUNTO error:get
+             {: addError(getleft, getright, " llamado a una funcion o constructor"); :}
              ;
 
-concat   ::= func PUNTO concat_
+concat   ::= func PUNTO concat
              |
-             ID PUNTO concat_
+             ID PUNTO concat
              |
              func
              |
              ID
+             |
+             func PUNTO error:get
+             {: addError(getleft, getright, " llamado a un atributo, funcion o constructor"); :}
+             |
+             ID PUNTO error:get
+             {: addError(getleft, getright, " llamado a un atributo, funcion o constructor"); :}
              ;
 
 string   ::= LITERAL
@@ -320,6 +449,12 @@ string   ::= LITERAL
              string MAS numero
              |
              string MAS PAR_IZQ expr PAR_DER
+             |
+             string MAS error:get
+             {: addError(getleft, getright, " dato valido para concatenar"); :}
+             |
+             expr MAS error:get
+             {: addError(getleft, getright, " dato valido para concatenar"); :}
              ;
 
 expr     ::= expr MAS expr

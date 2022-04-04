@@ -13,12 +13,12 @@ public class ClassesHolder {
         classNames = new ArrayList<>();
     }
 
-    public static void addClass(String name) {
+    public static void addClass(String name, String[] functions) {
         if (inst == null) {
             inst = new ClassesHolder();
         }
         if (name != null)
-            inst.add(name);
+            inst.add(name, functions);
     }
 
     public static List<Class> clean() {
@@ -30,7 +30,7 @@ public class ClassesHolder {
         return classes;
     }
 
-    public void add(String name) {
-        classNames.add(new Class(name));
+    public void add(String name, String[] functions) {
+        classNames.add(new Class(name, functions));
     }
 }

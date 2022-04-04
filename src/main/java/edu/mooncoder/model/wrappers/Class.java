@@ -1,8 +1,9 @@
 package edu.mooncoder.model.wrappers;
 
+import java.util.Arrays;
 import java.util.Objects;
 
-public record Class(String name) {
+public record Class(String name, String[] functions) {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -10,11 +11,14 @@ public record Class(String name) {
 
         Class aClass = (Class) o;
 
-        return Objects.equals(name, aClass.name);
+        if (!Objects.equals(name, aClass.name)) return false;
+        return Arrays.equals(functions, aClass.functions);
     }
 
     @Override
     public int hashCode() {
-        return name != null ? name.hashCode() : 0;
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + Arrays.hashCode(functions);
+        return result;
     }
 }

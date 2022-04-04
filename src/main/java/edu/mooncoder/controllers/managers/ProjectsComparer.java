@@ -2,6 +2,8 @@ package edu.mooncoder.controllers.managers;
 
 import edu.mooncoder.controllers.analyzer.lexic.JavaLexer;
 import edu.mooncoder.controllers.analyzer.syntax.JavaParser;
+import edu.mooncoder.exceptions.JavaFilesHasErrorsException;
+import edu.mooncoder.model.containers.ErrorsHolder;
 
 import java.io.Reader;
 import java.util.List;
@@ -15,7 +17,7 @@ public class ProjectsComparer {
         this.reportBuilder = new ComparedReportBuilder();
     }
 
-    public void close() {
+    public void closeProject() {
         if (closedOne)
             reportBuilder.closeSecondProject();
         else
@@ -25,8 +27,9 @@ public class ProjectsComparer {
             closedOne = true;
     }
 
-    public void addReader(Reader reader) {
+    public void addReader(Reader reader, String filename) {
         try {
+            ErrorsHolder.setFilename(filename);
             JavaLexer lexer = new JavaLexer(reader);
             JavaParser parser = new JavaParser(lexer);
 
@@ -37,7 +40,19 @@ public class ProjectsComparer {
         }
     }
 
-    public Map<String, Object> compare() {
-        return reportBuilder.getReportTable();
+    public Map<String, Object> compare() throws JavaFilesHasErrorsException {
+        if (isAnalysisWithoutErrors())
+            return reportBuilder.getReportTable();
+        throw new JavaFilesHasErrorsException();
+    }
+
+    public List<Map<String, Object>> getBugs() {
+        if (isAnalysisWithoutErrors())
+            return null;
+        return reportBuilder.getErrorsArray();
+    }
+
+    public boolean isAnalysisWithoutErrors() {
+        return !reportBuilder.hasErrors();
     }
 }

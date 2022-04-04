@@ -4,6 +4,7 @@ import java_cup.runtime.Symbol;
 
 import edu.mooncoder.controllers.analyzer.syntax.Tokens;
 import edu.mooncoder.model.containers.CommentsHolder;
+import edu.mooncoder.model.containers.ErrorsHolder;
 
 %%
 
@@ -20,10 +21,19 @@ import edu.mooncoder.model.containers.CommentsHolder;
   private StringBuffer error = new StringBuffer();
 
   private Symbol symbol(int type) {
+    addError();
     return new Symbol(type, yyline + 1, yycolumn + 1);
   }
 
+  private void addError() {
+    if (error.length() != 0) {
+      ErrorsHolder.addLexicalError(yyline + 1, yycolumn - error.length(), error.toString());
+      error.setLength(0);
+    }
+  }
+
   private Symbol symbol(int type, Object value) {
+    addError();
     if (type == Tokens.LITERAL)
       return new Symbol(type, yyline + 1, yycolumn - string.length(), value);
     else
@@ -58,10 +68,10 @@ Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
 
 // Ignores
 <YYINITIAL> {
-  "static" {Spaces}              { /* ignorar */ }++++++++++++++++++++++++++++++++¿
+  "static" {Spaces} |
+  {Spaces}                       { addError(); }
   {BlockComments} |
-  {LineComments}                 { CommentsHolder.addComment(yytext()); }
-  {Spaces}                       { if (error.length() != 0) { System.out.println(error); error.setLength(0); } }
+  {LineComments}                 { addError(); CommentsHolder.addComment(yytext()); }
 }
 
 // KeyWords
@@ -80,8 +90,8 @@ Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
     "while"                      { return symbol(Tokens.WHILE); }
     "do"                         { return symbol(Tokens.DO); }
     "switch"                     { return symbol(Tokens.SWITCH); }
-    "case"                       { return symbol(Tokens.BREAK); }
-    "default"                    { return symbol(Tokens.RETURN); }
+    "case"                       { return symbol(Tokens.CASE); }
+    "default"                    { return symbol(Tokens.DEFAULT); }
     "break"                      { return symbol(Tokens.BREAK); }
     "return"                     { return symbol(Tokens.RETURN); }
     "true" | "false"             { return symbol(Tokens.BOOL); }
@@ -89,7 +99,7 @@ Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
 
 // Variables
 <YYINITIAL> {
-  \"                             { string.setLength(0); yybegin(LITERAL); }
+  \"                             { addError(); string.setLength(0); yybegin(LITERAL); }
 
   "'" \\t "'"                    { return symbol(Tokens.CHAR, '\t'); }
   "'" \\n "'"                    { return symbol(Tokens.CHAR, '\n'); }
