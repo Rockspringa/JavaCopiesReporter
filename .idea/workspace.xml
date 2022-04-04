@@ -5,17 +5,69 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2ecbdbef-15d1-4351-9b8f-9c604188f900" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/github_vbmacher_java_cup_runtime.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Prueba.rml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/analyzer/lexic/HtmlLexer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/analyzer/syntax/HtmlParser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/analyzer/syntax/Tokens.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/lexico.jflex" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/sintaxis.cup" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/analyzer/lexic/HtmlLexer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/analyzer/syntax/HtmlParser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/analyzer/syntax/Tokens.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/builders/ErrorsReportBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/builders/HtmlBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/builders/ResultBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/builders/SymbolsTable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/builders/TableBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/operations/Arithmetic.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/operations/Concat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/exceptions/AnalysisException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/exceptions/BadWrittenRmlException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/exceptions/SemanticalException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/exceptions/SyntaticalException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/exceptions/lexical/NotRecognizedCharactersException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/exceptions/semantical/IndexOutOfLimitsException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/exceptions/semantical/NonePointerException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/exceptions/semantical/TypeNotMatchException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/exceptions/syntactical/IrreparableException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/exceptions/syntactical/NotIntegerValueException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/exceptions/syntactical/NullTagException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/exceptions/syntactical/TagNotAllowedException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/exceptions/syntactical/UnexpectedTokenException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/accesors/Array.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/accesors/Attribute.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/actions/ConstantAction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/actions/ResultAction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/actions/VariableAction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/contracts/Action.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/contracts/ResultAccesor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/contracts/Tag.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/contracts/Variable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/tags/BreakLine.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/tags/Cell.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/tags/Document.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/tags/Error.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/tags/For.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/tags/Heading.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/tags/Row.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/tags/Table.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/variables/Int.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/variables/Text.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/services/ReadRml.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/github_vbmacher_java_cup_runtime.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Prueba.rml" beforeDir="false" afterPath="$PROJECT_DIR$/Prueba.def" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RML.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/analyzer/lexic/HtmlLexer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/analyzer/syntax/HtmlParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/analyzer/syntax/Tokens.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/lexico.jflex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lexico.jflex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sintaxis.cup" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/sintaxis.cup" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/analyzer/lexic/HtmlLexer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/analyzer/syntax/HtmlParser$CUP$HtmlParser$actions.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/analyzer/syntax/HtmlParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/analyzer/syntax/Tokens.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/lexico.jflex" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lexico.jflex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/sintaxis.cup" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sintaxis.cup" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/translate.sh" beforeDir="false" afterPath="$PROJECT_DIR$/translate.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -23,8 +75,26 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Interface" />
+        <option value="Record" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -35,6 +105,9 @@
         <option name="useMavenConfig" value="true" />
       </MavenGeneralSettings>
     </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="26MI4WQjUz6nuDTZHLyFTjYwFR5" />
   <component name="ProjectLevelVcsManager">
@@ -53,19 +126,20 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../OSRN" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="terminal" />
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="edu.mooncoder.Main" />
+      <option name="MAIN_CLASS_NAME" value="edu.mooncoder.rml.Main" />
       <module name="RML" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="edu.mooncoder.*" />
+          <option name="PATTERN" value="edu.mooncoder.rml.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -92,11 +166,33 @@
       <workItem from="1647326064578" duration="10000" />
       <workItem from="1647367163909" duration="11959000" />
       <workItem from="1647389520896" duration="3949000" />
+      <workItem from="1647400998933" duration="668000" />
+      <workItem from="1648188249080" duration="1228000" />
+      <workItem from="1648190764488" duration="117000" />
+      <workItem from="1648231786871" duration="617000" />
+      <workItem from="1648235083560" duration="27000" />
+      <workItem from="1648235293448" duration="587000" />
+      <workItem from="1648278895825" duration="595000" />
+      <workItem from="1648341544223" duration="243000" />
+      <workItem from="1648404806821" duration="6816000" />
+      <workItem from="1648422343451" duration="9311000" />
+      <workItem from="1648496953154" duration="14595000" />
+      <workItem from="1648519603220" duration="8000" />
+      <workItem from="1648520314189" duration="5746000" />
+      <workItem from="1648575770265" duration="1827000" />
+      <workItem from="1648778768965" duration="15327000" />
+      <workItem from="1648861557653" duration="1507000" />
+      <workItem from="1648866518029" duration="6068000" />
+      <workItem from="1648957741983" duration="5848000" />
+      <workItem from="1649015994007" duration="13897000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.def" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -118,5 +214,10 @@
         <breakpoint enabled="true" type="java-exception" />
       </default-breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/RML$Main.ic" NAME="Main Coverage Results" MODIFIED="1648872382896" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>edu.mooncoder.rml.*</FILTER>
+    </SUITE>
   </component>
 </project>

@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>edu.mooncoder</groupId>
+    <groupId>edu.mooncoder.rml</groupId>
     <artifactId>RML</artifactId>
     <version>1.0</version>
 
@@ -13,11 +13,17 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
-  <dependencies>
-    <dependency>
-        <groupId>com.github.vbmacher</groupId>
-        <artifactId>java-cup-runtime</artifactId>
-        <version>11b</version>
-    </dependency>
-  </dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>com.github.vbmacher</groupId>
+            <artifactId>java-cup-runtime</artifactId>
+            <version>11b</version>
+        </dependency>
+
+        <dependency>
+            <groupId>edu.mooncoder</groupId>
+            <artifactId>OSRN</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
 </project>

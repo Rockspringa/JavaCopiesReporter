@@ -1,8 +1,11 @@
-package edu.mooncoder.model.analyzer.lexic;
+package edu.mooncoder.rml.controllers.analyzer.lexic;
 
 import java_cup.runtime.Symbol;
 
-import edu.mooncoder.model.analyzer.syntax.Tokens;
+import edu.mooncoder.rml.controllers.builders.ErrorsReportBuilder;
+import edu.mooncoder.rml.exceptions.AnalysisException;
+import edu.mooncoder.rml.exceptions.lexical.NotRecognizedCharactersException;
+import edu.mooncoder.rml.controllers.analyzer.syntax.Tokens;
 
 %%
 
@@ -17,13 +20,24 @@ import edu.mooncoder.model.analyzer.syntax.Tokens;
 %ignorecase
 
 %{
-  private StringBuffer string = new StringBuffer();
+  private final StringBuffer string = new StringBuffer();
+  private final StringBuffer error = new StringBuffer();
 
   private Symbol symbol(int type) {
+    addError();
     return new Symbol(type, yyline + 1, yycolumn + 1);
   }
 
+  private void addError() {
+    if (error.length() != 0) {
+      AnalysisException exception = new NotRecognizedCharactersException(error.toString(), yyline + 1, yycolumn - error.length());
+      ErrorsReportBuilder.add(exception);
+      error.setLength(0);
+    }
+  }
+
   private Symbol symbol(int type, Object value) {
+    addError();
     if (type == Tokens.LITERAL)
       return new Symbol(type, yyline + 1, yycolumn - string.length(), value);
     else
@@ -35,7 +49,7 @@ import edu.mooncoder.model.analyzer.syntax.Tokens;
 BreakLine = \n | \r | \r\n
 Spaces = {BreakLine} | [ \t\f]
 
-Comments = "</" .* ~"/>"
+Comments = "</" .* "/>"
 
 // To token
 Int = [0-9]+
@@ -51,7 +65,7 @@ Id = [ña-zA-Z$_] [ña-zA-Z_$0-9]+ | [ña-zA-Z$] [ña-zA-Z_$0-9]*
 // Ignores
 <YYINITIAL> {
   {Comments} |
-  {Spaces}                       { /* ignore */ }
+  {Spaces}                       { addError(); }
 }
 
 // KeyWords
@@ -64,7 +78,7 @@ Id = [ña-zA-Z$_] [ña-zA-Z_$0-9]+ | [ña-zA-Z$] [ña-zA-Z_$0-9]*
 
 // Variables
 <YYINITIAL> {
-  \"                             { string.setLength(0); yybegin(LITERAL); }
+  \"                             { addError(); string.setLength(0); yybegin(LITERAL); }
   {Int}                          { return symbol(Tokens.INT, Integer.parseInt(yytext())); }
   {Id}                           { return symbol(Tokens.ID, yytext()); }
 }
@@ -127,15 +141,15 @@ Id = [ña-zA-Z$_] [ña-zA-Z_$0-9]+ | [ña-zA-Z$] [ña-zA-Z_$0-9]*
 
 <TAGS> {
   ({BreakLine} | [\t ])+ |
-  {Comments}                     { /* ignore */ }
-  "$$" {Spaces}* "("             { yybegin(VARIABLE); }
-  [^ \n\r\t<>$] [^<>$]+          { return symbol(Tokens.TEXT, yytext()); }
+  {Comments}                     { addError(); }
+  "$$" {Spaces}* "("             { addError(); yybegin(VARIABLE); }
+  [^ \n\r\t</>$] [^</>$]+          { return symbol(Tokens.TEXT, yytext()); }
 }
 
 <VARIABLE> {
   {Comments} |
-  {Spaces}                       { /* ignore */ }
-  ")" {Spaces}* "$$"             { yybegin(TAGS); }
+  {Spaces}                       { addError(); }
+  ")" {Spaces}* "$$"             { addError(); yybegin(TAGS); }
   "RESULT"                       { return symbol(Tokens.RESULT); }
   {Id}                           { return symbol(Tokens.ID, yytext()); }
   "."                            { return symbol(Tokens.PUNTO); }
@@ -146,7 +160,7 @@ Id = [ña-zA-Z$_] [ña-zA-Z_$0-9]+ | [ña-zA-Z$] [ña-zA-Z_$0-9]*
 
 <FOR> {
   {Comments} |
-  {Spaces}                       { /* ignore */ }
+  {Spaces}                       { addError(); }
 
   "RESULT"                       { return symbol(Tokens.RESULT); }
   {Id}                           { return symbol(Tokens.ID, yytext()); }
@@ -162,4 +176,4 @@ Id = [ña-zA-Z$_] [ña-zA-Z_$0-9]+ | [ña-zA-Z$] [ña-zA-Z_$0-9]*
   ">"                            { yybegin(TAGS); return symbol(Tokens.TAG_FOR); }
 }
 
-[^] { System.out.println("error: " + (yyline + 1) + ", " + (yycolumn + 1)); }
+[^] { error.append(yytext()); }
