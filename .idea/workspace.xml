@@ -4,38 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b173d11a-1aca-44c2-9014-d0d6e63a80a2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/exceptions/JavaFilesHasErrorsException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/containers/ErrorsHolder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/types/ErrorType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/wrappers/Error.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/analyzer/lexic/JavaLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/analyzer/lexic/JavaLexer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/analyzer/syntax/JavaParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/analyzer/syntax/JavaParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/managers/ComparedReportBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/managers/ComparedReportBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/managers/ProjectsComparer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/managers/ProjectsComparer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/containers/ClassesHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/containers/ClassesHolder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/wrappers/Class.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/wrappers/Class.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/wrappers/Variable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/wrappers/Variable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/services/ComparerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/services/ComparerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/lexico.jflex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lexico.jflex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/sintaxis.cup" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/sintaxis.cup" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/lexic/JavaLexer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/lexic/JavaLexer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/syntax/JavaParser$CUP$JavaParser$actions.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/syntax/JavaParser$CUP$JavaParser$actions.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/syntax/JavaParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/syntax/JavaParser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/syntax/Tokens.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/managers/ComparedReportBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/managers/ComparedReportBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/managers/ProjectsComparer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/managers/ProjectsComparer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/containers/ClassesHolder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/containers/ClassesHolder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/wrappers/Class.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/wrappers/Class.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/wrappers/Variable.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/wrappers/Variable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/services/ComparerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/services/ComparerService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/lexico.jflex" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lexico.jflex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sintaxis.cup" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sintaxis.cup" afterDir="false" />
-    </list>
+    <list default="true" id="b173d11a-1aca-44c2-9014-d0d6e63a80a2" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -150,6 +119,7 @@
       <workItem from="1648235113516" duration="10000" />
       <workItem from="1648430132361" duration="9000" />
       <workItem from="1649051045477" duration="22000" />
+      <workItem from="1649052214314" duration="121000" />
     </task>
     <servers />
   </component>
