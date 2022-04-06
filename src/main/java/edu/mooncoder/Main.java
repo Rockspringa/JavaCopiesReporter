@@ -1,7 +1,11 @@
 package edu.mooncoder;
 
+import edu.mooncoder.view.contracts.ProjectViewManager;
+
+import javax.swing.SwingUtilities;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hola mundo BOF");
+        SwingUtilities.invokeLater(ProjectViewManager.principal::runUI);
     }
 }
