@@ -4,6 +4,8 @@ import edu.mooncoder.controllers.analyzer.lexic.JavaLexer;
 import edu.mooncoder.controllers.analyzer.syntax.JavaParser;
 import edu.mooncoder.exceptions.JavaFilesHasErrorsException;
 import edu.mooncoder.model.containers.ErrorsHolder;
+import edu.mooncoder.osrn.model.containers.Osrn;
+import edu.mooncoder.osrn.services.OsrnFactory;
 
 import java.io.Reader;
 import java.util.List;
@@ -40,9 +42,9 @@ public class ProjectsComparer {
         }
     }
 
-    public Map<String, Object> compare() throws JavaFilesHasErrorsException {
+    public Osrn compare() throws JavaFilesHasErrorsException {
         if (isAnalysisWithoutErrors())
-            return reportBuilder.getReportTable();
+            return OsrnFactory.getOsrnByMap(reportBuilder.getReportTable());
         throw new JavaFilesHasErrorsException();
     }
 

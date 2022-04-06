@@ -4,7 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b173d11a-1aca-44c2-9014-d0d6e63a80a2" name="Changes" comment="" />
+    <list default="true" id="b173d11a-1aca-44c2-9014-d0d6e63a80a2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/managers/ProjectsComparer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/managers/ProjectsComparer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/syntax/JavaParser$CUP$JavaParser$actions.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/syntax/JavaParser$CUP$JavaParser$actions.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/syntax/JavaParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/syntax/JavaParser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/managers/ComparedReportBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/managers/ComparedReportBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/containers/ErrorsHolder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/containers/ErrorsHolder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/wrappers/Error.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/wrappers/Error.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/services/ComparerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/services/ComparerService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/sintaxis.cup" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sintaxis.cup" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -120,6 +133,10 @@
       <workItem from="1648430132361" duration="9000" />
       <workItem from="1649051045477" duration="22000" />
       <workItem from="1649052214314" duration="121000" />
+      <workItem from="1649120569568" duration="62000" />
+      <workItem from="1649136830936" duration="424000" />
+      <workItem from="1649193063335" duration="1820000" />
+      <workItem from="1649222229046" duration="1958000" />
     </task>
     <servers />
   </component>

@@ -77,6 +77,8 @@ non terminal var_dec, more_dec, assign, assign_, valor, func, string,
              control, for_dec, for_bool, expr, type, control_,
              fun_body, if_, concat, concat_, valor_;
 
+precedence left PAR_IZQ;
+
 precedence left MAS, MENOS;
 precedence left POR, DIV, MOD;
 precedence left UNARY;
@@ -204,6 +206,8 @@ instruct ::= full_dec
              |
              assign SEPARADOR
              |
+             concat_ SEPARADOR
+             |
              RETURN SEPARADOR
              |
              RETURN valor SEPARADOR
@@ -221,7 +225,7 @@ instruct ::= full_dec
              SEPARADOR
              |
              assign error:get
-             {: addError(getleft, getright, "a <valor> o un <separador>"); :}
+             {: addError(getleft, getright, " <valor> o un <separador>"); :}
              ;
 
 body     ::= body instruct
@@ -298,38 +302,102 @@ if       ::= if_ control else
 
 if_      ::= IF PAR_IZQ bool PAR_DER
              |
-             IF error:get bool PAR_DER
-             {: addError(getleft, getright, " <parentesis izquierdo>"); :}
-             |
              IF PAR_IZQ bool error:get
              {: addError(getleft, getright, " <parentesis derecho>"); :}
+             |
+             IF PAR_IZQ error:get PAR_DER
+             {: addError(getleft, getright, " <bool>, <id> o una expresion booleana"); :}
+             |
+             IF error:get bool PAR_DER
+             {: addError(getleft, getright, " <parentesis izquierdo>"); :}
              ;
 
 else     ::= ELSE control
              |
              ;
 
-for_dec  ::= type:type var_dec:id more_dec SEPARADOR
-             {: addVar((String) id, (String) type); :}
+for_dec  ::= full_dec
+             |
+             assign
              |
              SEPARADOR
              ;
 
-for_bool ::= bool SEPARADOR | SEPARADOR;
-
-for      ::= FOR PAR_IZQ for_dec for_bool assign PAR_DER control_
+for_bool ::= bool SEPARADOR
+             |
+             SEPARADOR
              ;
 
-while    ::= WHILE PAR_IZQ bool PAR_DER control_;
+for      ::= FOR PAR_IZQ for_dec for_bool assign PAR_DER control_
+             |
+             FOR PAR_IZQ for_dec for_bool assign error:get control_
+             {: addError(getleft, getright, " <parentesis derecho>"); :}
+             |
+             FOR PAR_IZQ for_dec for_bool error:get PAR_DER control_
+             {: addError(getleft, getright, "a asignacion"); :}
+             |
+             FOR PAR_IZQ for_dec error:get assign PAR_DER control_
+             {: addError(getleft, getright, " <separador> o una expresion booleana"); :}
+             |
+             FOR PAR_IZQ error:get for_bool assign PAR_DER control_
+             {: addError(getleft, getright, " <separador>, una declaracion o una asignacion"); :}
+             |
+             FOR error:get for_dec for_bool assign PAR_DER control_
+             {: addError(getleft, getright, " <parentesis izquierdo>"); :}
+             ;
 
-do_while ::= DO control_ WHILE PAR_IZQ bool PAR_DER SEPARADOR;
+while    ::= WHILE PAR_IZQ bool PAR_DER control_
+             |
+             WHILE PAR_IZQ bool error:get control_
+             {: addError(getleft, getright, " <parentesis derecho>"); :}
+             |
+             WHILE PAR_IZQ error:get PAR_DER control_
+             {: addError(getleft, getright, " <bool>, <id> o una expresion booleana"); :}
+             |
+             WHILE error:get bool PAR_DER control_
+             {: addError(getleft, getright, " <parentesis izquierdo>"); :}
+             ;
 
-switch   ::= SWITCH PAR_IZQ valor PAR_DER LLA_IZQ case LLA_DER;
+do_while ::= DO control_ WHILE PAR_IZQ bool PAR_DER SEPARADOR
+             |
+             DO control_ WHILE PAR_IZQ bool PAR_DER error:get
+             {: addError(getleft, getright, " <separador>"); :}
+             |
+             DO control_ WHILE PAR_IZQ bool error:get SEPARADOR
+             {: addError(getleft, getright, " <parentesis derecho>"); :}
+             |
+             DO control_ WHILE PAR_IZQ error:get PAR_DER SEPARADOR
+             {: addError(getleft, getright, " <bool>, <id> o una expresion booleana"); :}
+             |
+             DO control_ WHILE error:get bool PAR_DER SEPARADOR
+             {: addError(getleft, getright, " <parentesis izquierdo>"); :}
+             |
+             DO control_ error:get PAR_IZQ bool PAR_DER SEPARADOR
+             {: addError(getleft, getright, " <while>"); :}
+             ;
+
+switch   ::= SWITCH PAR_IZQ valor PAR_DER LLA_IZQ case LLA_DER
+             |
+             SWITCH PAR_IZQ valor PAR_DER error:get case LLA_DER
+             {: addError(getleft, getright, " <llave izquierda>"); :}
+             |
+             SWITCH PAR_IZQ valor error:get LLA_IZQ case LLA_DER
+             {: addError(getleft, getright, " <parentesis derecho>"); :}
+             |
+             SWITCH error:get valor PAR_DER LLA_IZQ case LLA_DER
+             {: addError(getleft, getright, " <parentesis izquierdo>"); :}
+             ;
 
 case     ::= case CASE valor COLON cic_inst
              |
              case DEFAULT COLON cic_inst
              |
+             |
+             error:get CASE valor COLON cic_inst
+             {: addError(getleft, getright, " <case> o <default> valido"); :}
+             |
+             error:get DEFAULT COLON cic_inst
+             {: addError(getleft, getright, " <case> o <default> valido"); :}
              ;
 
 func     ::= ID PAR_IZQ attr_inv PAR_DER
@@ -376,7 +444,12 @@ assign   ::= assign_
              |
              ID IGUAL_ valor
              |
-             expr
+             UNARY concat
+             |
+             concat UNARY
+             |
+             ID error:get
+             {: addError(getleft, getright, " operador de asignacion o un operador unario"); :}
              ;
 
 valor_   ::= string
