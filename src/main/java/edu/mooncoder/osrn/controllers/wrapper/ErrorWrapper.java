@@ -1,5 +1,6 @@
 package edu.mooncoder.osrn.controllers.wrapper;
 
+import edu.mooncoder.osrn.exceptions.AnalysisException;
 import edu.mooncoder.osrn.exceptions.MismatchException;
 import edu.mooncoder.osrn.exceptions.UnknownCharactersException;
 
@@ -8,7 +9,7 @@ import java.util.List;
 
 public class ErrorWrapper {
     private static ErrorWrapper instance = new ErrorWrapper();
-    private final List<Exception> list;
+    private final List<AnalysisException> list;
 
     private ErrorWrapper() {
         list = new ArrayList<>();
@@ -26,18 +27,11 @@ public class ErrorWrapper {
         instance.list.add(new UnknownCharactersException(line, col, value));
     }
 
-    public static Object[] close() {
+    public static AnalysisException[] close() {
         if (instance == null)
             instance = new ErrorWrapper();
-        Object[] list = instance.list.toArray(new Object[0]);
+        AnalysisException[] list = instance.list.toArray(new AnalysisException[0]);
         instance = null;
         return list;
-    }
-
-    @Override
-    public String toString() {
-        return "ErrorWrapper{" +
-                "list=" + list +
-                '}';
     }
 }

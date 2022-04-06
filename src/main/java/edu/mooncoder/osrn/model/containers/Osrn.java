@@ -1,9 +1,10 @@
 package edu.mooncoder.osrn.model.containers;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class Osrn {
+public class Osrn implements Serializable {
     private static int spaces = 0;
     private final Map<String, Object> map;
 

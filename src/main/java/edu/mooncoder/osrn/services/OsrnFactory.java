@@ -2,6 +2,8 @@ package edu.mooncoder.osrn.services;
 
 import edu.mooncoder.osrn.controllers.analyzer.lexic.JsonLexer;
 import edu.mooncoder.osrn.controllers.analyzer.syntax.JsonParser;
+import edu.mooncoder.osrn.controllers.wrapper.ErrorWrapper;
+import edu.mooncoder.osrn.exceptions.AnalysisException;
 import edu.mooncoder.osrn.model.containers.Osrn;
 
 import java.io.FileReader;
@@ -12,22 +14,37 @@ import java.util.List;
 import java.util.Map;
 
 public class OsrnFactory {
-    private static Osrn getOsrnByReader(Reader reader) throws Exception {
+    private AnalysisException[] errors = new AnalysisException[0];
+
+    private Osrn getOsrnByReader(Reader reader) throws Exception {
         JsonLexer lexer = new JsonLexer(reader);
         JsonParser parser = new JsonParser(lexer);
 
-        parser.parse();
+        try {
+            parser.parse();
 
-        return parser.getOsrn();
+            errors = ErrorWrapper.close();
+            if (errors.length == 0)
+                return parser.getOsrn();
+            else
+                return null;
+        } catch (Exception rethrow) {
+            errors = ErrorWrapper.close();
+            throw rethrow;
+        }
     }
 
-    public static Osrn getOsrnByString(String data) throws Exception {
+    public AnalysisException[] getErrors() {
+        return errors;
+    }
+
+    public Osrn getOsrnByString(String data) throws Exception {
         StringReader reader = new StringReader(data);
 
         return getOsrnByReader(reader);
     }
 
-    public static Osrn getOsrnByFilename(String filename) throws Exception {
+    public Osrn getOsrnByFilename(String filename) throws Exception {
         FileReader reader = new FileReader(filename);
 
         return getOsrnByReader(reader);

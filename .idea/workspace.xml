@@ -5,48 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b173d11a-1aca-44c2-9014-d0d6e63a80a2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/github_vbmacher_java_cup_runtime.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OSRN.iml" beforeDir="false" afterPath="$PROJECT_DIR$/OSRN.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Prueba.json" beforeDir="false" afterPath="$PROJECT_DIR$/Prueba.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/analyzer/lexic/JsonLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/controllers/analyzer/lexic/JsonLexer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/analyzer/syntax/JsonParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/controllers/analyzer/syntax/JsonParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/analyzer/syntax/Tokens.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/controllers/analyzer/syntax/Tokens.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/wrapper/ArrayWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/controllers/wrapper/ArrayWrapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/wrapper/ErrorWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/controllers/wrapper/ErrorWrapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/wrapper/OsrnWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/controllers/wrapper/OsrnWrapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/wrapper/PairWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/controllers/wrapper/PairWrapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/exceptions/AnalysisException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/exceptions/AnalysisException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/exceptions/MismatchException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/exceptions/MismatchException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/exceptions/TypeNotMatchException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/exceptions/TypeNotMatchException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/exceptions/UnknownCharactersException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/exceptions/UnknownCharactersException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/containers/Osrn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/model/containers/Osrn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/containers/Pair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/model/containers/Pair.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/services/OsrnFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/services/OsrnFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/services/OsrnManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/services/OsrnManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/lexico.jflex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lexico.jflex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/sintaxis.cup" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/sintaxis.cup" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/lexic/JsonLexer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/syntax/JsonParser$CUP$JsonParser$actions.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/syntax/JsonParser.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/syntax/Tokens.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/wrapper/ArrayWrapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/wrapper/ErrorWrapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/wrapper/OsrnWrapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/wrapper/PairWrapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/exceptions/AnalysisException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/exceptions/MismatchException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/exceptions/TypeNotMatchException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/exceptions/UnknownCharactersException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/containers/Osrn.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/containers/Pair.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/services/OsrnFactory.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/services/OsrnManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/lexico.jflex" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lexico.jflex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sintaxis.cup" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sintaxis.cup" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/translate.sh" beforeDir="false" afterPath="$PROJECT_DIR$/translate.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/controllers/wrapper/ErrorWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/controllers/wrapper/ErrorWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/exceptions/AnalysisException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/exceptions/AnalysisException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/exceptions/MismatchException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/exceptions/MismatchException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/exceptions/UnknownCharactersException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/exceptions/UnknownCharactersException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/services/OsrnFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/osrn/services/OsrnFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/OSRN-1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/OSRN-1.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/osrn/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/osrn/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/osrn/controllers/wrapper/ErrorWrapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/osrn/controllers/wrapper/ErrorWrapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/osrn/exceptions/AnalysisException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/osrn/exceptions/AnalysisException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/osrn/exceptions/MismatchException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/osrn/exceptions/MismatchException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/osrn/exceptions/UnknownCharactersException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/osrn/exceptions/UnknownCharactersException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/osrn/services/OsrnFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/osrn/services/OsrnFactory.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +75,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Betrayal Of Friends" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
@@ -163,7 +136,10 @@
       <workItem from="1648794471414" duration="42000" />
       <workItem from="1648960245350" duration="11000" />
       <workItem from="1649050877743" duration="47000" />
-      <workItem from="1649052341494" duration="379000" />
+      <workItem from="1649052341494" duration="522000" />
+      <workItem from="1649188843539" duration="1350000" />
+      <workItem from="1649191999646" duration="30000" />
+      <workItem from="1649196058516" duration="2531000" />
     </task>
     <servers />
   </component>
