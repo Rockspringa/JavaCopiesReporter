@@ -1,7 +1,9 @@
 package edu.mooncoder;
 
+import edu.mooncoder.services.ComparerService;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hola mundo OSRN");
+        new ComparerService(4200);
     }
 }

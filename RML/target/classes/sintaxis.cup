@@ -1,0 +1,567 @@
+package edu.mooncoder.rml.controllers.analyzer.syntax;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.mooncoder.rml.controllers.analyzer.lexic.HtmlLexer;
+import edu.mooncoder.rml.controllers.builders.*;
+import edu.mooncoder.rml.controllers.operations.Arithmetic;
+import edu.mooncoder.rml.controllers.operations.Concat;
+import edu.mooncoder.rml.exceptions.syntactical.UnexpectedTokenException;
+import edu.mooncoder.rml.model.actions.ConstantAction;
+import edu.mooncoder.rml.model.actions.VariableAction;
+import edu.mooncoder.rml.model.contracts.Action;
+import edu.mooncoder.rml.model.tags.*;
+
+parser code {:
+  private Document html;
+  private final List<String> ids = new ArrayList<>();
+  private final List<Action> actions = new ArrayList<>();
+
+  public Document getHtml() {
+    return html;
+  }
+
+  public HtmlParser(HtmlLexer lexer) {
+    super(lexer);
+  }
+:}
+
+terminal String ID, LITERAL, TEXT;
+terminal int INT;
+terminal INTEGER, STRING, COMA, SEPARADOR, PAR_IZQ, PAR_DER, COR_IZQ, COR_DER, MAS, MENOS, POR,
+         DIV, RESULT, PUNTO, IGUAL, UNARY, ITERADOR, TABLE_B, TABLE_E, HTML_B, HTML_E, HASTA, H1_B,
+         H1_E, H2_B, H2_E, TR_B, TR_E, TH_B, TH_E, TD_B, TD_E, FOR_B, FOR_E, BR, TAG_FOR;
+
+non terminal String data;
+
+non terminal syntax, ids, decl, variables, assign, assign_, int_assign, str_assign, expr, str, string,
+             result, result_, result__, str_, concat, int;
+
+non terminal report, tags, tags_, tags__, for, for_, heading, table, rows, rows_, for_row, for_row_, for__;
+
+precedence left MAS, MENOS;
+precedence left POR, DIV;
+precedence left PAR_IZQ, PAR_DER;
+precedence left UNARY;
+
+start with syntax;
+
+syntax     ::= variables report
+               |
+               report
+               |
+               error:get report
+               {: ErrorsReportBuilder.add(new UnexpectedTokenException("a sintaxis correcta en la definicion de variables", getleft, getright)); :}
+               |
+               error:get
+               {: ErrorsReportBuilder.add(new UnexpectedTokenException("a sintaxis correcta de Report Markup Language", getleft, getright)); :}
+               ;
+
+variables  ::= variables decl
+               |
+               variables assign
+               |
+               decl
+               |
+               assign
+               ;
+
+ids        ::= ID:id
+               {: ids.add(id); :}
+               |
+               ids COMA ID:id
+               {: ids.add(id); :}
+               ;
+
+decl       ::= INTEGER int_assign
+               |
+               STRING str_assign
+               |
+               INTEGER:type ids SEPARADOR
+               {: for (String id : ids) SymbolsTable.getInst().add(id, 0, "Integer", typeleft, typeright); ids.clear(); :}
+               |
+               STRING:type ids SEPARADOR
+               {: for (String id : ids) SymbolsTable.getInst().add(id, "", "String", typeleft, typeright); ids.clear(); :}
+               |
+               INTEGER ids error:get
+               {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <+>", getleft, getright)); :}
+               |
+               STRING ids error:get
+               {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <+>", getleft, getright)); :}
+               |
+               INTEGER error:get SEPARADOR
+               {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <id> <=> o <id> <,> <id>..", getleft, getright)); :}
+               |
+               STRING error:get SEPARADOR
+               {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <id> <=> o <id> <,> <id>..", getleft, getright)); :}
+               ;
+
+assign     ::= assign_:id string:str SEPARADOR
+               {: SymbolsTable.getInst().update((String) id, str, idleft, idright); :}
+               |
+               assign_:id LITERAL:str1 MAS string:str2 str_:str3 SEPARADOR
+               {:
+               SymbolsTable.getInst().update(
+                       (String) id,
+                       Concat.getInstance().concat(str1, str2, str3, str1left, str1right),
+                       idleft, idright
+               );
+               :}
+               |
+               assign_ LITERAL error:get string str_ SEPARADOR
+               {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <+>", getleft, getright)); :}
+               |
+               assign_ LITERAL MAS string error:get
+               {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <;>, <+>", getleft, getright)); :}
+               |
+               error:get string SEPARADOR
+               {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <=>", getleft, getright)); :}
+               |
+               error:get LITERAL MAS string str_ SEPARADOR
+               {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <=>", getleft, getright)); :}
+               ;
+
+assign_    ::= ID:id IGUAL
+               {: RESULT = id; :}
+               ;
+
+int_assign ::= assign_:id expr:value SEPARADOR
+               {: SymbolsTable.getInst().add((String) id, value, "Integer", idleft, idright); :}
+               |
+               assign_ error:get SEPARADOR
+               {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <numero>, <id> o expresion matematica", getleft, getright)); :}
+               |
+               assign_ expr error:get
+               {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <;>", getleft, getright)); :}
+               |
+               error:get expr SEPARADOR
+               {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <=>", getleft, getright)); :}
+               ;
+
+str_assign ::= assign_:id str:value SEPARADOR
+               {: SymbolsTable.getInst().add((String) id, value, "String", idleft, idright); :}
+               |
+               assign_ str error:get
+               {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <;> o <+>", getleft, getright)); :}
+               |
+               error:get str SEPARADOR
+               {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <=>", getleft, getright)); :}
+               ;
+
+expr     ::= expr:val1 MAS expr:val2
+             {: RESULT = Arithmetic.getInstance().add(val1, val2, val1left, val1right); :}
+             |
+             expr:val1 MENOS expr:val2
+             {: RESULT = Arithmetic.getInstance().reduce(val1, val2, val1left, val1right); :}
+             |
+             expr:val1 POR expr:val2
+             {: RESULT = Arithmetic.getInstance().times(val1, val2, val1left, val1right); :}
+             |
+             expr:val1 DIV expr:val2
+             {: RESULT = Arithmetic.getInstance().div(val1, val2, val1left, val1right); :}
+             |
+             PAR_IZQ expr:val1 PAR_DER
+             {: RESULT = val1; :}
+             |
+             MENOS expr:val2
+             {: RESULT = Arithmetic.getInstance().reduce(0, val2, val2left, val2right); :}
+             %prec UNARY
+             |
+             int:val1
+             {: RESULT = val1; :}
+             ;
+
+str      ::= LITERAL:str1 str_:str2
+             {: RESULT = Concat.getInstance().concat(str1, str2, str1left, str1right); :}
+             |
+             result:str
+             {: RESULT = str; :}
+             ;
+
+str_     ::= str_:str1 MAS string:str2
+             {: RESULT = Concat.getInstance().concat(str1, str2, str1left, str1right); :}
+             |
+             {: RESULT = ""; :}
+             ;
+
+string   ::= LITERAL:value
+             {: RESULT = new ConstantAction(value); :}
+             |
+             expr:value
+             {: RESULT = value; :}
+             |
+             error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <literal>, <numero>, <id> o expresion matematica", getleft, getright)); :}
+             ;
+
+int      ::= INT:value
+             {: RESULT = value; :}
+             |
+             concat:value
+             {: RESULT = value; :}
+             ;
+
+concat   ::= result:value
+             {: RESULT = value; :}
+             |
+             ID:value
+             {: RESULT = new VariableAction(value, valueleft, valueright); :}
+             ;
+
+result   ::= RESULT:get PUNTO result_
+             {: RESULT = ResultBuilder.getInst().getResult(getleft, getright); :}
+             |
+             RESULT error:get result_
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <.>", getleft, getright)); :}
+             |
+             RESULT PUNTO error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <id>", getleft, getright)); :}
+             ;
+
+result_  ::= result__
+             |
+             result_ PUNTO result__
+             |
+             result_ PUNTO error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <id> o un <id> seguido de <[>", getleft, getright)); :}
+             |
+             error:get PUNTO result__
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <id> o un <id> seguido de <[>", getleft, getright)); :}
+             ;
+
+result__ ::= ID:id
+             {: ResultBuilder.getInst().add(id, idleft, idright); :}
+             |
+             ID:id COR_IZQ expr:i COR_DER
+             {: ResultBuilder.getInst().add(id, i, idleft, idright); :}
+             |
+             ID COR_IZQ expr error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <]>", getleft, getright)); :}
+             |
+             ID COR_IZQ error:get COR_DER
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <numero>, expresion matematica o <id>", getleft, getright)); :}
+             ;
+
+report   ::= HTML_B tags HTML_E
+             {: html = new Document(HtmlBuilder.getInst().getTags()); :}
+             |
+             HTML_B HTML_E
+             {: html = new Document(HtmlBuilder.getInst().getTags()); :}
+             |
+             HTML_B tags error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta </html>", getleft, getright)); :}
+             |
+             HTML_B error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a o mas etiquetas como <table>, <for>, <h1>, <h2>, <br> o una etiqueta </html", getleft, getright)); :}
+             ;
+
+tags     ::= tags tags_
+             |
+             tags_
+             ;
+
+tags_    ::= for
+             |
+             BR:get
+             {: HtmlBuilder.getInst().addTag(new BreakLine(), getleft, getright); :}
+             |
+             heading
+             |
+             table
+             |
+             error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a o mas etiquetas como <table>, <for>, <h1>, <h2> o <br>", getleft, getright)); :}
+             ;
+
+tags__   ::= BR:get
+             {: HtmlBuilder.getInst().addTag(new BreakLine(), getleft, getright); :}
+             |
+             heading
+             |
+             table
+             ;
+
+for      ::= for__:min ID:max SEPARADOR TAG_FOR for_ FOR_E
+             {:
+             HtmlBuilder.getInst().addTag(new For(
+                    HtmlBuilder.getInst().getTags(),
+                    (VariableAction) min,
+                    new VariableAction(max, maxleft, maxright)
+             ), minleft, minright);
+             :}
+             |
+             for__ error:get SEPARADOR TAG_FOR for_ FOR_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a variable despues de <hasta>", getleft, getright)); :}
+             |
+             for__ ID error:get TAG_FOR for_ FOR_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <;>", getleft, getright)); :}
+             |
+             for__ ID SEPARADOR error:get for_ FOR_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <>> (cierre de la etiqueta)", getleft, getright)); :}
+             |
+             for__ ID SEPARADOR TAG_FOR error:get FOR_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a o mas etiquetas como <table>, <h1>, <h2> o <br>", getleft, getright)); :}
+             ;
+
+for_row  ::= for__:min ID:max SEPARADOR TAG_FOR rows FOR_E
+             {:
+             TableBuilder.getInst().addFor(new For(
+                    TableBuilder.getInst().getRows(),
+                    (VariableAction) min,
+                    new VariableAction(max, maxleft, maxright)
+             ), true, minleft, minright);
+             :}
+             |
+             for__ error:get SEPARADOR TAG_FOR rows FOR_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a variable despues de <hasta>", getleft, getright)); :}
+             |
+             for__ ID error:get TAG_FOR rows FOR_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <;>", getleft, getright)); :}
+             |
+             for__ ID SEPARADOR error:get rows FOR_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <>> (cierre de la etiqueta)", getleft, getright)); :}
+             |
+             for__ ID SEPARADOR TAG_FOR error:get FOR_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a o mas etiquetas <tr>", getleft, getright)); :}
+             ;
+
+for_row_ ::= for__:min ID:max SEPARADOR TAG_FOR rows_ FOR_E
+             {:
+             TableBuilder.getInst().addFor(new For(
+                    TableBuilder.getInst().getCells(),
+                    (VariableAction) min,
+                    new VariableAction(max, maxleft, maxright)
+             ), false, minleft, minright);
+             :}
+             |
+             for__ error:get SEPARADOR TAG_FOR rows_ FOR_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a variable despues de <hasta>", getleft, getright)); :}
+             |
+             for__ ID error:get TAG_FOR rows_ FOR_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <;>", getleft, getright)); :}
+             |
+             for__ ID SEPARADOR error:get rows_ FOR_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <>> (cierre de la etiqueta)", getleft, getright)); :}
+             |
+             for__ ID SEPARADOR TAG_FOR error:get FOR_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a o mas etiquetas <td> o <th>", getleft, getright)); :}
+             ;
+
+for_     ::= for_ tags__
+             |
+             tags__
+             ;
+
+for__    ::= FOR_B ITERADOR ID:key HASTA
+             {: HtmlBuilder.toggleRepeat(); TableBuilder.setRepeat();
+             RESULT = new VariableAction(key, keyleft, keyright); :}
+             |
+             FOR_B error:get ID HASTA
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <iterador> seguido de <:>", getleft, getright)); :}
+             |
+             FOR_B ITERADOR error:get HASTA
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a variable despues de <iterador:>", getleft, getright)); :}
+             |
+             FOR_B ITERADOR ID error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <hasta> seguido de <:>", getleft, getright)); :}
+             ;
+
+heading  ::= H1_B:get data H1_E
+             {: HtmlBuilder.getInst().addTag(new Heading(actions.toArray(new Action[0]), true), getleft, getright); actions.clear(); :}
+             |
+             H2_B:get data H2_E
+             {: HtmlBuilder.getInst().addTag(new Heading(actions.toArray(new Action[0]), false), getleft, getright); actions.clear(); :}
+             |
+             H1_B:get H1_E
+             {: HtmlBuilder.getInst().addTag(new Heading(actions.toArray(new Action[0]), true), getleft, getright); actions.clear(); :}
+             |
+             H2_B:get H2_E
+             {: HtmlBuilder.getInst().addTag(new Heading(actions.toArray(new Action[0]), false), getleft, getright); actions.clear(); :}
+             |
+             H1_B error:get H1_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException(" texto y/o variables", getleft, getright)); :}
+             |
+             H2_B error:get H2_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException(" texto y/o variables", getleft, getright)); :}
+             |
+             H1_B data error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta </h1>", getleft, getright)); :}
+             |
+             H2_B data error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta </h2>", getleft, getright)); :}
+             ;
+
+table    ::= TABLE_B:get rows TABLE_E
+             {: HtmlBuilder.getInst().addTag(new Table(TableBuilder.getInst().getRows()), getleft, getright); :}
+             |
+             TABLE_B:get TABLE_E
+             {: HtmlBuilder.getInst().addTag(new Table(TableBuilder.getInst().getRows()), getleft, getright); :}
+             |
+             TABLE_B error:get TABLE_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a o mas lineas con columnas", getleft, getright)); :}
+             ;
+
+rows     ::= rows TR_B:get rows_ TR_E
+             {: TableBuilder.getInst().add(new Row(TableBuilder.getInst().getCells()), getleft, getright); :}
+             |
+             rows TR_B:get TR_E
+             {: TableBuilder.getInst().add(new Row(TableBuilder.getInst().getCells()), getleft, getright); :}
+             |
+             rows for_row
+             |
+             TR_B:get rows_ TR_E
+             {: TableBuilder.getInst().add(new Row(TableBuilder.getInst().getCells()), getleft, getright); :}
+             |
+             TR_B:get TR_E
+             {: TableBuilder.getInst().add(new Row(TableBuilder.getInst().getCells()), getleft, getright); :}
+             |
+             for_row
+             |
+             rows TR_B error:get TR_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a columna bien definida", getleft, getright)); :}
+             |
+             rows TR_B rows_ error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta </tr>", getleft, getright)); :}
+             |
+             rows TR_B error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta </tr> o columna bien definida", getleft, getright)); :}
+             |
+             rows error:get TR_B rows_ TR_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a linea bien definida", getleft, getright)); :}
+             |
+             rows error:get TR_B TR_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a linea bien definida", getleft, getright)); :}
+             |
+             rows error:get rows_ TR_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta <tr>", getleft, getright)); :}
+             |
+             rows error:get TR_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta <tr>", getleft, getright)); :}
+             |
+             rows error:get FOR_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta <for>", getleft, getright)); :}
+             |
+             TR_B error:get TR_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a columna bien definida", getleft, getright)); :}
+             |
+             TR_B rows_ error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta </tr>", getleft, getright)); :}
+             |
+             TR_B error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta </tr> o columna bien definida", getleft, getright)); :}
+             |
+             error:get TR_B rows_ TR_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a linea bien definida", getleft, getright)); :}
+             |
+             error:get TR_B TR_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a linea bien definida", getleft, getright)); :}
+             |
+             error:get rows_ TR_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta <tr>", getleft, getright)); :}
+             |
+             error:get TR_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta <tr>", getleft, getright)); :}
+             ;
+
+rows_    ::= rows_ TH_B:get data TH_E
+             {: TableBuilder.getInst().add(new Cell(actions.toArray(new Action[0]), true), getleft, getright); actions.clear(); :}
+             |
+             rows_ TD_B:get data TD_E
+             {: TableBuilder.getInst().add(new Cell(actions.toArray(new Action[0]), false), getleft, getright); actions.clear(); :}
+             |
+             rows_ TH_B:get TH_E
+             {: TableBuilder.getInst().add(new Cell(actions.toArray(new Action[0]), true), getleft, getright); actions.clear(); :}
+             |
+             rows_ TD_B:get TD_E
+             {: TableBuilder.getInst().add(new Cell(actions.toArray(new Action[0]), false), getleft, getright); actions.clear(); :}
+             |
+             TH_B:get data TH_E
+             {: TableBuilder.getInst().add(new Cell(actions.toArray(new Action[0]), true), getleft, getright); actions.clear(); :}
+             |
+             TD_B:get data TD_E
+             {: TableBuilder.getInst().add(new Cell(actions.toArray(new Action[0]), false), getleft, getright); actions.clear(); :}
+             |
+             TH_B:get TH_E
+             {: TableBuilder.getInst().add(new Cell(actions.toArray(new Action[0]), true), getleft, getright); actions.clear(); :}
+             |
+             TD_B:get TD_E
+             {: TableBuilder.getInst().add(new Cell(actions.toArray(new Action[0]), false), getleft, getright); actions.clear(); :}
+             |
+             rows_ for_row_
+             |
+             for_row_
+             |
+             rows_ TH_B error:get TH_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException(" texto y/o variables", getleft, getright)); :}
+             |
+             rows_ TD_B error:get TD_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException(" texto y/o variables", getleft, getright)); :}
+             |
+             rows_ TH_B data error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta </th>", getleft, getright)); :}
+             |
+             rows_ TD_B data error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta </td>", getleft, getright)); :}
+             |
+             rows_ TH_B error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta </th>", getleft, getright)); :}
+             |
+             rows_ TD_B error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta </td>", getleft, getright)); :}
+             |
+             rows_ error:get TH_B data TH_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta </td>", getleft, getright)); :}
+             |
+             rows_ error:get TD_B data TD_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta </td>", getleft, getright)); :}
+             |
+             rows_ error:get TH_B TH_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta </td>", getleft, getright)); :}
+             |
+             rows_ error:get TD_B TD_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta </td>", getleft, getright)); :}
+             |
+             TH_B error:get TH_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException(" texto y/o variables", getleft, getright)); :}
+             |
+             TD_B error:get TD_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException(" texto y/o variables", getleft, getright)); :}
+             |
+             TH_B data error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta </th>", getleft, getright)); :}
+             |
+             TD_B data error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta </td>", getleft, getright)); :}
+             |
+             TH_B error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta </th>", getleft, getright)); :}
+             |
+             TD_B error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta </td>", getleft, getright)); :}
+             |
+             error:get TH_B data TH_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta </td>", getleft, getright)); :}
+             |
+             error:get TD_B data TD_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta </td>", getleft, getright)); :}
+             |
+             error:get TH_B TH_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta </td>", getleft, getright)); :}
+             |
+             error:get TD_B TD_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta </td>", getleft, getright)); :}
+             ;
+
+data     ::= data TEXT:str
+             {: actions.add(new ConstantAction(str)); :}
+             |
+             data concat:act
+             {: actions.add((Action) act); :}
+             |
+             TEXT:str
+             {: actions.add(new ConstantAction(str)); :}
+             |
+             concat:act
+             {: actions.add((Action) act); :}
+             ;

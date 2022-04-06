@@ -6,8 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="b173d11a-1aca-44c2-9014-d0d6e63a80a2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/containers/Osrn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/containers/Osrn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/containers/Osrn.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/containers/Osrn.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/OSRN-1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/OSRN-1.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +20,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -62,17 +65,27 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Betrayal Of Friends" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="edu.mooncoder.osrn.model.containers" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean compile install" />
+    </option>
+  </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="edu.mooncoder.Main" />
+      <option name="MAIN_CLASS_NAME" value="edu.mooncoder.osrn.Main" />
       <module name="OSRN" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="edu.mooncoder.*" />
+          <option name="PATTERN" value="edu.mooncoder.osrn.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -104,6 +117,27 @@
       <workItem from="1647288764448" duration="3118000" />
       <workItem from="1647293782801" duration="10617000" />
       <workItem from="1647314766939" duration="6929000" />
+      <workItem from="1647407933807" duration="4496000" />
+      <workItem from="1647674090636" duration="14000" />
+      <workItem from="1647712122000" duration="6256000" />
+      <workItem from="1647739798827" duration="6149000" />
+      <workItem from="1648188241452" duration="567000" />
+      <workItem from="1648188826267" duration="586000" />
+      <workItem from="1648190886596" duration="116000" />
+      <workItem from="1648191042367" duration="372000" />
+      <workItem from="1648234910856" duration="52000" />
+      <workItem from="1648235045575" duration="33000" />
+      <workItem from="1648789721583" duration="179000" />
+      <workItem from="1648794471414" duration="42000" />
+      <workItem from="1648960245350" duration="11000" />
+      <workItem from="1649050877743" duration="47000" />
+      <workItem from="1649052341494" duration="522000" />
+      <workItem from="1649188843539" duration="1350000" />
+      <workItem from="1649191999646" duration="30000" />
+      <workItem from="1649196058516" duration="2531000" />
+      <workItem from="1649222986285" duration="229000" />
+      <workItem from="1649223767665" duration="86000" />
+      <workItem from="1649225462285" duration="54000" />
     </task>
     <servers />
   </component>

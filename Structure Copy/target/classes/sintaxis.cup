@@ -1,0 +1,28 @@
+package edu.mooncoder.copy.controllers.analyzer.syntax;
+
+import edu.mooncoder.copy.controllers.analyzer.lexic.CopyLexer;
+import edu.mooncoder.copy.controllers.containers.StructureHolder;
+
+parser code {:
+  public CopyParser(CopyLexer lexer) {
+    super(lexer);
+  }
+:}
+
+terminal String ID, PATH;
+terminal SEMICOLON, SEPARATOR;
+
+non terminal dictionary, pair;
+
+start with dictionary;
+
+dictionary    ::= pair SEPARATOR dictionary
+                  |
+                  pair SEPARATOR
+                  |
+                  pair
+                  ;
+
+pair          ::= ID:id SEMICOLON PATH:path
+                  {: StructureHolder.addFile(id, path); :}
+                  ;

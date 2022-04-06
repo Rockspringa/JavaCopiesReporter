@@ -1,8 +1,9 @@
-package edu.mooncoder.model.analyzer.lexic;
+package edu.mooncoder.osrn.controllers.analyzer.lexic;
 
 import java_cup.runtime.Symbol;
 
-import edu.mooncoder.model.analyzer.syntax.Tokens;
+import edu.mooncoder.osrn.controllers.wrapper.ErrorWrapper;
+import edu.mooncoder.osrn.controllers.analyzer.syntax.Tokens;
 
 %%
 
@@ -13,16 +14,28 @@ import edu.mooncoder.model.analyzer.syntax.Tokens;
 %public
 %line
 %column
+%caseless
+%ignorecase
 
 %{
   private StringBuffer string = new StringBuffer();
+  private StringBuffer error = new StringBuffer();
 
   private Symbol symbol(int type) {
+    chargeError();
     return new Symbol(type, yyline + 1, yycolumn + 1);
   }
 
+  private void chargeError() {
+    if (error.length() != 0) {
+      ErrorWrapper.addLexicalError(yyline + 1, yycolumn + 1 - error.length(), error.toString());
+      error.setLength(0);
+    }
+  }
+
   private Symbol symbol(int type, Object value) {
-    if (value instanceof String string)
+    chargeError();
+    if (type == Tokens.LITERAL)
       return new Symbol(type, yyline + 1, yycolumn - string.length(), value);
     else
       return new Symbol(type, yyline + 1, yycolumn + 1, value);
@@ -34,10 +47,7 @@ BreakLine = \n | \r | \r\n
 Spaces = {BreakLine} | [ \t\f]
 
 // To token
-Int = [0-9]+
-Number =  "-"? {Int} ("." {Int})?
-Boolean =  "true" | "false"
-Null = "null"
+Int = "-"? [0-9]+
 Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
 
 %state LITERAL
@@ -46,15 +56,13 @@ Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
 
 // Ignores
 <YYINITIAL> {
-  {Spaces}                       { /* ignore */ }
+  {Spaces}                       { chargeError(); }
 }
 
 // Variables
 <YYINITIAL> {
-  \"                             { string.setLength(0); yybegin(LITERAL); }
-  {Number}                       { return symbol(Tokens.NUMBER, Double.parseDouble(yytext())); }
-  {Boolean}                      { return symbol(Tokens.BOOLEAN, Boolean.parseBoolean(yytext())); }
-  {Null}                      { return symbol(Tokens.NULL, null); }
+  \"                             { chargeError(); string.setLength(0); yybegin(LITERAL); }
+  {Int}                          { return symbol(Tokens.INT, Integer.parseInt(yytext())); }
   {Id}                           { return symbol(Tokens.ID, yytext()); }
 }
 
@@ -84,4 +92,4 @@ Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
   \\                             { string.append('\\'); }
 }
 
-[^] { System.out.println("error: " + (yyline + 1) + ", " + (yycolumn + 1)); }
+[^] { error.append(yytext()); }

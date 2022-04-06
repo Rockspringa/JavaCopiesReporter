@@ -13,4 +13,65 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>edu.mooncoder.copy</groupId>
+            <artifactId>StructureCopy</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>edu.mooncoder.osrn</groupId>
+            <artifactId>OSRN</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>edu.mooncoder.rml</groupId>
+            <artifactId>RML</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.intellij</groupId>
+            <artifactId>forms_rt</artifactId>
+            <version>7.0.3</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>ideauidesigner-maven-plugin</artifactId>
+                <version>1.0-beta-1</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>javac2</goal>
+                    </goals>
+                </execution>
+            </executions>
+
+            <configuration>
+                <fork>true</fork>
+                <debug>true</debug>
+                <failOnError>true</failOnError>
+            </configuration>
+        </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>edu.mooncoder.Main</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

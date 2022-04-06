@@ -1,7 +1,10 @@
-package edu.mooncoder.model.analyzer.lexic;
+package edu.mooncoder.controllers.analyzer.lexic;
 
 import java_cup.runtime.Symbol;
-import edu.mooncoder.model.analyzer.syntax.Tokens;
+
+import edu.mooncoder.controllers.analyzer.syntax.Tokens;
+import edu.mooncoder.model.containers.CommentsHolder;
+import edu.mooncoder.model.containers.ErrorsHolder;
 
 %%
 
@@ -15,13 +18,26 @@ import edu.mooncoder.model.analyzer.syntax.Tokens;
 
 %{
   private StringBuffer string = new StringBuffer();
+  private StringBuffer error = new StringBuffer();
 
   private Symbol symbol(int type) {
+    addError();
     return new Symbol(type, yyline + 1, yycolumn + 1);
   }
 
+  private void addError() {
+    if (error.length() != 0) {
+      ErrorsHolder.addLexicalError(yyline + 1, yycolumn - error.length(), error.toString());
+      error.setLength(0);
+    }
+  }
+
   private Symbol symbol(int type, Object value) {
-    return new Symbol(type, yyline + 1, yycolumn + 1, value);
+    addError();
+    if (type == Tokens.LITERAL)
+      return new Symbol(type, yyline + 1, yycolumn - string.length(), value);
+    else
+      return new Symbol(type, yyline + 1, yycolumn + 1, value);
   }
 %}
 
@@ -34,9 +50,11 @@ BlockComments = "/*" .* ~"*/"
 
 // To token
 Visibility = ("private" | "public" | "protected") {Spaces}
+EqualOperators = "+=" | "-=" | "*=" | "/=" | "%="
 UnaryOperators = "++" | "--"
 LogicOperators = "&&" | "||" | "&" | "^" | "|"
-RelationalOperators = "==" | "!=" | "<" | ">" | "<=" | ">="
+Relational1Operators = "==" | "!="
+Relational2Operators = "<" | ">" | "<=" | ">="
 
 Type = ("int" | "boolean" | "String" | "char" | "double") {Spaces}
 
@@ -50,29 +68,30 @@ Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
 
 // Ignores
 <YYINITIAL> {
+  "static" {Spaces} |
+  {Spaces}                       { addError(); }
   {BlockComments} |
-  {LineComments}                 { /* ignore */ }
-  {Spaces}                       { /* ignore */ }
+  {LineComments}                 { addError(); CommentsHolder.addComment(yytext()); }
 }
 
 // KeyWords
 <YYINITIAL> {
     {Visibility}                 { return symbol(Tokens.VISIBILITY); }
-    {Type}                       { return symbol(Tokens.TYPE); }
+    {Type}                       { return symbol(Tokens.TYPE, yytext().strip()); }
     "new" {Spaces}               { return symbol(Tokens.NEW); }
     "final" {Spaces}             { return symbol(Tokens.FINAL); }
     "import" {Spaces}            { return symbol(Tokens.IMPORT); }
     "package" {Spaces}           { return symbol(Tokens.PACKAGE); }
     "class" {Spaces}             { return symbol(Tokens.CLASS); }
-    "void" {Spaces}              { return symbol(Tokens.VOID); }
+    "void" {Spaces}              { return symbol(Tokens.VOID, yytext().strip()); }
     "if"                         { return symbol(Tokens.IF); }
     "else"                       { return symbol(Tokens.ELSE); }
     "for"                        { return symbol(Tokens.FOR); }
     "while"                      { return symbol(Tokens.WHILE); }
     "do"                         { return symbol(Tokens.DO); }
     "switch"                     { return symbol(Tokens.SWITCH); }
-    "case"                      { return symbol(Tokens.BREAK); }
-    "default"                     { return symbol(Tokens.RETURN); }
+    "case"                       { return symbol(Tokens.CASE); }
+    "default"                    { return symbol(Tokens.DEFAULT); }
     "break"                      { return symbol(Tokens.BREAK); }
     "return"                     { return symbol(Tokens.RETURN); }
     "true" | "false"             { return symbol(Tokens.BOOL); }
@@ -80,7 +99,7 @@ Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
 
 // Variables
 <YYINITIAL> {
-  \"                             { string.setLength(0); yybegin(LITERAL); }
+  \"                             { addError(); string.setLength(0); yybegin(LITERAL); }
 
   "'" \\t "'"                    { return symbol(Tokens.CHAR, '\t'); }
   "'" \\n "'"                    { return symbol(Tokens.CHAR, '\n'); }
@@ -89,9 +108,9 @@ Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
   "'" \\ "'"                     { return symbol(Tokens.CHAR, '\\'); }
   "'" [^\n\r\"\\] "'"            { return symbol(Tokens.CHAR, yytext().charAt(1)); }
 
-  {Int}                          { return symbol(Tokens.ENTERO); }
-  {Double}                       { return symbol(Tokens.DECIMAL); }
-  {Id}                           { return symbol(Tokens.ID); }
+  {Int}                          { return symbol(Tokens.ENTERO, Integer.parseInt(yytext())); }
+  {Double}                       { return symbol(Tokens.DECIMAL, Double.parseDouble(yytext())); }
+  {Id}                           { return symbol(Tokens.ID, yytext()); }
 }
 
 // Symbols
@@ -108,9 +127,11 @@ Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
 
 // Operadores
 <YYINITIAL> {
+    {EqualOperators}             { return symbol(Tokens.IGUAL_); }
     {UnaryOperators}             { return symbol(Tokens.UNARY); }
     {LogicOperators}             { return symbol(Tokens.LOGIC); }
-    {RelationalOperators}        { return symbol(Tokens.RELATIONAL); }
+    {Relational1Operators}       { return symbol(Tokens.RELATIONAL1); }
+    {Relational2Operators}       { return symbol(Tokens.RELATIONAL2); }
     "!"                          { return symbol(Tokens.NEGAR); }
     "*"                          { return symbol(Tokens.POR); }
     "/"                          { return symbol(Tokens.DIV); }
@@ -136,4 +157,4 @@ Id = [a-zA-Z$_] [a-zA-Z_$0-9]+ | [a-zA-Z$] [a-zA-Z_$0-9]*
   \\                             { string.append('\\'); }
 }
 
-[^] { System.out.println("error: " + (yyline + 1) + ", " + (yycolumn + 1)); }
+[^] { error.append(yytext()); }

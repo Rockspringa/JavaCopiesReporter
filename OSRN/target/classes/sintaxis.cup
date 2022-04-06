@@ -1,13 +1,17 @@
-package edu.mooncoder.model.analyzer.syntax;
+package edu.mooncoder.osrn.controllers.analyzer.syntax;
 
-import edu.mooncoder.model.containers.Osrn;
-import edu.mooncoder.model.wrapper.*;
-import edu.mooncoder.model.analyzer.lexic.JsonLexer;
+import edu.mooncoder.osrn.model.containers.Osrn;
+import edu.mooncoder.osrn.controllers.wrapper.*;
+import edu.mooncoder.osrn.controllers.analyzer.lexic.JsonLexer;
 
 parser code {:
   private Osrn osrn;
 
   public Osrn getOsrn() { return osrn; }
+
+  private void addError(int line, int col, String msg) {
+    ErrorWrapper.add(line, col, msg);
+  }
 
   public JsonParser(JsonLexer lexer) {
     super(lexer);
@@ -15,24 +19,34 @@ parser code {:
 :}
 
 terminal String ID, LITERAL;
-terminal double NUMBER;
-terminal boolean BOOLEAN;
-terminal NULL, CUR_IZQ, CUR_DER, BRA_IZQ, BRA_DER, COLON, COMMA;
+terminal int INT;
+terminal CUR_IZQ, CUR_DER, BRA_IZQ, BRA_DER, COLON, COMMA;
 
 non terminal syntax;
 non terminal Object value;
-non terminal OsrnWrapper pair, obj, obj_, content, array, array_;
+non terminal OsrnWrapper pair, obj, content, array, array_;
 
 start with syntax;
 
 syntax     ::= content
                {: osrn = OsrnWrapper.close(); :}
+               |
+               {: OsrnWrapper.addEmpty(); osrn = OsrnWrapper.close(); :}
                ;
 
-content    ::= CUR_IZQ obj_ CUR_DER
+content    ::= CUR_IZQ obj CUR_DER
+               |
+               CUR_IZQ CUR_DER
+               {: OsrnWrapper.addEmpty(); :}
+               |
+               error obj:get CUR_DER
+               {: addError(getleft, getright, " << { >> antes del objeto."); :}
+               |
+               CUR_IZQ BRA_IZQ:get error
+               {: addError(getleft, getright, " << } >> antes del arreglo."); :}
                ;
 
-array      ::= BRA_IZQ array_:array BRA_DER
+array      ::= BRA_IZQ array_ BRA_DER
                |
                BRA_IZQ BRA_DER
                {: ArrayWrapper.addEmpty(); :}
@@ -44,16 +58,11 @@ array_     ::= value:value
                array_ COMMA value:value
                {: ArrayWrapper.add(value); :}
                |
-               array_ COLON:colon error
-               {: System.out.println("Se esperaba una coma o un ']'"); :}
+               array_ COLON:get error
+               {: addError(getleft, getright, "a << , >> o un << ] >>"); :}
                |
-               array_ COMMA:comma error
-               {: System.out.println("Se esperaba un <valor>"); :}
-               ;
-
-obj_       ::= obj
-               |
-               {: OsrnWrapper.addEmpty(); :}
+               array_ COMMA:comma error:get
+               {: addError(getleft, getright, " <valor>"); :}
                ;
 
 obj        ::= pair
@@ -62,8 +71,11 @@ obj        ::= pair
                obj COMMA pair
                {: OsrnWrapper.addPair(PairWrapper.getPair()); :}
                |
-               obj COMMA error
-               {: System.out.println("Se esperaba un '}' o un par clave-valor"); :}
+               obj COMMA error:get
+               {: addError(getleft, getright, " << } >> o un <clave-valor>"); :}
+               |
+               obj error:get
+               {: addError(getleft, getright, "a << , >>, << } >>"); :}
                ;
 
 pair       ::= ID:key COLON value:value
@@ -72,29 +84,23 @@ pair       ::= ID:key COLON value:value
                LITERAL:key COLON value:value
                {: PairWrapper.setPair(key, value); :}
                |
-               ID error
-               {: System.out.println("Se esperaba un ':'"); :}
+               ID error:get
+               {: addError(getleft, getright, " << : >>"); :}
                |
-               LITERAL error
-               {: System.out.println("Se esperaba un ':'"); :}
+               LITERAL error:get
+               {: addError(getleft, getright, " << : >>"); :}
                |
-               ID COLON error
-               {: System.out.println("Se esperaba un <valor>"); :}
+               ID COLON:get error
+               {: addError(getleft, getright, " <valor>"); :}
                |
-               LITERAL COLON error
-               {: System.out.println("Se esperaba un <valor>"); :}
+               LITERAL COLON:get error
+               {: addError(getleft, getright, " <valor>"); :}
                ;
 
 value      ::= LITERAL:obj
                {: RESULT = obj; :}
                |
-               NUMBER:obj
-               {: RESULT = obj; :}
-               |
-               BOOLEAN:obj
-               {: RESULT = obj; :}
-               |
-               NULL:obj
+               INT:obj
                {: RESULT = obj; :}
                |
                content
