@@ -9,19 +9,19 @@ import edu.mooncoder.rml.exceptions.syntactical.IrreparableException;
 import edu.mooncoder.rml.model.tags.Document;
 import edu.mooncoder.rml.model.tags.Error;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 
 public class ReadRml {
     private static ReadRml inst;
 
+    private final String content;
     private final File file;
-    private Error[] errors;
+    private Error[] errors = new Error[0];
 
-    public ReadRml(String path, Osrn osrn) {
+    public ReadRml(String path, Osrn osrn, boolean isPath) {
         inst = this;
-        file = new File(path);
+        file = (isPath) ? new File(path) : null;
+        content = (!isPath) ? path : null;
 
         SymbolsTable.addGlobal(osrn);
         HtmlBuilder.initAnalysis();
@@ -32,7 +32,7 @@ public class ReadRml {
     public Document getRmlResult() throws FileNotFoundException, BadWrittenRmlException {
         if (this != inst) return null;
 
-        FileReader reader = new FileReader(file);
+        Reader reader = (file != null) ? new FileReader(file) : new StringReader(content);
         HtmlLexer lexer = new HtmlLexer(reader);
         HtmlParser parser = new HtmlParser(lexer);
 

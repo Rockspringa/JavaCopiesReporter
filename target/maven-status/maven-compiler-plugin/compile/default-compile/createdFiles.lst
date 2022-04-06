@@ -8,6 +8,7 @@ edu\mooncoder\rml\model\tags\Row.class
 edu\mooncoder\rml\model\tags\Cell.class
 edu\mooncoder\rml\model\tags\Table.class
 edu\mooncoder\rml\exceptions\syntactical\IrreparableException.class
+edu\mooncoder\rml\exceptions\semantical\IndexOutOfLimitsException.class
 edu\mooncoder\rml\exceptions\syntactical\TagNotAllowedException.class
 edu\mooncoder\rml\controllers\analyzer\syntax\HtmlParser$CUP$HtmlParser$actions.class
 edu\mooncoder\rml\controllers\builders\ResultBuilder.class
@@ -24,6 +25,7 @@ edu\mooncoder\rml\services\ReadRml.class
 edu\mooncoder\rml\controllers\analyzer\syntax\Tokens.class
 edu\mooncoder\rml\controllers\builders\HtmlBuilder.class
 edu\mooncoder\rml\model\actions\VariableAction.class
+edu\mooncoder\rml\exceptions\syntactical\UnexpectedTokenException.class
 edu\mooncoder\rml\controllers\builders\ErrorsReportBuilder.class
 edu\mooncoder\rml\controllers\operations\Concat.class
 edu\mooncoder\rml\model\tags\For.class
