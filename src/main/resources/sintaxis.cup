@@ -87,10 +87,10 @@ decl       ::= INTEGER int_assign
                {: for (String id : ids) SymbolsTable.getInst().add(id, "", "String", typeleft, typeright); ids.clear(); :}
                |
                INTEGER ids error:get
-               {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <+>", getleft, getright)); :}
+               {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <;>", getleft, getright)); :}
                |
                STRING ids error:get
-               {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <+>", getleft, getright)); :}
+               {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <;>", getleft, getright)); :}
                |
                INTEGER error:get SEPARADOR
                {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <id> <=> o <id> <,> <id>..", getleft, getright)); :}
@@ -280,6 +280,24 @@ tags_    ::= for
              |
              error:get
              {: ErrorsReportBuilder.add(new UnexpectedTokenException("a o mas etiquetas como <table>, <for>, <h1>, <h2> o <br>", getleft, getright)); :}
+             |
+             error:get TABLE_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta <table> antes de </table>", getleft, getright)); :}
+             |
+             error:get H1_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta <h1> antes de </h1>", getleft, getright)); :}
+             |
+             error:get H2_E
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta <h2> antes de </h2>", getleft, getright)); :}
+             |
+             TH_B error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta <table> antes de </table>", getleft, getright)); :}
+             |
+             TD_B error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta <table> antes de </table>", getleft, getright)); :}
+             |
+             TR_B error:get
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta <table> antes de </table>", getleft, getright)); :}
              ;
 
 for      ::= for__:min ID:max SEPARADOR TAG_FOR tags FOR_E
@@ -402,6 +420,8 @@ rows     ::= rows TR_B:get rows_ TR_E
              |
              rows for_row
              |
+             rows data
+             |
              TR_B:get rows_ TR_E
              {: TableBuilder.getInst().add(new Row(TableBuilder.getInst().getCells()), getleft, getright); :}
              |
@@ -409,6 +429,8 @@ rows     ::= rows TR_B:get rows_ TR_E
              {: TableBuilder.getInst().add(new Row(TableBuilder.getInst().getCells()), getleft, getright); :}
              |
              for_row
+             |
+             data
              |
              rows TR_B error:get TR_E
              {: ErrorsReportBuilder.add(new UnexpectedTokenException("a columna bien definida", getleft, getright)); :}
@@ -468,6 +490,10 @@ rows_    ::= rows_ TH_B:get data TH_E
              rows_ TD_B:get TD_E
              {: TableBuilder.getInst().add(new Cell(actions.toArray(new Action[0]), false), getleft, getright); actions.clear(); :}
              |
+             rows_ for_row_
+             |
+             rows_ data
+             |
              TH_B:get data TH_E
              {: TableBuilder.getInst().add(new Cell(actions.toArray(new Action[0]), true), getleft, getright); actions.clear(); :}
              |
@@ -480,9 +506,9 @@ rows_    ::= rows_ TH_B:get data TH_E
              TD_B:get TD_E
              {: TableBuilder.getInst().add(new Cell(actions.toArray(new Action[0]), false), getleft, getright); actions.clear(); :}
              |
-             rows_ for_row_
-             |
              for_row_
+             |
+             data
              |
              rows_ TH_B error:get TH_E
              {: ErrorsReportBuilder.add(new UnexpectedTokenException(" texto y/o variables", getleft, getright)); :}
