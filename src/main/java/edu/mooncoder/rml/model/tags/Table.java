@@ -10,7 +10,7 @@ public record Table(Tag[] rows) implements Tag {
 
     @Override
     public String getHtmlString() {
-        StringBuilder builder = new StringBuilder("<table>");
+        StringBuilder builder = new StringBuilder("<table style=\"border: solid 2px rgb(61, 66, 75)\">");
 
         for (Tag row : rows()) {
             builder.append(row.getHtmlString());

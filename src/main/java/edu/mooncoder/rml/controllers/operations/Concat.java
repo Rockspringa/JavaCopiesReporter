@@ -2,7 +2,6 @@ package edu.mooncoder.rml.controllers.operations;
 
 import edu.mooncoder.rml.controllers.builders.ErrorsReportBuilder;
 import edu.mooncoder.rml.exceptions.semantical.TypeNotMatchException;
-import edu.mooncoder.rml.exceptions.syntactical.NotIntegerValueException;
 import edu.mooncoder.rml.model.contracts.Action;
 
 public class Concat {

@@ -11,10 +11,12 @@ public record Cell(Action[] actions, boolean title) implements Tag {
 
     @Override
     public String getHtmlString() {
-        String tag = (title()) ? "<th>" : "<td>";
+        String tag = (title()) ? "<th" : "<td";
         String tagClose = (title()) ? "</th>" : "</td>";
         StringBuilder builder = new StringBuilder(tag);
 
+        builder.append(" style=\"color: rgb(160, 168, 180); ");
+        builder.append("border: solid 1px rgb(171, 178, 192)\">");
         for (Action action : actions()) {
             builder.append(action.get());
         }

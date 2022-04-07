@@ -1,6 +1,5 @@
 package edu.mooncoder.rml;
 
-import edu.mooncoder.rml.controllers.builders.ErrorsReportBuilder;
 import edu.mooncoder.rml.exceptions.BadWrittenRmlException;
 import edu.mooncoder.rml.services.ReadRml;
 

@@ -11,10 +11,11 @@ public record Heading(Action[] actions, boolean big) implements Tag {
 
     @Override
     public String getHtmlString() {
-        String tag = (big()) ? "<h1>" : "<h3>";
+        String tag = (big()) ? "<h1" : "<h3";
         String tagClose = (big()) ? "</h1>" : "</h3>";
         StringBuilder builder = new StringBuilder(tag);
 
+        builder.append(" style=\"color: rgb(160, 168, 180)\">");
         for (Action action : actions()) {
             builder.append(action.get());
         }

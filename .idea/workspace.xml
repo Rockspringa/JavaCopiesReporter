@@ -7,13 +7,22 @@
     <list default="true" id="2ecbdbef-15d1-4351-9b8f-9c604188f900" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Prueba.def" beforeDir="false" afterPath="$PROJECT_DIR$/Prueba.def" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/analyzer/lexic/HtmlLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/analyzer/lexic/HtmlLexer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/lexico.jflex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/lexico.jflex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/analyzer/syntax/HtmlParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/analyzer/syntax/HtmlParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/analyzer/syntax/Tokens.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/analyzer/syntax/Tokens.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/operations/Concat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/operations/Concat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/exceptions/SyntaticalException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/exceptions/SyntaticalException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/exceptions/semantical/NonePointerException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/exceptions/semantical/NonePointerException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/tags/Cell.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/tags/Cell.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/tags/Heading.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/tags/Heading.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/tags/Table.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/model/tags/Table.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/RML-1.0-jar-with-dependencies.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/RML-1.0-jar-with-dependencies.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/RML-1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/RML-1.0.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/lexico.jflex" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lexico.jflex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/rml/model/tags/Cell.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/rml/model/tags/Cell.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/rml/model/tags/Heading.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/rml/model/tags/Heading.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/rml/model/tags/Table.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/rml/model/tags/Table.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,7 +154,8 @@
       <workItem from="1649199985343" duration="1504000" />
       <workItem from="1649223862177" duration="109000" />
       <workItem from="1649225403142" duration="54000" />
-      <workItem from="1649297390676" duration="3706000" />
+      <workItem from="1649297390676" duration="4107000" />
+      <workItem from="1649302214298" duration="1494000" />
     </task>
     <servers />
   </component>
@@ -174,27 +184,27 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/analyzer/syntax/HtmlParser.java</url>
-          <line>1416</line>
+          <line>1513</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/analyzer/syntax/HtmlParser.java</url>
-          <line>1425</line>
+          <line>1517</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/analyzer/syntax/HtmlParser.java</url>
-          <line>1434</line>
+          <line>1522</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/analyzer/syntax/HtmlParser.java</url>
-          <line>1446</line>
+          <line>1526</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/analyzer/syntax/HtmlParser.java</url>
-          <line>702</line>
+          <line>789</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>

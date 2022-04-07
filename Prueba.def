@@ -5,9 +5,9 @@ i=0;
 String texto="Su score fue de: "</+RESULT.Score/>;
 
 </ Aqui defino el html />
-<html></
+<html>
 	<h1>$$( texto )$$</h1>
-	<h2>$$( RESULT.Variables )$$</h2>/>
+	<h2>$$( RESULT.Variables )$$</h2>
 <table>
 <tr>
 	<th>Numero</th>
@@ -15,12 +15,12 @@ String texto="Su score fue de: "</+RESULT.Score/>;
 	<th>Tipo </th>
 	<th>Función </th>
  </tr>
-<for iterador:i </iteradooooooor/> hasta:Max;>
+<for iterador:i hasta:Max;>
 <tr>
-<td> $$( i )$$</td></
+<td> $$( i )$$</td>
 <td> $$( RESULT.Variables[i].Nombre )$$</td>
 <td> $$( RESULT.Variables[i].Tipo )$$ </td>
-<td> $$( RESULT.Variables[i].Funcion )$$ </td>/>
+<td> $$( RESULT.Variables[i].Funcion )$$ </td>
 </tr>
  </for>
 </table>
