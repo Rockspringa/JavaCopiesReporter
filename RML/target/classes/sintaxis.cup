@@ -38,12 +38,14 @@ non terminal String data;
 non terminal syntax, ids, decl, variables, assign, assign_, int_assign, str_assign, expr, str, string,
              result, result_, result__, str_, concat, int;
 
-non terminal report, tags, tags_, tags__, for, for_, heading, table, rows, rows_, for_row, for_row_, for__;
+non terminal report, tags, tags_, for, heading, table, rows, rows_, for_row, for_row_, for__;
 
 precedence left MAS, MENOS;
 precedence left POR, DIV;
 precedence left PAR_IZQ, PAR_DER;
 precedence left UNARY;
+precedence left RESULT;
+precedence left TEXT, RESULT, ID;
 
 start with syntax;
 
@@ -212,6 +214,9 @@ concat   ::= result:value
 result   ::= RESULT:get PUNTO result_
              {: RESULT = ResultBuilder.getInst().getResult(getleft, getright); :}
              |
+             RESULT:get
+             {: RESULT = ResultBuilder.getInst().getResult(getleft, getright); :}
+             |
              RESULT error:get result_
              {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <.>", getleft, getright)); :}
              |
@@ -253,7 +258,7 @@ report   ::= HTML_B tags HTML_E
              {: ErrorsReportBuilder.add(new UnexpectedTokenException("a etiqueta </html>", getleft, getright)); :}
              |
              HTML_B error:get
-             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a o mas etiquetas como <table>, <for>, <h1>, <h2>, <br> o una etiqueta </html", getleft, getright)); :}
+             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a o mas etiquetas como <table>, <for>, <h1>, <h2>, <br> o una etiqueta </html>", getleft, getright)); :}
              ;
 
 tags     ::= tags tags_
@@ -270,19 +275,14 @@ tags_    ::= for
              |
              table
              |
+             data
+             {: HtmlBuilder.getInst().addMultiTag(actions.toArray(new Action[0])); actions.clear(); :}
+             |
              error:get
              {: ErrorsReportBuilder.add(new UnexpectedTokenException("a o mas etiquetas como <table>, <for>, <h1>, <h2> o <br>", getleft, getright)); :}
              ;
 
-tags__   ::= BR:get
-             {: HtmlBuilder.getInst().addTag(new BreakLine(), getleft, getright); :}
-             |
-             heading
-             |
-             table
-             ;
-
-for      ::= for__:min ID:max SEPARADOR TAG_FOR for_ FOR_E
+for      ::= for__:min ID:max SEPARADOR TAG_FOR tags FOR_E
              {:
              HtmlBuilder.getInst().addTag(new For(
                     HtmlBuilder.getInst().getTags(),
@@ -291,17 +291,14 @@ for      ::= for__:min ID:max SEPARADOR TAG_FOR for_ FOR_E
              ), minleft, minright);
              :}
              |
-             for__ error:get SEPARADOR TAG_FOR for_ FOR_E
+             for__ error:get SEPARADOR TAG_FOR tags FOR_E
              {: ErrorsReportBuilder.add(new UnexpectedTokenException("a variable despues de <hasta>", getleft, getright)); :}
              |
-             for__ ID error:get TAG_FOR for_ FOR_E
+             for__ ID error:get TAG_FOR tags FOR_E
              {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <;>", getleft, getright)); :}
              |
-             for__ ID SEPARADOR error:get for_ FOR_E
+             for__ ID SEPARADOR error:get tags FOR_E
              {: ErrorsReportBuilder.add(new UnexpectedTokenException(" <>> (cierre de la etiqueta)", getleft, getright)); :}
-             |
-             for__ ID SEPARADOR TAG_FOR error:get FOR_E
-             {: ErrorsReportBuilder.add(new UnexpectedTokenException("a o mas etiquetas como <table>, <h1>, <h2> o <br>", getleft, getright)); :}
              ;
 
 for_row  ::= for__:min ID:max SEPARADOR TAG_FOR rows FOR_E
@@ -348,13 +345,8 @@ for_row_ ::= for__:min ID:max SEPARADOR TAG_FOR rows_ FOR_E
              {: ErrorsReportBuilder.add(new UnexpectedTokenException("a o mas etiquetas <td> o <th>", getleft, getright)); :}
              ;
 
-for_     ::= for_ tags__
-             |
-             tags__
-             ;
-
 for__    ::= FOR_B ITERADOR ID:key HASTA
-             {: HtmlBuilder.toggleRepeat(); TableBuilder.setRepeat();
+             {: HtmlBuilder.getInst().increaseForLevel(); TableBuilder.getInst().increaseForLevel();
              RESULT = new VariableAction(key, keyleft, keyright); :}
              |
              FOR_B error:get ID HASTA

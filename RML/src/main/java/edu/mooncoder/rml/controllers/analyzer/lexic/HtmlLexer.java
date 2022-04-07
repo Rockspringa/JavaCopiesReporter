@@ -25,10 +25,11 @@ public class HtmlLexer implements java_cup.runtime.Scanner {
   // Lexical states.
   public static final int YYINITIAL = 0;
   public static final int COMMENT = 2;
-  public static final int LITERAL = 4;
-  public static final int TAGS = 6;
-  public static final int VARIABLE = 8;
-  public static final int FOR = 10;
+  public static final int COMMENT_OUT = 4;
+  public static final int LITERAL = 6;
+  public static final int TAGS = 8;
+  public static final int VARIABLE = 10;
+  public static final int FOR = 12;
 
   /**
    * ZZ_LEXSTATE[l] is the state in the DFA for the lexical state l
@@ -37,7 +38,7 @@ public class HtmlLexer implements java_cup.runtime.Scanner {
    * l is of the form l = 2*k, k a non negative integer
    */
   private static final int ZZ_LEXSTATE[] = {
-     0,  0,  1,  1,  2,  2,  3,  3,  4,  4,  5, 5
+     0,  0,  1,  1,  2,  2,  3,  3,  4,  4,  5,  5,  6, 6
   };
 
   /**
@@ -74,17 +75,17 @@ public class HtmlLexer implements java_cup.runtime.Scanner {
   private static final int [] ZZ_CMAP_BLOCKS = zzUnpackcmap_blocks();
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
-    "\11\0\1\1\1\2\1\0\1\3\1\4\22\0\1\1"+
-    "\1\0\1\5\1\0\1\6\3\0\1\7\1\10\1\11"+
-    "\1\12\1\13\1\14\1\15\1\16\1\17\1\20\1\21"+
-    "\7\17\1\22\1\23\1\24\1\25\1\26\2\0\1\27"+
-    "\1\30\1\31\1\32\1\33\1\34\1\35\1\36\1\37"+
-    "\2\31\1\40\1\41\1\42\1\43\2\31\1\44\1\45"+
-    "\1\46\1\47\5\31\1\50\1\51\1\52\1\0\1\53"+
-    "\1\0\1\27\1\30\1\31\1\32\1\33\1\34\1\35"+
-    "\1\36\1\37\2\31\1\40\1\41\1\42\1\43\2\31"+
-    "\1\44\1\45\1\46\1\47\5\31\66\0\1\31\21\0"+
-    "\1\31\154\0\2\54\115\0\1\55\u0180\0";
+    "\11\0\1\1\1\2\1\0\1\1\1\3\22\0\1\1"+
+    "\1\0\1\4\1\0\1\5\3\0\1\6\1\7\1\10"+
+    "\1\11\1\12\1\13\1\14\1\15\1\16\1\17\1\20"+
+    "\7\16\1\21\1\22\1\23\1\24\1\25\2\0\1\26"+
+    "\1\27\1\30\1\31\1\32\1\33\1\34\1\35\1\36"+
+    "\2\30\1\37\1\40\1\41\1\42\2\30\1\43\1\44"+
+    "\1\45\1\46\5\30\1\47\1\50\1\51\1\0\1\52"+
+    "\1\0\1\26\1\27\1\30\1\31\1\32\1\33\1\34"+
+    "\1\35\1\36\2\30\1\37\1\40\1\41\1\42\2\30"+
+    "\1\43\1\44\1\45\1\46\5\30\66\0\1\30\21\0"+
+    "\1\30\154\0\2\53\115\0\1\54\u0180\0";
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[768];
@@ -111,24 +112,24 @@ public class HtmlLexer implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\6\0\1\1\2\2\1\3\1\4\1\5\1\6\1\7"+
+    "\7\0\1\1\2\2\1\3\1\4\1\5\1\6\1\7"+
     "\1\10\1\11\1\12\1\13\1\14\1\15\1\16\1\1"+
-    "\1\17\3\4\1\20\1\21\3\1\2\22\1\23\1\24"+
-    "\1\25\1\1\1\2\5\1\1\26\2\4\1\1\1\27"+
-    "\1\0\3\4\2\0\1\22\1\30\1\31\1\32\1\33"+
-    "\1\34\1\35\1\0\1\36\6\0\1\37\1\40\2\4"+
-    "\2\0\2\4\1\0\1\4\2\0\1\41\13\0\1\42"+
-    "\1\4\1\0\1\4\2\0\2\4\1\0\1\4\12\0"+
-    "\1\43\1\0\1\44\1\45\1\0\1\46\1\47\1\50"+
-    "\1\4\1\0\1\4\2\0\2\4\1\0\1\4\3\0"+
-    "\1\51\1\52\2\0\1\53\1\54\1\55\1\56\1\0"+
-    "\1\4\1\0\1\4\1\0\1\57\1\4\2\60\1\4"+
-    "\2\0\1\61\3\0\1\62\1\4\1\0\1\4\2\63"+
-    "\1\0\1\64\1\0\1\65\1\4\1\0\2\66\1\67"+
-    "\1\4\1\0\1\70";
+    "\1\17\3\4\1\20\1\21\3\1\1\22\1\23\1\22"+
+    "\1\24\1\25\1\26\1\27\1\1\2\2\5\1\1\30"+
+    "\2\4\1\1\1\31\1\0\3\4\2\0\1\32\1\33"+
+    "\1\34\1\35\1\36\1\0\1\37\6\0\1\40\1\41"+
+    "\2\4\2\0\2\4\1\0\1\4\2\0\1\42\13\0"+
+    "\1\43\1\4\1\0\1\4\2\0\2\4\1\0\1\4"+
+    "\12\0\1\44\1\0\1\45\1\46\1\0\1\47\1\50"+
+    "\1\51\1\4\1\0\1\4\2\0\2\4\1\0\1\4"+
+    "\3\0\1\52\1\53\2\0\1\54\1\55\1\56\1\57"+
+    "\1\0\1\4\1\0\1\4\1\0\1\60\1\4\2\61"+
+    "\1\4\2\0\1\62\3\0\1\63\1\4\1\0\1\4"+
+    "\2\64\1\0\1\65\1\0\1\66\1\4\1\0\2\67"+
+    "\1\70\1\4\1\0\1\71";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[175];
+    int [] result = new int[177];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -153,31 +154,32 @@ public class HtmlLexer implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\56\0\134\0\212\0\270\0\346\0\u0114\0\u0114"+
-    "\0\u0142\0\u0114\0\u0170\0\u0114\0\u0114\0\u0114\0\u0114\0\u0114"+
-    "\0\u0114\0\u0114\0\u0114\0\u019e\0\u0114\0\u01cc\0\u0114\0\u01fa"+
-    "\0\u0228\0\u0256\0\u0114\0\u0114\0\u0170\0\u0284\0\u02b2\0\u02e0"+
-    "\0\u030e\0\u033c\0\u0114\0\u036a\0\u0398\0\u0398\0\u03c6\0\u03f4"+
-    "\0\u0422\0\u0450\0\u047e\0\u0114\0\u04ac\0\u04da\0\u0508\0\u0114"+
-    "\0\u0536\0\u0564\0\u0592\0\u05c0\0\u05ee\0\u061c\0\u0114\0\u0114"+
-    "\0\u0114\0\u0114\0\u0114\0\u0114\0\u0398\0\u064a\0\u0678\0\u06a6"+
-    "\0\u06d4\0\u0702\0\u0730\0\u0422\0\u075e\0\u0114\0\u0114\0\u078c"+
-    "\0\u07ba\0\u07e8\0\u0816\0\u0844\0\u0872\0\u08a0\0\u08ce\0\u08fc"+
-    "\0\u092a\0\u0114\0\u0958\0\u0986\0\u09b4\0\u09e2\0\u0a10\0\u0a3e"+
-    "\0\u0a6c\0\u0a9a\0\u0ac8\0\u0af6\0\u0b24\0\u0114\0\u0b52\0\u0b80"+
-    "\0\u0bae\0\u0bdc\0\u0c0a\0\u0c38\0\u0c66\0\u0c94\0\u0cc2\0\u0cf0"+
-    "\0\u0d1e\0\u0d4c\0\u0d7a\0\u0da8\0\u0dd6\0\u0e04\0\u0e32\0\u0e60"+
-    "\0\u0e8e\0\u0114\0\u0ebc\0\u0114\0\u0114\0\u0eea\0\u0114\0\u0114"+
-    "\0\u0114\0\u0f18\0\u0f46\0\u0f74\0\u0fa2\0\u0fd0\0\u0ffe\0\u102c"+
-    "\0\u105a\0\u1088\0\u10b6\0\u10e4\0\u1112\0\u0114\0\u0114\0\u1140"+
-    "\0\u116e\0\u0114\0\u0114\0\u0114\0\u0ebc\0\u119c\0\u11ca\0\u11f8"+
-    "\0\u1226\0\u1254\0\u0114\0\u1282\0\u0170\0\u0114\0\u12b0\0\u12de"+
-    "\0\u130c\0\u0114\0\u133a\0\u1368\0\u1396\0\u0114\0\u13c4\0\u13f2"+
-    "\0\u1420\0\u0114\0\u144e\0\u147c\0\u0114\0\u14aa\0\u0114\0\u14d8"+
-    "\0\u1506\0\u0114\0\u1534\0\u0114\0\u1562\0\u1590\0\u0114";
+    "\0\0\0\55\0\132\0\207\0\264\0\341\0\u010e\0\u013b"+
+    "\0\u013b\0\u0168\0\u013b\0\u0195\0\u013b\0\u013b\0\u013b\0\u013b"+
+    "\0\u013b\0\u013b\0\u013b\0\u013b\0\u01c2\0\u013b\0\u01ef\0\u013b"+
+    "\0\u021c\0\u0249\0\u0276\0\u013b\0\u013b\0\u0195\0\u02a3\0\u02d0"+
+    "\0\u02fd\0\u013b\0\u013b\0\u013b\0\u032a\0\u013b\0\u0357\0\u0384"+
+    "\0\u03b1\0\u03de\0\u040b\0\u0438\0\u0465\0\u0492\0\u04bf\0\u013b"+
+    "\0\u04ec\0\u0519\0\u0546\0\u013b\0\u0573\0\u05a0\0\u05cd\0\u05fa"+
+    "\0\u0627\0\u0654\0\u013b\0\u013b\0\u013b\0\u013b\0\u0384\0\u0681"+
+    "\0\u06ae\0\u06db\0\u0708\0\u0735\0\u0762\0\u0465\0\u078f\0\u013b"+
+    "\0\u013b\0\u07bc\0\u07e9\0\u0816\0\u0843\0\u0870\0\u089d\0\u08ca"+
+    "\0\u08f7\0\u0924\0\u0951\0\u013b\0\u097e\0\u09ab\0\u09d8\0\u0a05"+
+    "\0\u0a32\0\u0a5f\0\u0a8c\0\u0ab9\0\u0ae6\0\u0b13\0\u0b40\0\u013b"+
+    "\0\u0b6d\0\u0b9a\0\u0bc7\0\u0bf4\0\u0c21\0\u0c4e\0\u0c7b\0\u0ca8"+
+    "\0\u0cd5\0\u0d02\0\u0d2f\0\u0d5c\0\u0d89\0\u0db6\0\u0de3\0\u0e10"+
+    "\0\u0e3d\0\u0e6a\0\u0e97\0\u013b\0\u0ec4\0\u013b\0\u013b\0\u0ef1"+
+    "\0\u013b\0\u013b\0\u013b\0\u0f1e\0\u0f4b\0\u0f78\0\u0fa5\0\u0fd2"+
+    "\0\u0fff\0\u102c\0\u1059\0\u1086\0\u10b3\0\u10e0\0\u110d\0\u013b"+
+    "\0\u013b\0\u113a\0\u1167\0\u013b\0\u013b\0\u013b\0\u0ec4\0\u1194"+
+    "\0\u11c1\0\u11ee\0\u121b\0\u1248\0\u013b\0\u1275\0\u0195\0\u013b"+
+    "\0\u12a2\0\u12cf\0\u12fc\0\u013b\0\u1329\0\u1356\0\u1383\0\u013b"+
+    "\0\u13b0\0\u13dd\0\u140a\0\u013b\0\u1437\0\u1464\0\u013b\0\u1491"+
+    "\0\u013b\0\u14be\0\u14eb\0\u013b\0\u1518\0\u013b\0\u1545\0\u1572"+
+    "\0\u013b";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[175];
+    int [] result = new int[177];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -200,91 +202,92 @@ public class HtmlLexer implements java_cup.runtime.Scanner {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\7\3\10\1\11\1\12\1\13\1\14\1\15\1\16"+
-    "\1\17\1\20\1\21\1\22\1\23\3\24\1\7\1\25"+
-    "\1\26\1\27\1\7\10\13\1\30\4\13\1\31\1\32"+
-    "\2\13\1\33\1\7\1\34\1\35\1\36\1\37\16\40"+
-    "\1\41\37\40\2\42\1\7\1\42\1\7\1\43\43\42"+
-    "\1\44\4\42\1\45\2\10\1\46\1\11\1\45\1\47"+
-    "\7\45\1\7\5\45\1\50\1\45\1\7\27\45\1\7"+
-    "\3\10\1\11\1\7\1\13\1\7\1\51\4\7\1\22"+
-    "\1\7\3\24\2\7\1\52\2\7\15\13\1\31\3\13"+
-    "\1\33\1\7\1\34\1\35\3\7\3\10\1\11\1\7"+
-    "\1\13\6\7\1\22\1\7\3\24\1\7\1\25\1\53"+
-    "\1\7\1\54\7\13\1\55\1\56\4\13\1\31\3\13"+
-    "\1\33\1\7\1\34\1\35\1\57\1\7\60\0\1\10"+
-    "\61\0\1\13\10\0\3\13\5\0\21\13\3\0\1\13"+
-    "\21\0\3\24\52\0\1\60\17\0\1\61\25\0\1\13"+
-    "\10\0\3\13\5\0\13\13\1\62\5\13\3\0\1\13"+
-    "\10\0\1\13\10\0\3\13\5\0\4\13\1\63\14\13"+
-    "\3\0\1\13\10\0\1\13\10\0\3\13\5\0\17\13"+
-    "\1\64\1\13\3\0\1\13\44\0\1\65\61\0\1\66"+
-    "\35\0\1\67\27\0\26\67\1\70\27\67\2\42\1\0"+
-    "\1\42\2\0\43\42\1\0\4\42\5\0\1\71\34\0"+
-    "\1\72\1\0\1\73\1\0\1\74\7\0\6\75\1\0"+
-    "\7\75\1\0\5\75\1\0\1\75\1\0\27\75\6\0"+
-    "\1\76\65\0\1\77\11\0\1\100\3\0\1\101\1\0"+
-    "\1\102\7\0\1\103\10\0\4\104\1\0\1\105\65\0"+
-    "\1\106\55\0\1\107\45\0\1\13\10\0\3\13\5\0"+
-    "\1\110\20\13\3\0\1\13\10\0\1\13\10\0\3\13"+
-    "\5\0\17\13\1\111\1\13\3\0\1\13\50\0\1\112"+
-    "\55\0\1\113\15\0\1\13\10\0\3\13\5\0\17\13"+
-    "\1\114\1\13\3\0\1\13\10\0\1\13\10\0\3\13"+
-    "\5\0\16\13\1\115\2\13\3\0\1\13\1\0\1\116"+
-    "\6\0\1\13\10\0\3\13\5\0\15\13\1\117\3\13"+
-    "\3\0\1\13\50\0\1\120\53\0\1\121\12\0\4\76"+
-    "\2\0\1\122\102\0\1\123\1\0\1\124\7\0\1\125"+
-    "\53\0\1\126\54\0\1\127\32\0\1\130\1\131\63\0"+
-    "\1\132\2\0\1\133\3\0\1\134\5\0\1\135\17\0"+
-    "\1\136\55\0\1\13\10\0\3\13\5\0\16\13\1\137"+
-    "\2\13\3\0\1\13\1\0\1\140\6\0\1\13\10\0"+
-    "\3\13\5\0\4\13\1\141\14\13\3\0\1\13\35\0"+
-    "\1\142\63\0\1\143\22\0\1\13\10\0\3\13\5\0"+
-    "\4\13\1\144\14\13\3\0\1\13\10\0\1\13\10\0"+
-    "\3\13\5\0\20\13\1\145\3\0\1\13\51\0\1\146"+
-    "\14\0\1\13\10\0\3\13\5\0\10\13\1\147\10\13"+
-    "\3\0\1\13\1\150\34\0\1\151\61\0\1\150\14\0"+
-    "\1\150\44\0\1\152\32\0\1\153\1\154\24\0\1\155"+
-    "\36\0\1\156\2\0\1\157\3\0\1\160\5\0\1\161"+
-    "\37\0\1\162\73\0\1\163\37\0\1\164\55\0\1\165"+
-    "\57\0\1\166\53\0\1\167\55\0\1\170\55\0\1\171"+
-    "\35\0\1\13\10\0\3\13\5\0\17\13\1\172\1\13"+
-    "\3\0\1\13\50\0\1\173\15\0\1\13\10\0\3\13"+
-    "\5\0\15\13\1\174\3\13\3\0\1\13\46\0\1\175"+
-    "\51\0\1\176\23\0\1\13\10\0\3\13\5\0\6\13"+
-    "\1\177\12\13\3\0\1\13\10\0\1\13\10\0\3\13"+
-    "\5\0\11\13\1\200\7\13\3\0\1\13\42\0\1\201"+
-    "\23\0\1\13\10\0\3\13\5\0\13\13\1\202\5\13"+
-    "\3\0\1\13\44\0\1\203\50\0\1\204\64\0\1\205"+
-    "\37\0\1\206\55\0\1\207\70\0\1\210\44\0\1\211"+
-    "\53\0\1\212\55\0\1\213\55\0\1\214\30\0\4\215"+
-    "\111\0\1\216\23\0\1\13\10\0\3\13\5\0\1\217"+
-    "\20\13\3\0\1\13\31\0\1\220\34\0\1\13\10\0"+
-    "\3\13\5\0\1\221\20\13\3\0\1\13\31\0\1\222"+
-    "\54\0\1\223\35\0\1\13\10\0\3\13\5\0\4\13"+
-    "\1\224\14\13\3\0\1\13\10\0\1\13\10\0\3\13"+
-    "\5\0\17\13\1\225\1\13\3\0\1\13\50\0\1\226"+
-    "\15\0\1\13\10\0\3\13\5\0\6\13\1\227\12\13"+
-    "\3\0\1\13\37\0\1\230\53\0\1\231\50\0\1\232"+
-    "\67\0\1\233\55\0\1\234\50\0\1\235\23\0\4\220"+
-    "\1\0\1\13\10\0\3\13\1\236\4\0\21\13\3\0"+
-    "\1\13\3\0\4\220\15\0\1\236\41\0\1\13\10\0"+
-    "\3\13\5\0\3\13\1\237\15\13\3\0\1\13\34\0"+
-    "\1\240\31\0\1\13\10\0\3\13\5\0\15\13\1\241"+
-    "\3\13\3\0\1\13\3\0\3\242\1\243\1\0\1\13"+
-    "\10\0\3\13\5\0\21\13\3\0\1\13\3\0\3\242"+
-    "\1\243\115\0\1\244\37\0\1\245\62\0\1\246\50\0"+
-    "\1\247\35\0\1\13\10\0\3\13\5\0\14\13\1\250"+
-    "\4\13\3\0\1\13\45\0\1\251\13\0\3\252\1\253"+
-    "\1\0\1\13\10\0\3\13\5\0\21\13\3\0\1\13"+
-    "\4\0\1\242\54\0\3\252\1\253\77\0\1\254\35\0"+
-    "\1\13\10\0\3\13\5\0\15\13\1\255\3\13\3\0"+
-    "\1\13\46\0\1\256\13\0\1\252\54\0\4\256\1\0"+
-    "\1\13\10\0\3\13\1\257\4\0\21\13\3\0\1\13"+
-    "\3\0\4\256\15\0\1\257\33\0";
+    "\1\10\2\11\1\12\1\13\1\14\1\15\1\16\1\17"+
+    "\1\20\1\21\1\22\1\23\1\24\3\25\1\10\1\26"+
+    "\1\27\1\30\1\10\10\14\1\31\4\14\1\32\1\33"+
+    "\2\14\1\34\1\10\1\35\1\36\1\37\1\40\15\41"+
+    "\1\42\37\41\15\42\1\43\7\42\1\44\27\42\2\45"+
+    "\2\10\1\46\43\45\1\47\4\45\1\50\1\51\2\52"+
+    "\1\50\1\53\15\50\1\54\31\50\1\10\2\11\1\12"+
+    "\1\10\1\14\1\10\1\55\4\10\1\23\1\10\3\25"+
+    "\2\10\1\56\2\10\15\14\1\32\3\14\1\34\1\10"+
+    "\1\35\1\36\3\10\2\11\1\12\1\10\1\14\6\10"+
+    "\1\23\1\10\3\25\1\10\1\26\1\57\1\10\1\60"+
+    "\7\14\1\61\1\62\4\14\1\32\3\14\1\34\1\10"+
+    "\1\35\1\36\1\63\1\10\57\0\1\11\57\0\1\14"+
+    "\10\0\3\14\5\0\21\14\3\0\1\14\20\0\3\25"+
+    "\51\0\1\64\17\0\1\65\24\0\1\14\10\0\3\14"+
+    "\5\0\13\14\1\66\5\14\3\0\1\14\7\0\1\14"+
+    "\10\0\3\14\5\0\4\14\1\67\14\14\3\0\1\14"+
+    "\7\0\1\14\10\0\3\14\5\0\17\14\1\70\1\14"+
+    "\3\0\1\14\43\0\1\71\60\0\1\72\7\0\15\41"+
+    "\1\0\37\41\2\45\3\0\43\45\1\0\4\45\4\0"+
+    "\1\73\34\0\1\74\1\0\1\75\1\0\1\76\7\0"+
+    "\2\77\2\0\1\77\1\0\7\77\1\0\5\77\1\0"+
+    "\32\77\1\51\2\52\1\77\1\0\7\77\1\0\5\77"+
+    "\1\0\31\77\1\0\3\52\56\0\1\100\64\0\1\101"+
+    "\11\0\1\102\3\0\1\103\1\0\1\104\7\0\1\105"+
+    "\10\0\3\106\1\0\1\107\64\0\1\110\54\0\1\111"+
+    "\44\0\1\14\10\0\3\14\5\0\1\112\20\14\3\0"+
+    "\1\14\7\0\1\14\10\0\3\14\5\0\17\14\1\113"+
+    "\1\14\3\0\1\14\47\0\1\114\54\0\1\115\14\0"+
+    "\1\14\10\0\3\14\5\0\17\14\1\116\1\14\3\0"+
+    "\1\14\7\0\1\14\10\0\3\14\5\0\16\14\1\117"+
+    "\2\14\3\0\1\14\1\0\1\120\5\0\1\14\10\0"+
+    "\3\14\5\0\15\14\1\121\3\14\3\0\1\14\47\0"+
+    "\1\122\52\0\1\123\12\0\3\100\2\0\1\124\101\0"+
+    "\1\125\1\0\1\126\7\0\1\127\52\0\1\130\53\0"+
+    "\1\131\31\0\1\132\1\133\62\0\1\134\2\0\1\135"+
+    "\3\0\1\136\5\0\1\137\16\0\1\140\54\0\1\14"+
+    "\10\0\3\14\5\0\16\14\1\141\2\14\3\0\1\14"+
+    "\1\0\1\142\5\0\1\14\10\0\3\14\5\0\4\14"+
+    "\1\143\14\14\3\0\1\14\34\0\1\144\62\0\1\145"+
+    "\21\0\1\14\10\0\3\14\5\0\4\14\1\146\14\14"+
+    "\3\0\1\14\7\0\1\14\10\0\3\14\5\0\20\14"+
+    "\1\147\3\0\1\14\50\0\1\150\13\0\1\14\10\0"+
+    "\3\14\5\0\10\14\1\151\10\14\3\0\1\14\1\152"+
+    "\33\0\1\153\60\0\1\152\14\0\1\152\43\0\1\154"+
+    "\31\0\1\155\1\156\24\0\1\157\35\0\1\160\2\0"+
+    "\1\161\3\0\1\162\5\0\1\163\36\0\1\164\72\0"+
+    "\1\165\36\0\1\166\54\0\1\167\56\0\1\170\52\0"+
+    "\1\171\54\0\1\172\54\0\1\173\34\0\1\14\10\0"+
+    "\3\14\5\0\17\14\1\174\1\14\3\0\1\14\47\0"+
+    "\1\175\14\0\1\14\10\0\3\14\5\0\15\14\1\176"+
+    "\3\14\3\0\1\14\45\0\1\177\50\0\1\200\22\0"+
+    "\1\14\10\0\3\14\5\0\6\14\1\201\12\14\3\0"+
+    "\1\14\7\0\1\14\10\0\3\14\5\0\11\14\1\202"+
+    "\7\14\3\0\1\14\41\0\1\203\22\0\1\14\10\0"+
+    "\3\14\5\0\13\14\1\204\5\14\3\0\1\14\43\0"+
+    "\1\205\47\0\1\206\63\0\1\207\36\0\1\210\54\0"+
+    "\1\211\67\0\1\212\43\0\1\213\52\0\1\214\54\0"+
+    "\1\215\54\0\1\216\30\0\3\217\110\0\1\220\22\0"+
+    "\1\14\10\0\3\14\5\0\1\221\20\14\3\0\1\14"+
+    "\30\0\1\222\33\0\1\14\10\0\3\14\5\0\1\223"+
+    "\20\14\3\0\1\14\30\0\1\224\53\0\1\225\34\0"+
+    "\1\14\10\0\3\14\5\0\4\14\1\226\14\14\3\0"+
+    "\1\14\7\0\1\14\10\0\3\14\5\0\17\14\1\227"+
+    "\1\14\3\0\1\14\47\0\1\230\14\0\1\14\10\0"+
+    "\3\14\5\0\6\14\1\231\12\14\3\0\1\14\36\0"+
+    "\1\232\52\0\1\233\47\0\1\234\66\0\1\235\54\0"+
+    "\1\236\47\0\1\237\23\0\3\222\1\0\1\14\10\0"+
+    "\3\14\1\240\4\0\21\14\3\0\1\14\3\0\3\222"+
+    "\15\0\1\240\40\0\1\14\10\0\3\14\5\0\3\14"+
+    "\1\241\15\14\3\0\1\14\33\0\1\242\30\0\1\14"+
+    "\10\0\3\14\5\0\15\14\1\243\3\14\3\0\1\14"+
+    "\3\0\2\244\1\245\1\0\1\14\10\0\3\14\5\0"+
+    "\21\14\3\0\1\14\3\0\2\244\1\245\114\0\1\246"+
+    "\36\0\1\247\61\0\1\250\47\0\1\251\34\0\1\14"+
+    "\10\0\3\14\5\0\14\14\1\252\4\14\3\0\1\14"+
+    "\44\0\1\253\13\0\2\254\1\255\1\0\1\14\10\0"+
+    "\3\14\5\0\21\14\3\0\1\14\4\0\1\244\53\0"+
+    "\2\254\1\255\76\0\1\256\34\0\1\14\10\0\3\14"+
+    "\5\0\15\14\1\257\3\14\3\0\1\14\45\0\1\260"+
+    "\13\0\1\254\53\0\3\260\1\0\1\14\10\0\3\14"+
+    "\1\261\4\0\21\14\3\0\1\14\3\0\3\260\15\0"+
+    "\1\261\33\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[5566];
+    int [] result = new int[5535];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -327,21 +330,21 @@ public class HtmlLexer implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\6\0\2\11\1\1\1\11\1\1\10\11\1\1\1\11"+
-    "\1\1\1\11\3\1\2\11\6\1\1\11\10\1\1\11"+
-    "\3\1\1\11\1\0\3\1\2\0\6\11\1\1\1\0"+
-    "\1\1\6\0\2\11\2\1\2\0\2\1\1\0\1\1"+
-    "\2\0\1\11\13\0\1\11\1\1\1\0\1\1\2\0"+
-    "\2\1\1\0\1\1\12\0\1\11\1\0\2\11\1\0"+
-    "\3\11\1\1\1\0\1\1\2\0\2\1\1\0\1\1"+
-    "\3\0\2\11\2\0\3\11\1\1\1\0\1\1\1\0"+
-    "\1\1\1\0\1\11\2\1\1\11\1\1\2\0\1\11"+
-    "\3\0\1\11\1\1\1\0\1\1\1\11\1\1\1\0"+
-    "\1\11\1\0\1\11\1\1\1\0\1\11\1\1\1\11"+
-    "\1\1\1\0\1\11";
+    "\7\0\2\11\1\1\1\11\1\1\10\11\1\1\1\11"+
+    "\1\1\1\11\3\1\2\11\4\1\3\11\1\1\1\11"+
+    "\11\1\1\11\3\1\1\11\1\0\3\1\2\0\4\11"+
+    "\1\1\1\0\1\1\6\0\2\11\2\1\2\0\2\1"+
+    "\1\0\1\1\2\0\1\11\13\0\1\11\1\1\1\0"+
+    "\1\1\2\0\2\1\1\0\1\1\12\0\1\11\1\0"+
+    "\2\11\1\0\3\11\1\1\1\0\1\1\2\0\2\1"+
+    "\1\0\1\1\3\0\2\11\2\0\3\11\1\1\1\0"+
+    "\1\1\1\0\1\1\1\0\1\11\2\1\1\11\1\1"+
+    "\2\0\1\11\3\0\1\11\1\1\1\0\1\1\1\11"+
+    "\1\1\1\0\1\11\1\0\1\11\1\1\1\0\1\11"+
+    "\1\1\1\11\1\1\1\0\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[175];
+    int [] result = new int[177];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -853,282 +856,287 @@ public class HtmlLexer implements java_cup.runtime.Scanner {
             { error.append(yytext());
             }
             // fall through
-          case 57: break;
+          case 58: break;
           case 2:
             { addError();
             }
             // fall through
-          case 58: break;
+          case 59: break;
           case 3:
             { addError(); string.setLength(0); yybegin(LITERAL);
             }
             // fall through
-          case 59: break;
+          case 60: break;
           case 4:
             { return symbol(Tokens.ID, yytext());
             }
             // fall through
-          case 60: break;
+          case 61: break;
           case 5:
             { return symbol(Tokens.PAR_IZQ);
             }
             // fall through
-          case 61: break;
+          case 62: break;
           case 6:
             { return symbol(Tokens.PAR_DER);
             }
             // fall through
-          case 62: break;
+          case 63: break;
           case 7:
             { return symbol(Tokens.POR);
             }
             // fall through
-          case 63: break;
+          case 64: break;
           case 8:
             { return symbol(Tokens.MAS);
             }
             // fall through
-          case 64: break;
+          case 65: break;
           case 9:
             { return symbol(Tokens.COMA);
             }
             // fall through
-          case 65: break;
+          case 66: break;
           case 10:
             { return symbol(Tokens.MENOS);
             }
             // fall through
-          case 66: break;
+          case 67: break;
           case 11:
             { return symbol(Tokens.PUNTO);
             }
             // fall through
-          case 67: break;
+          case 68: break;
           case 12:
             { return symbol(Tokens.DIV);
             }
             // fall through
-          case 68: break;
+          case 69: break;
           case 13:
             { return symbol(Tokens.INT, Integer.parseInt(yytext()));
             }
             // fall through
-          case 69: break;
+          case 70: break;
           case 14:
             { return symbol(Tokens.SEPARADOR);
             }
             // fall through
-          case 70: break;
+          case 71: break;
           case 15:
             { return symbol(Tokens.IGUAL);
             }
             // fall through
-          case 71: break;
+          case 72: break;
           case 16:
             { return symbol(Tokens.COR_IZQ);
             }
             // fall through
-          case 72: break;
+          case 73: break;
           case 17:
             { return symbol(Tokens.COR_DER);
             }
             // fall through
-          case 73: break;
+          case 74: break;
           case 18:
             { /* skip */
             }
             // fall through
-          case 74: break;
-          case 19:
-            { string.append(yytext());
-            }
-            // fall through
           case 75: break;
-          case 20:
-            { yybegin(YYINITIAL); return symbol(Tokens.LITERAL, string.toString());
+          case 19:
+            { yybegin(COMMENT_OUT);
             }
             // fall through
           case 76: break;
-          case 21:
-            { string.append('\\');
-            }
-            // fall through
-          case 77: break;
-          case 22:
-            { yybegin(TAGS); return symbol(Tokens.TAG_FOR);
-            }
-            // fall through
-          case 78: break;
-          case 23:
-            { addError(); stateToReturn = YYINITIAL; yybegin(COMMENT);
-            }
-            // fall through
-          case 79: break;
-          case 24:
+          case 20:
             { yybegin(stateToReturn);
             }
             // fall through
+          case 77: break;
+          case 21:
+            { string.append(yytext());
+            }
+            // fall through
+          case 78: break;
+          case 22:
+            { yybegin(YYINITIAL); return symbol(Tokens.LITERAL, string.toString());
+            }
+            // fall through
+          case 79: break;
+          case 23:
+            { string.append('\\');
+            }
+            // fall through
           case 80: break;
-          case 25:
-            { string.append('\"');
+          case 24:
+            { yybegin(TAGS); return symbol(Tokens.TAG_FOR);
             }
             // fall through
           case 81: break;
-          case 26:
-            { string.append('\n');
+          case 25:
+            { addError(); stateToReturn = YYINITIAL; yybegin(COMMENT);
             }
             // fall through
           case 82: break;
-          case 27:
-            { string.append('\r');
+          case 26:
+            { string.append('\"');
             }
             // fall through
           case 83: break;
-          case 28:
-            { string.append('\t');
+          case 27:
+            { string.append('\n');
             }
             // fall through
           case 84: break;
-          case 29:
-            { return symbol(Tokens.TEXT, yytext());
+          case 28:
+            { string.append('\r');
             }
             // fall through
           case 85: break;
-          case 30:
-            { addError(); stateToReturn = TAGS; yybegin(COMMENT);
+          case 29:
+            { string.append('\t');
             }
             // fall through
           case 86: break;
-          case 31:
-            { addError(); stateToReturn = VARIABLE; yybegin(COMMENT);
+          case 30:
+            { return symbol(Tokens.TEXT, yytext());
             }
             // fall through
           case 87: break;
-          case 32:
-            { addError(); stateToReturn = FOR; yybegin(COMMENT);
+          case 31:
+            { addError(); stateToReturn = TAGS; yybegin(COMMENT);
             }
             // fall through
           case 88: break;
-          case 33:
-            { addError(); yybegin(VARIABLE);
+          case 32:
+            { addError(); stateToReturn = VARIABLE; yybegin(COMMENT);
             }
             // fall through
           case 89: break;
-          case 34:
-            { addError(); yybegin(TAGS);
+          case 33:
+            { addError(); stateToReturn = FOR; yybegin(COMMENT);
             }
             // fall through
           case 90: break;
-          case 35:
-            { return symbol(Tokens.BR);
+          case 34:
+            { addError(); yybegin(VARIABLE);
             }
             // fall through
           case 91: break;
-          case 36:
-            { return symbol(Tokens.H1_B);
+          case 35:
+            { addError(); yybegin(TAGS);
             }
             // fall through
           case 92: break;
-          case 37:
-            { return symbol(Tokens.H2_B);
+          case 36:
+            { return symbol(Tokens.BR);
             }
             // fall through
           case 93: break;
-          case 38:
-            { return symbol(Tokens.TD_B);
+          case 37:
+            { return symbol(Tokens.H1_B);
             }
             // fall through
           case 94: break;
-          case 39:
-            { return symbol(Tokens.TH_B);
+          case 38:
+            { return symbol(Tokens.H2_B);
             }
             // fall through
           case 95: break;
-          case 40:
-            { return symbol(Tokens.TR_B);
+          case 39:
+            { return symbol(Tokens.TD_B);
             }
             // fall through
           case 96: break;
-          case 41:
-            { return symbol(Tokens.H1_E);
+          case 40:
+            { return symbol(Tokens.TH_B);
             }
             // fall through
           case 97: break;
-          case 42:
-            { return symbol(Tokens.H2_E);
+          case 41:
+            { return symbol(Tokens.TR_B);
             }
             // fall through
           case 98: break;
-          case 43:
-            { return symbol(Tokens.TD_E);
+          case 42:
+            { return symbol(Tokens.H1_E);
             }
             // fall through
           case 99: break;
-          case 44:
-            { return symbol(Tokens.TH_E);
+          case 43:
+            { return symbol(Tokens.H2_E);
             }
             // fall through
           case 100: break;
-          case 45:
-            { return symbol(Tokens.TR_E);
+          case 44:
+            { return symbol(Tokens.TD_E);
             }
             // fall through
           case 101: break;
-          case 46:
-            { yybegin(FOR); return symbol(Tokens.FOR_B);
+          case 45:
+            { return symbol(Tokens.TH_E);
             }
             // fall through
           case 102: break;
-          case 47:
-            { string.setLength(0); yybegin(TAGS); return symbol(Tokens.HTML_B);
+          case 46:
+            { return symbol(Tokens.TR_E);
             }
             // fall through
           case 103: break;
-          case 48:
-            { return symbol(Tokens.RESULT);
+          case 47:
+            { yybegin(FOR); return symbol(Tokens.FOR_B);
             }
             // fall through
           case 104: break;
-          case 49:
-            { return symbol(Tokens.FOR_E);
+          case 48:
+            { string.setLength(0); yybegin(TAGS); return symbol(Tokens.HTML_B);
             }
             // fall through
           case 105: break;
-          case 50:
-            { return symbol(Tokens.HASTA);
+          case 49:
+            { return symbol(Tokens.RESULT);
             }
             // fall through
           case 106: break;
-          case 51:
-            { return symbol(Tokens.STRING);
+          case 50:
+            { return symbol(Tokens.FOR_E);
             }
             // fall through
           case 107: break;
-          case 52:
-            { return symbol(Tokens.HTML_E);
+          case 51:
+            { return symbol(Tokens.HASTA);
             }
             // fall through
           case 108: break;
-          case 53:
-            { return symbol(Tokens.TABLE_B);
+          case 52:
+            { return symbol(Tokens.STRING);
             }
             // fall through
           case 109: break;
-          case 54:
-            { return symbol(Tokens.INTEGER);
+          case 53:
+            { return symbol(Tokens.HTML_E);
             }
             // fall through
           case 110: break;
-          case 55:
-            { return symbol(Tokens.TABLE_E);
+          case 54:
+            { return symbol(Tokens.TABLE_B);
             }
             // fall through
           case 111: break;
-          case 56:
-            { return symbol(Tokens.ITERADOR);
+          case 55:
+            { return symbol(Tokens.INTEGER);
             }
             // fall through
           case 112: break;
+          case 56:
+            { return symbol(Tokens.TABLE_E);
+            }
+            // fall through
+          case 113: break;
+          case 57:
+            { return symbol(Tokens.ITERADOR);
+            }
+            // fall through
+          case 114: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

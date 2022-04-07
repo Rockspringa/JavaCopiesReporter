@@ -2,6 +2,7 @@ package edu.mooncoder.rml.controllers.builders;
 
 import edu.mooncoder.rml.exceptions.syntactical.NullTagException;
 import edu.mooncoder.rml.exceptions.syntactical.TagNotAllowedException;
+import edu.mooncoder.rml.model.contracts.Action;
 import edu.mooncoder.rml.model.contracts.Tag;
 import edu.mooncoder.rml.model.tags.Cell;
 import edu.mooncoder.rml.model.tags.Document;
@@ -13,10 +14,10 @@ import java.util.List;
 public class HtmlBuilder {
     private static HtmlBuilder inst;
 
-    private final List<Tag> tagsToRepeat = new ArrayList<>();
+    private final List<List<Tag>> tagsToRepeat = new ArrayList<>();
     private final List<Tag> tagsBattery = new ArrayList<>();
 
-    private boolean repeat = false;
+    private int level = -1;
 
     private HtmlBuilder() {
     }
@@ -30,8 +31,14 @@ public class HtmlBuilder {
         inst = null;
     }
 
-    public static void toggleRepeat() {
-        getInst().repeat = !inst.repeat;
+    public void increaseForLevel() {
+        tagsToRepeat.add(new ArrayList<>());
+        level++;
+    }
+
+    public void decreaseForLevel() {
+        tagsToRepeat.remove(level);
+        level--;
     }
 
     public void addTag(Tag tag, int line, int column) {
@@ -44,25 +51,30 @@ public class HtmlBuilder {
         }
     }
 
+    public void addMultiTag(Action[] tags) {
+        for (Tag tag : tags) {
+            add(tag);
+        }
+    }
+
     public void clear() {
-        if (repeat) {
-            tagsToRepeat.clear();
-            toggleRepeat();
-            TableBuilder.deactivateRepeat();
+        if (level > -1) {
+            decreaseForLevel();
+            TableBuilder.getInst().decreaseForLevel();
         } else {
             tagsBattery.clear();
         }
     }
 
     public Tag[] getTags() {
-        Tag[] tags = ((repeat) ? tagsToRepeat : tagsBattery).toArray(new Tag[0]);
+        Tag[] tags = ((level > -1) ? tagsToRepeat.get(level) : tagsBattery).toArray(new Tag[0]);
 
         clear();
         return tags;
     }
 
     private void add(Tag tag) {
-        if (repeat) tagsToRepeat.add(tag);
+        if (level > -1) tagsToRepeat.get(level).add(tag);
         else tagsBattery.add(tag);
     }
 }

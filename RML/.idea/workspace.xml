@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2ecbdbef-15d1-4351-9b8f-9c604188f900" name="Changes" comment="" />
+    <list default="true" id="2ecbdbef-15d1-4351-9b8f-9c604188f900" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -137,6 +139,9 @@
       <workItem from="1649225403142" duration="54000" />
       <workItem from="1649297390676" duration="4107000" />
       <workItem from="1649302214298" duration="1628000" />
+      <workItem from="1649309161087" duration="9000" />
+      <workItem from="1649350093405" duration="7831000" />
+      <workItem from="1649358295539" duration="1215000" />
     </task>
     <servers />
   </component>
@@ -145,6 +150,16 @@
   </component>
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.def" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -163,30 +178,15 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/analyzer/syntax/HtmlParser.java</url>
-          <line>1430</line>
-          <option name="timeStamp" value="3" />
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/builders/TableBuilder.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/analyzer/syntax/HtmlParser.java</url>
-          <line>1434</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/analyzer/syntax/HtmlParser.java</url>
-          <line>1454</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/analyzer/syntax/HtmlParser.java</url>
-          <line>1458</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/analyzer/syntax/HtmlParser.java</url>
-          <line>714</line>
-          <option name="timeStamp" value="10" />
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/edu/mooncoder/rml/controllers/builders/TableBuilder.java</url>
+          <line>49</line>
+          <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

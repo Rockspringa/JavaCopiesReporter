@@ -56,6 +56,7 @@ Int = [0-9]+
 Id = [ña-zA-Z$_] [ña-zA-Z_$0-9]+ | [ña-zA-Z$] [ña-zA-Z_$0-9]*
 
 %state COMMENT
+%state COMMENT_OUT
 %state LITERAL
 %state TAGS
 %state VARIABLE
@@ -105,10 +106,14 @@ Id = [ña-zA-Z$_] [ña-zA-Z_$0-9]+ | [ña-zA-Z$] [ña-zA-Z_$0-9]*
 }
 
 <COMMENT> {
-  "/>"                           { yybegin(stateToReturn); }
-  [^/>] |
-  "/" [^>]? |
-  [^/]? ">"                      { /* skip */ }
+  [^/]+                          { /* skip */ }
+  "/"                            { yybegin(COMMENT_OUT); }
+}
+
+<COMMENT_OUT> {
+  [^/>]                          { yybegin(COMMENT_OUT); }
+  "/"                            { /* skip */ }
+  ">"                            { yybegin(stateToReturn); }
 }
 
 <LITERAL> {
@@ -148,10 +153,10 @@ Id = [ña-zA-Z$_] [ña-zA-Z_$0-9]+ | [ña-zA-Z$] [ña-zA-Z_$0-9]*
 }
 
 <TAGS> {
-  {Spaces}                       { addError(); }
+  {Spaces}+                      { addError(); }
   {Comments}                     { addError(); stateToReturn = TAGS; yybegin(COMMENT); }
   "$$" {Spaces}* "("             { addError(); yybegin(VARIABLE); }
-  [^ \n\r\t</>$] [^</>$]+        { return symbol(Tokens.TEXT, yytext()); }
+  [^\n\r<$] [^\n\r</$]+          { return symbol(Tokens.TEXT, yytext()); }
 }
 
 <VARIABLE> {

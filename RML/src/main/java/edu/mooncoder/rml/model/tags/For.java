@@ -10,12 +10,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public record For(Tag[] tags, Action beginAction, Action endAction) implements Tag {
+public record For(Tag[] tags, VariableAction beginAction, VariableAction endAction) implements Tag {
     private Table getFormattedTable(Table table) {
         List<Row> rows = new ArrayList<>();
         for (Tag rowTag : table.rows()) {
-            if (rowTag instanceof Row row)
-                rows.add(getFormattedRow(row));
+            if (rowTag instanceof Row row) rows.add(getFormattedRow(row));
             else if (rowTag instanceof For forTag)
                 rows.addAll(Arrays.stream(forTag.tags()).map(row -> (Row) row).toList());
         }
@@ -25,8 +24,7 @@ public record For(Tag[] tags, Action beginAction, Action endAction) implements T
     private Row getFormattedRow(Row row) {
         List<Cell> cells = new ArrayList<>();
         for (Tag cellTag : row.cells()) {
-            if (cellTag instanceof Cell cell)
-                cells.add(getFormattedCell(cell));
+            if (cellTag instanceof Cell cell) cells.add(getFormattedCell(cell));
             else if (cellTag instanceof For forTag)
                 cells.addAll(Arrays.stream(forTag.tags()).map(cell -> (Cell) cell).toList());
         }
@@ -41,6 +39,14 @@ public record For(Tag[] tags, Action beginAction, Action endAction) implements T
         return new Cell(constants.toArray(new ConstantAction[0]), cell.title());
     }
 
+    private For getFormattedFor(For forTag) {
+        List<Tag> tags = new ArrayList<>();
+        for (Tag tag : forTag.tags()) {
+            tags.add(getFormattedTag(tag));
+        }
+        return new For(tags.toArray(new Tag[0]), forTag.beginAction(), forTag.endAction());
+    }
+
     private Tag getFormattedTag(Tag tag) {
         if (tag instanceof Cell cell) {
             return getFormattedCell(cell);
@@ -49,11 +55,13 @@ public record For(Tag[] tags, Action beginAction, Action endAction) implements T
             for (Action action : heading.actions()) {
                 constants.add(new ConstantAction(action.get()));
             }
-            return new Cell(constants.toArray(new ConstantAction[0]), heading.big());
+            return new Heading(constants.toArray(new ConstantAction[0]), heading.big());
         } else if (tag instanceof Row row) {
             return getFormattedRow(row);
         } else if (tag instanceof Table table) {
             return getFormattedTable(table);
+        } else if (tag instanceof For forTag) {
+            return getFormattedFor(forTag);
         }
         return tag;
     }
@@ -64,9 +72,7 @@ public record For(Tag[] tags, Action beginAction, Action endAction) implements T
 
         while ((int) beginAction.get() <= (int) endAction.get()) {
             listTags.addAll(Arrays.stream(tags).map(this::getFormattedTag).toList());
-            if (beginAction instanceof VariableAction var) {
-                SymbolsTable.getInst().addOneTo(var.name());
-            }
+            SymbolsTable.getInst().addOneTo(beginAction().name());
         }
 
         return listTags.toArray(new Tag[0]);
@@ -82,7 +88,13 @@ public record For(Tag[] tags, Action beginAction, Action endAction) implements T
         StringBuilder builder = new StringBuilder();
 
         for (Tag tag : tags()) {
-            builder.append(tag.getHtmlString());
+            if (tag instanceof For forTag) {
+                for (Tag innerTag : forTag.tags) {
+                    builder.append(innerTag.getHtmlString());
+                }
+            } else {
+                builder.append(tag.getHtmlString());
+            }
         }
 
         return builder.toString();
