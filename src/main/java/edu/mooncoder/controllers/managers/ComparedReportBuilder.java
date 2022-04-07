@@ -189,21 +189,6 @@ public class ComparedReportBuilder {
         table.put("Clases", repeatedList);
     }
 
-    private void setErrors(List<Map<String, Object>> errores) {
-        for (Error error : ErrorsHolder.clean()) {
-            Map<String, Object> errorMap = new HashMap<>();
-
-            errorMap.put("Projecto", error.project());
-            errorMap.put("Archivo", error.filename());
-            errorMap.put("Columna", error.column());
-            errorMap.put("Mensage", error.message());
-            errorMap.put("Linea", error.line());
-            errorMap.put("Tipo", error.type().getMessage());
-
-            errores.add(errorMap);
-        }
-    }
-
     public void closeFirstProject() {
         comments1 = getComments();
         variables1 = getVariables();
@@ -230,10 +215,8 @@ public class ComparedReportBuilder {
         return table;
     }
 
-    public List<Map<String, Object>> getErrorsArray() {
-        List<Map<String, Object>> list = new ArrayList<>();
-        setErrors(list);
-        return list;
+    public List<Error> getErrorsArray() {
+        return ErrorsHolder.clean();
     }
 
     public boolean hasErrors() {

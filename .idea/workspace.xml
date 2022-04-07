@@ -5,15 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b173d11a-1aca-44c2-9014-d0d6e63a80a2" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/view/Console.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/analyzer/syntax/JavaParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/analyzer/syntax/JavaParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/managers/ComparedReportBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/managers/ComparedReportBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/managers/ProjectsComparer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/controllers/managers/ProjectsComparer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/wrappers/Error.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/model/wrappers/Error.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/mooncoder/services/ComparerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/mooncoder/services/ComparerService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/sintaxis.cup" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/sintaxis.cup" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/ObjectScript-1.0-jar-with-dependencies.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/ObjectScript-1.0-jar-with-dependencies.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/syntax/JavaParser$CUP$JavaParser$actions.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/syntax/JavaParser$CUP$JavaParser$actions.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/syntax/JavaParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/analyzer/syntax/JavaParser.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/managers/ComparedReportBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/managers/ComparedReportBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/containers/ErrorsHolder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/containers/ErrorsHolder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/managers/ProjectsComparer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/controllers/managers/ProjectsComparer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/wrappers/Error.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/model/wrappers/Error.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/edu/mooncoder/services/ComparerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/edu/mooncoder/services/ComparerService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/sintaxis.cup" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sintaxis.cup" afterDir="false" />
@@ -73,6 +76,12 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean compile assembly:single" />
+      <command value="mvn assembly:single" />
+    </option>
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -136,7 +145,9 @@
       <workItem from="1649120569568" duration="62000" />
       <workItem from="1649136830936" duration="424000" />
       <workItem from="1649193063335" duration="1820000" />
-      <workItem from="1649222229046" duration="1958000" />
+      <workItem from="1649222229046" duration="2131000" />
+      <workItem from="1649284928509" duration="5127000" />
+      <workItem from="1649297904390" duration="641000" />
     </task>
     <servers />
   </component>

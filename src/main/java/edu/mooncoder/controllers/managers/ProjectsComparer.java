@@ -4,12 +4,12 @@ import edu.mooncoder.controllers.analyzer.lexic.JavaLexer;
 import edu.mooncoder.controllers.analyzer.syntax.JavaParser;
 import edu.mooncoder.exceptions.JavaFilesHasErrorsException;
 import edu.mooncoder.model.containers.ErrorsHolder;
+import edu.mooncoder.model.wrappers.Error;
 import edu.mooncoder.osrn.model.containers.Osrn;
 import edu.mooncoder.osrn.services.OsrnFactory;
 
 import java.io.Reader;
 import java.util.List;
-import java.util.Map;
 
 public class ProjectsComparer {
     private final ComparedReportBuilder reportBuilder;
@@ -48,7 +48,7 @@ public class ProjectsComparer {
         throw new JavaFilesHasErrorsException();
     }
 
-    public List<Map<String, Object>> getBugs() {
+    public List<Error> getBugs() {
         if (isAnalysisWithoutErrors())
             return null;
         return reportBuilder.getErrorsArray();
