@@ -16,6 +16,7 @@ public interface DialogsTools {
         return JOptionPane.showConfirmDialog(null, extra + "¿Esta seguro de que quiere continuar?",
                 "Salir de la ventana", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
     }
+
     default boolean wantToClose() {
         return JOptionPane.showConfirmDialog(null, "¿Esta seguro de que quiere salir?",
                 "Salir de la ventana", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
@@ -57,7 +58,7 @@ public interface DialogsTools {
         return null;
     }
 
-    default File getFile(String title, String explanation, String ...extension) {
+    default File getFile(String title, String explanation, String... extension) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle(title);
         fileChooser.addChoosableFileFilter(new FileNameExtensionFilter(explanation, extension));

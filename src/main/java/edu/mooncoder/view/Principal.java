@@ -1,8 +1,5 @@
 package edu.mooncoder.view;
 
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
-import com.intellij.uiDesigner.core.Spacer;
 import edu.mooncoder.controller.ProjectsProcessor;
 import edu.mooncoder.exceptions.AnalysisFailedException;
 import edu.mooncoder.view.contracts.LookTheme;
@@ -27,6 +24,39 @@ public class Principal extends JFrame implements LookTheme, ProjectViewManager {
 
     private File firstProject;
     private File secondProject;
+
+    public Principal() {
+        super("Java Copies Reporter");
+        setLayout(new BorderLayout(3, 3));
+        setBackground(BG_PANEL);
+        runUIManager();
+
+        JLabel title = new JLabel("Java Projects Comparer");
+        title.setFont(FONT_BOLDER);
+        title.setHorizontalAlignment(JLabel.CENTER);
+        title.setOpaque(true);
+        add(title, BorderLayout.PAGE_START);
+
+        add(contentPane, BorderLayout.CENTER);
+
+        JPanel btnPanel = new JPanel();
+        add(btnPanel, BorderLayout.PAGE_END);
+
+        JButton toAnalysisInterface = new JButton("Analizar");
+        btnPanel.add(toAnalysisInterface);
+
+        toAnalysisInterface.addActionListener(this::analyzeProjects);
+
+        menuBar = new JMenuBar();
+        setJMenuBar(this.menuBar);
+
+        addFileMenus();
+        addListeners();
+
+        setBounds(0, 0, 350, 250);
+        setMinimumSize(new Dimension(350, 250));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
 
     private void analyzeProjects() {
         try (var processor = new ProjectsProcessor("127.0.0.1", 4200)) {
@@ -77,39 +107,6 @@ public class Principal extends JFrame implements LookTheme, ProjectViewManager {
             String errorMessageFormatted = "La comparacion se realiza entre dos projectos java, que debe de cargar.";
             JOptionPane.showMessageDialog(this, errorMessageFormatted, errorTitle, JOptionPane.ERROR_MESSAGE);
         }
-    }
-
-    public Principal() {
-        super("Java Copies Reporter");
-        setLayout(new BorderLayout(3, 3));
-        setBackground(BG_PANEL);
-        runUIManager();
-
-        JLabel title = new JLabel("Java Projects Comparer");
-        title.setFont(FONT_BOLDER);
-        title.setHorizontalAlignment(JLabel.CENTER);
-        title.setOpaque(true);
-        add(title, BorderLayout.PAGE_START);
-
-        add(contentPane, BorderLayout.CENTER);
-
-        JPanel btnPanel = new JPanel();
-        add(btnPanel, BorderLayout.PAGE_END);
-
-        JButton toAnalysisInterface = new JButton("Analizar");
-        btnPanel.add(toAnalysisInterface);
-
-        toAnalysisInterface.addActionListener(this::analyzeProjects);
-
-        menuBar = new JMenuBar();
-        setJMenuBar(this.menuBar);
-
-        addFileMenus();
-        addListeners();
-
-        setBounds(0, 0, 350, 250);
-        setMinimumSize(new Dimension(350, 250));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public void runUI() {

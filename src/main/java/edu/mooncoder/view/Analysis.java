@@ -40,6 +40,32 @@ public class Analysis extends JFrame implements LookTheme, ProjectViewManager {
     private ProjectManager projectManager;
     private boolean alreadyConstructed;
 
+    public Analysis() {
+        super("Java Copies Reporter");
+        setLayout(new BorderLayout(3, 3));
+        add(contentPane);
+
+        logTable.setModel(new DefaultTableModel(new Object[0][], titles) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        });
+        tabbedAnalysis.setUI(new BasicTabbedPaneUI());
+
+        menuBar = new JMenuBar();
+        setJMenuBar(this.menuBar);
+
+        addFileMenus();
+        menuBar.add(new JToolBar(JToolBar.VERTICAL));
+
+        analyzeBtn.addActionListener(this::analyzeByTab);
+
+        setBounds(0, 0, 550, 550);
+        setMinimumSize(new Dimension(400, 400));
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }
+
     private void showErrors(OsrnFactory factory, ReadRml readRml, String message) {
         List<Object[]> rows = new ArrayList<>();
         DefaultTableModel model;
@@ -107,6 +133,7 @@ public class Analysis extends JFrame implements LookTheme, ProjectViewManager {
 
         createdReports = new JTextPane();
         createdReports.setContentType("text/html");
+        createdReports.setForeground(FG_INPUT);
         noWrapPanel.add(createdReports);
 
         JScrollPane inputPanel = new JScrollPane(noWrapPanel);
@@ -190,32 +217,6 @@ public class Analysis extends JFrame implements LookTheme, ProjectViewManager {
         pasteBtn.addActionListener(rmlPanel.getPasteAction());
         pasteBtn.addActionListener(osrnPanel.getPasteAction());
         editMenu.add(pasteBtn);
-    }
-
-    public Analysis() {
-        super("Java Copies Reporter");
-        setLayout(new BorderLayout(3, 3));
-        add(contentPane);
-
-        logTable.setModel(new DefaultTableModel(new Object[0][], titles) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        });
-        tabbedAnalysis.setUI(new BasicTabbedPaneUI());
-
-        menuBar = new JMenuBar();
-        setJMenuBar(this.menuBar);
-
-        addFileMenus();
-        menuBar.add(new JToolBar(JToolBar.VERTICAL));
-
-        analyzeBtn.addActionListener(this::analyzeByTab);
-
-        setBounds(0, 0, 550, 550);
-        setMinimumSize(new Dimension(400, 400));
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     public void runUi(ProjectManager project) throws IOException {

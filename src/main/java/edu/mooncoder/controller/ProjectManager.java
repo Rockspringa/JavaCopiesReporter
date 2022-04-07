@@ -16,14 +16,6 @@ public class ProjectManager {
     private File report;
     private File result;
 
-    private void createIfNotExist(File file) throws IOException {
-        if (!file.exists()) {
-            if (!file.createNewFile()) {
-                throw new IOException();
-            }
-        }
-    }
-
     public ProjectManager(File copy) throws IOException {
         if (!copy.exists()) {
             throw new IOException("El archivo escogido no existe.");
@@ -83,6 +75,14 @@ public class ProjectManager {
 
     public static boolean needsChangeName(String name, File dir) {
         return Arrays.stream(Objects.requireNonNull(dir.listFiles())).anyMatch(file -> file.getName().equals(name));
+    }
+
+    private void createIfNotExist(File file) throws IOException {
+        if (!file.exists()) {
+            if (!file.createNewFile()) {
+                throw new IOException();
+            }
+        }
     }
 
     public void saveProgress(String contentReport, String contentResult) throws IOException {

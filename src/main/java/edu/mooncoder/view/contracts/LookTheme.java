@@ -1,9 +1,7 @@
 package edu.mooncoder.view.contracts;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.io.File;
 
 public interface LookTheme {
     Color FG_LABEL = new Color(171, 178, 192);

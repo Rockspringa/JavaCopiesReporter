@@ -14,15 +14,42 @@ import static edu.mooncoder.view.contracts.LookTheme.FG_INPUT;
 import static edu.mooncoder.view.contracts.LookTheme.FG_LABEL;
 
 public class TextPaneWithListeners extends JPanel {
-    private JTextPane asideTextPane;
-    private JTextPane inputTextPane;
     private final JLabel caretInfo;
-
     private final Action undoAction;
     private final Action redoAction;
     private final Action cutAction = new DefaultEditorKit.CutAction();
     private final Action copyAction = new DefaultEditorKit.CopyAction();
     private final Action pasteAction = new DefaultEditorKit.PasteAction();
+    private JTextPane asideTextPane;
+    private JTextPane inputTextPane;
+
+    public TextPaneWithListeners() {
+        setLayout(new BorderLayout(3, 3));
+        setBorder(BorderFactory.createLineBorder(FG_LABEL, 1, true));
+
+        UndoManager undoManager = new UndoManager();
+        undoAction = new UndoManagement.Undo(undoManager);
+        redoAction = new UndoManagement.Redo(undoManager);
+
+        setAsideTextPane();
+        setInputTextPane(undoManager);
+
+        caretInfo = new JLabel("Linea ?, columna ?");
+        caretInfo.setHorizontalAlignment(JLabel.RIGHT);
+        caretInfo.setBorder(BorderFactory.createEmptyBorder(3, 5, 3, 5));
+        caretInfo.setOpaque(true);
+
+        JScrollPane asidePanel = new JScrollPane(asideTextPane);
+        add(asidePanel, BorderLayout.LINE_START);
+
+        JPanel noWrapPanel = new JPanel(new BorderLayout());
+        noWrapPanel.add(inputTextPane);
+
+        JScrollPane inputPanel = new JScrollPane(noWrapPanel);
+        add(inputPanel, BorderLayout.CENTER);
+
+        setScrollerStyle(inputPanel, asidePanel);
+    }
 
     private void setScrollerStyle(JScrollPane scrollerMaster, JScrollPane scrollerSlave) {
         scrollerMaster.getVerticalScrollBar().setUI(new BasicScrollBarUI());
@@ -107,34 +134,6 @@ public class TextPaneWithListeners extends JPanel {
         } else {
             caretInfo.setText("Linea " + line + ", columna " + col + " (" + diff + " chars)");
         }
-    }
-
-    public TextPaneWithListeners() {
-        setLayout(new BorderLayout(3, 3));
-        setBorder(BorderFactory.createLineBorder(FG_LABEL, 1, true));
-
-        UndoManager undoManager = new UndoManager();
-        undoAction = new UndoManagement.Undo(undoManager);
-        redoAction = new UndoManagement.Redo(undoManager);
-
-        setAsideTextPane();
-        setInputTextPane(undoManager);
-
-        caretInfo = new JLabel("Linea ?, columna ?");
-        caretInfo.setHorizontalAlignment(JLabel.RIGHT);
-        caretInfo.setBorder(BorderFactory.createEmptyBorder(3, 5, 3, 5));
-        caretInfo.setOpaque(true);
-
-        JScrollPane asidePanel = new JScrollPane(asideTextPane);
-        add(asidePanel, BorderLayout.LINE_START);
-
-        JPanel noWrapPanel = new JPanel(new BorderLayout());
-        noWrapPanel.add(inputTextPane);
-
-        JScrollPane inputPanel = new JScrollPane(noWrapPanel);
-        add(inputPanel, BorderLayout.CENTER);
-
-        setScrollerStyle(inputPanel, asidePanel);
     }
 
     public JLabel getCaretInfo() {
