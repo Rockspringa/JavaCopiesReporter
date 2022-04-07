@@ -1,4 +1,5 @@
 </ iniciare a definir  de alguna manera />
+Integer Max, i;
 Integer Max, i, j;
 Max=1;
 i=0;
@@ -7,6 +8,23 @@ String texto="Su score fue de: "</+RESULT.Score/>;
 
 </ Aqui defino el html />
 <html>
+	<h1>$$( texto )$$</h1>
+<table>
+<tr>
+	<th>Numero</th>
+	<th>Variable </th>
+	<th>Tipo </th>
+	<th>Función </th>
+ </tr>
+<for iterador:i hasta:Max;>
+<tr>
+<td> $$( i )$$</td> </
+<td> $$( RESULT.Variables[i].Nombre )$$</td>
+<td> $$( RESULT.Variables[i].Tipo )$$ </td>
+<td> $$( RESULT.Variables[i].Funcion )$$ </td> />
+</tr>
+</for>
+</table>
 <for iterador:i hasta:Max;><//>
     <for iterador:j hasta:Max;>
         <h1>$$(i)$$ + $$(j)$$</h1>

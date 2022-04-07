@@ -106,12 +106,12 @@ Id = [ña-zA-Z$_] [ña-zA-Z_$0-9]+ | [ña-zA-Z$] [ña-zA-Z_$0-9]*
 }
 
 <COMMENT> {
-  [^/]+                          { /* skip */ }
+  [^/]                           { /* skip */ }
   "/"                            { yybegin(COMMENT_OUT); }
 }
 
 <COMMENT_OUT> {
-  [^/>]                          { yybegin(COMMENT_OUT); }
+  [^/>]                          { yybegin(COMMENT); }
   "/"                            { /* skip */ }
   ">"                            { yybegin(stateToReturn); }
 }
