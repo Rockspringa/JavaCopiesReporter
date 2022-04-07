@@ -14,13 +14,13 @@ import java.util.List;
 public class TableBuilder {
     private static TableBuilder inst;
 
-    private final List<Tag> rowsRepeat = new ArrayList<>();
-    private final List<Tag> cellsRepeat = new ArrayList<>();
+    private final List<List<Tag>> rowsRepeat = new ArrayList<>();
+    private final List<List<Tag>> cellsRepeat = new ArrayList<>();
 
     private final List<Tag> rowsBattery = new ArrayList<>();
     private final List<Tag> cellsBattery = new ArrayList<>();
 
-    private boolean repeat = false;
+    private int level = -1;
 
     private TableBuilder() {
     }
@@ -29,12 +29,16 @@ public class TableBuilder {
         inst = null;
     }
 
-    public static void setRepeat() {
-        getInst().repeat = true;
+    public void increaseForLevel() {
+        rowsRepeat.add(new ArrayList<>());
+        cellsRepeat.add(new ArrayList<>());
+        level++;
     }
 
-    public static void deactivateRepeat() {
-        inst.repeat = false;
+    public void decreaseForLevel() {
+        rowsRepeat.remove(level);
+        cellsRepeat.remove(level);
+        level--;
     }
 
     public static TableBuilder getInst() {
@@ -55,8 +59,8 @@ public class TableBuilder {
     }
 
     public void addFor(Tag tag, boolean asRow, int line, int column) {
-        deactivateRepeat();
-        HtmlBuilder.toggleRepeat();
+        decreaseForLevel();
+        HtmlBuilder.getInst().decreaseForLevel();
         if (tag == null) {
             ErrorsReportBuilder.add(new NullTagException(line, column));
         } else if (tag instanceof For forTag) {
@@ -67,9 +71,9 @@ public class TableBuilder {
     }
 
     public void clear(boolean rows) {
-        if (repeat) {
-            if (rows) rowsRepeat.clear();
-            else cellsRepeat.clear();
+        if (level > -1) {
+            if (rows) rowsRepeat.get(level).clear();
+            else cellsRepeat.get(level).clear();
         } else {
             if (rows) rowsBattery.clear();
             else cellsBattery.clear();
@@ -77,26 +81,26 @@ public class TableBuilder {
     }
 
     public Tag[] getRows() {
-        Tag[] tags = ((repeat) ? rowsRepeat : rowsBattery).toArray(new Tag[0]);
+        Tag[] tags = ((level > -1) ? rowsRepeat.get(level) : rowsBattery).toArray(new Tag[0]);
 
         clear(true);
         return tags;
     }
 
     public Tag[] getCells() {
-        Tag[] tags = ((repeat) ? cellsRepeat : cellsBattery).toArray(new Tag[0]);
+        Tag[] tags = ((level > -1) ? cellsRepeat.get(level) : cellsBattery).toArray(new Tag[0]);
 
         clear(false);
         return tags;
     }
 
     private void add(Row tag) {
-        if (repeat) rowsRepeat.add(tag);
+        if (level > -1) rowsRepeat.get(level).add(tag);
         else rowsBattery.add(tag);
     }
 
     private void add(Cell tag) {
-        if (repeat) cellsRepeat.add(tag);
+        if (level > -1) cellsRepeat.get(level).add(tag);
         else cellsBattery.add(tag);
     }
 

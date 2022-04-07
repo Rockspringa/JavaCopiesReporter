@@ -11,7 +11,13 @@ public record ResultAction(ResultAccesor attr, int line, int column) implements 
 
     @Override
     public Object get() {
-        Object obj = attr().get(SymbolsTable.getInst().get(NAME, line(), column()));
+        Object obj = null;
+
+        if (attr != null)
+             obj = attr().get(SymbolsTable.getInst().get(NAME, line(), column()));
+        else
+            obj = SymbolsTable.getInst().get(NAME, line(), column());
+
         if (obj instanceof Object[] arr)
             return Arrays.toString(arr);
         return obj;

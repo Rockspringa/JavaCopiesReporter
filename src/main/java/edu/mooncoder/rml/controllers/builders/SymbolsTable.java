@@ -44,19 +44,16 @@ public class SymbolsTable {
     }
 
     public void update(String key, Object obj, int line, int column) {
-        if (inst == null) inst = new SymbolsTable();
         if (key != null) updateVariable(key, obj, line, column);
         else ErrorsReportBuilder.add(new NonePointerException(line, column));
     }
 
     public void add(String key, Object obj, String type, int line, int column) {
-        if (inst == null) inst = new SymbolsTable();
         if (key != null) addVariable(key, obj, type, line, column);
         else ErrorsReportBuilder.add(new NonePointerException(line, column));
     }
 
     public void addOneTo(String key) {
-        if (inst == null) return;
         if (!symbols.containsKey(key)) ErrorsReportBuilder.add(new NonePointerException(-1, -1));
         if (symbols.get(key) instanceof Int value) symbols.put(key, new Int(value.value() + 1));
     }
@@ -69,37 +66,7 @@ public class SymbolsTable {
         return symbols.get(key).getValue();
     }
 
-    public int getIntegerValue(String key) {
-        if (inst == null) {
-            return 0;
-        }
-        if (symbols.get(key) instanceof Int value) {
-            return (int) value.getValue();
-        }
-        return 0;
-    }
-
-    public String getStringValue(String key) {
-        if (inst == null) {
-            return null;
-        }
-        if (symbols.get(key) instanceof Text value) {
-            return (String) value.getValue();
-        }
-        return null;
-    }
-
-    public Osrn getOsrnValue(String key) {
-        if (inst == null) {
-            return null;
-        }
-        if (symbols.get(key).getValue() instanceof Osrn value) {
-            return value;
-        }
-        return null;
-    }
-
-    public void updateVariable(String key, Object obj, int line, int column) {
+    private void updateVariable(String key, Object obj, int line, int column) {
         if (symbols.containsKey(key)) {
             if (symbols.get(key) instanceof Int) {
                 if (obj instanceof Integer value) {
@@ -118,7 +85,7 @@ public class SymbolsTable {
         }
     }
 
-    public void addVariable(String key, Object obj, String type, int line, int column) {
+    private void addVariable(String key, Object obj, String type, int line, int column) {
         if (type.equalsIgnoreCase("Integer")) {
             if (obj instanceof Integer value) {
                 symbols.put(key, new Int(value));
