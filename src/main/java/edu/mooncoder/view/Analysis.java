@@ -12,6 +12,7 @@ import edu.mooncoder.view.contracts.LookTheme;
 import edu.mooncoder.view.contracts.ProjectViewManager;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -37,6 +38,7 @@ public class Analysis extends JFrame implements LookTheme, ProjectViewManager {
     private JTable logTable;
 
     private ProjectManager projectManager;
+    private boolean alreadyConstructed;
 
     private void showErrors(OsrnFactory factory, ReadRml readRml, String message) {
         List<Object[]> rows = new ArrayList<>();
@@ -108,6 +110,8 @@ public class Analysis extends JFrame implements LookTheme, ProjectViewManager {
         noWrapPanel.add(createdReports);
 
         JScrollPane inputPanel = new JScrollPane(noWrapPanel);
+        inputPanel.getVerticalScrollBar().setUI(new BasicScrollBarUI());
+        inputPanel.getHorizontalScrollBar().setUI(new BasicScrollBarUI());
         tabbedAnalysis.add("Reportes", inputPanel);
 
         caretPanel.add(rmlPanel.getCaretInfo());
@@ -159,7 +163,6 @@ public class Analysis extends JFrame implements LookTheme, ProjectViewManager {
     private void addEditMenus() {
         JMenu editMenu = new JMenu("Editar");
         menuBar.add(editMenu);
-        logTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
         JMenuItem undoBtn = new JMenuItem("Deshacer...");
         undoBtn.addActionListener(rmlPanel.getUndoAction());
@@ -194,6 +197,12 @@ public class Analysis extends JFrame implements LookTheme, ProjectViewManager {
         setLayout(new BorderLayout(3, 3));
         add(contentPane);
 
+        logTable.setModel(new DefaultTableModel(new Object[0][], titles) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        });
         tabbedAnalysis.setUI(new BasicTabbedPaneUI());
 
         menuBar = new JMenuBar();
@@ -212,8 +221,12 @@ public class Analysis extends JFrame implements LookTheme, ProjectViewManager {
     public void runUi(ProjectManager project) throws IOException {
         projectManager = project;
 
+        tabbedAnalysis.removeAll();
         addTabs();
-        addEditMenus();
+        if (!alreadyConstructed) {
+            addEditMenus();
+            alreadyConstructed = true;
+        }
 
         osrnPanel.setText(projectManager.getResult());
         rmlPanel.setText(projectManager.getReport());
@@ -224,26 +237,27 @@ public class Analysis extends JFrame implements LookTheme, ProjectViewManager {
         principal.dispose();
     }
 
-    @Override
-    public void dispose() {
-        if (wantToClose("")) {
-            if (wantToSave()) {
-                try {
-                    projectManager.saveProgress(rmlPanel.getText(), osrnPanel.getText());
-                } catch (IOException e) {
-                    if (wantToClose("No se pudo guardar el progreso.\n")) {
-                        super.dispose();
-                        if (!principal.isVisible()) {
-                            System.exit(0);
-                        }
-                    } else {
-                        return;
-                    }
+    public boolean saveAndContinue() {
+        if (wantToSave()) {
+            try {
+                projectManager.saveProgress(rmlPanel.getText(), osrnPanel.getText());
+            } catch (IOException e) {
+                if (!wantToContinue("No se pudo guardar el progreso.\n")) {
+                    return false;
                 }
             }
-            super.dispose();
-            if (!principal.isVisible()) {
-                System.exit(0);
+        }
+        return true;
+    }
+
+    @Override
+    public void dispose() {
+        if (wantToClose()) {
+            if (saveAndContinue()) {
+                super.dispose();
+                if (!principal.isVisible()) {
+                    System.exit(0);
+                }
             }
         }
     }

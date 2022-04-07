@@ -15,9 +15,12 @@ public interface ProjectViewManager extends DialogsTools {
     Analysis analysis = new Analysis();
 
     default void openProject(ActionEvent event) {
-        File copy = getFile("Seleccionar projecto", "Copy Files", "copy");
+        File copy = getFile("Seleccionar area de trabajo", "Copy Files", "copy");
 
         if (copy == null) return;
+        if (analysis.isVisible() && !analysis.saveAndContinue()) {
+            return;
+        }
         try {
             ProjectManager project = new ProjectManager(copy);
             analysis.runUi(project);

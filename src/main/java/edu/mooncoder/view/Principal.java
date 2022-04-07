@@ -9,14 +9,10 @@ import edu.mooncoder.view.contracts.LookTheme;
 import edu.mooncoder.view.contracts.ProjectViewManager;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.Locale;
 
 public class Principal extends JFrame implements LookTheme, ProjectViewManager {
     private static final String errorMessage = "Los projectos tienen %s errores.\nContacte al servidor para mas informacion.";

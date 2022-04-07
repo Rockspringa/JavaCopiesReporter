@@ -77,6 +77,7 @@ public interface LookTheme {
         UIManager.put("Table.background", BG_BTN);
         UIManager.put("Table.foreground", FG_BTN);
         UIManager.put("Table.gridColor", FG_BTN);
+        UIManager.put("Table.font", FONT_NORMAL);
 
         UIManager.put("Button.background", BG_BTN);
         UIManager.put("Button.foreground", FG_BTN);
