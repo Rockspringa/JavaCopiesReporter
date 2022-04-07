@@ -1,9 +1,7 @@
 package edu.mooncoder.view.contracts;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.io.File;
 
 public interface LookTheme {
     Color FG_LABEL = new Color(171, 178, 192);
@@ -77,6 +75,7 @@ public interface LookTheme {
         UIManager.put("Table.background", BG_BTN);
         UIManager.put("Table.foreground", FG_BTN);
         UIManager.put("Table.gridColor", FG_BTN);
+        UIManager.put("Table.font", FONT_NORMAL);
 
         UIManager.put("Button.background", BG_BTN);
         UIManager.put("Button.foreground", FG_BTN);

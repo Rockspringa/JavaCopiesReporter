@@ -36,7 +36,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>edu.mooncoder.rml</mainClass>
+                            <mainClass>edu.mooncoder.rml.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

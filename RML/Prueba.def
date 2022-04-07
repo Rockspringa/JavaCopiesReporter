@@ -2,7 +2,7 @@
 Integer Max, i;
 Max=1;
 i=0;
-String texto="Su score fue de: "+RESULT.Score;
+String texto="Su score fue de: "</+RESULT.Score/>;
 
 </ Aqui defino el html />
 <html>

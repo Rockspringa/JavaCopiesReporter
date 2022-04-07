@@ -2674,7 +2674,7 @@ class CUP$JavaParser$actions {
 		int getleft = ((java_cup.runtime.Symbol)CUP$JavaParser$stack.peek()).left;
 		int getright = ((java_cup.runtime.Symbol)CUP$JavaParser$stack.peek()).right;
 		Object get = (Object)((java_cup.runtime.Symbol) CUP$JavaParser$stack.peek()).value;
-		 addError(getleft, getright, "a expresion valida"); 
+		 addError(getleft, getright, " separador, coma u operador de expresion valida"); 
               CUP$JavaParser$result = parser.getSymbolFactory().newSymbol("valor",21, ((java_cup.runtime.Symbol)CUP$JavaParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$JavaParser$stack.peek()), RESULT);
             }
           return CUP$JavaParser$result;

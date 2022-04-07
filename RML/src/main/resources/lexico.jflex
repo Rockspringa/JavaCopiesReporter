@@ -20,6 +20,7 @@ import edu.mooncoder.rml.controllers.analyzer.syntax.Tokens;
 %ignorecase
 
 %{
+  private int stateToReturn = YYINITIAL;
   private final StringBuffer string = new StringBuffer();
   private final StringBuffer error = new StringBuffer();
 
@@ -48,13 +49,13 @@ import edu.mooncoder.rml.controllers.analyzer.syntax.Tokens;
 // To ignore in syntax
 BreakLine = \n | \r | \r\n
 Spaces = {BreakLine} | [ \t\f]
-
-Comments = "</" .* "/>"
+Comments = "</"
 
 // To token
 Int = [0-9]+
 Id = [ña-zA-Z$_] [ña-zA-Z_$0-9]+ | [ña-zA-Z$] [ña-zA-Z_$0-9]*
 
+%state COMMENT
 %state LITERAL
 %state TAGS
 %state VARIABLE
@@ -64,7 +65,7 @@ Id = [ña-zA-Z$_] [ña-zA-Z_$0-9]+ | [ña-zA-Z$] [ña-zA-Z_$0-9]*
 
 // Ignores
 <YYINITIAL> {
-  {Comments} |
+  {Comments}                     { addError(); stateToReturn = YYINITIAL; yybegin(COMMENT); }
   {Spaces}                       { addError(); }
 }
 
@@ -101,6 +102,13 @@ Id = [ña-zA-Z$_] [ña-zA-Z_$0-9]+ | [ña-zA-Z$] [ña-zA-Z_$0-9]*
     "+"                          { return symbol(Tokens.MAS); }
     "-"                          { return symbol(Tokens.MENOS); }
     "="                          { return symbol(Tokens.IGUAL); }
+}
+
+<COMMENT> {
+  "/>"                           { yybegin(stateToReturn); }
+  [^/>] |
+  "/" [^>]? |
+  [^/]? ">"                      { /* skip */ }
 }
 
 <LITERAL> {
@@ -140,14 +148,14 @@ Id = [ña-zA-Z$_] [ña-zA-Z_$0-9]+ | [ña-zA-Z$] [ña-zA-Z_$0-9]*
 }
 
 <TAGS> {
-  ({BreakLine} | [\t ])+ |
-  {Comments}                     { addError(); }
+  {Spaces}                       { addError(); }
+  {Comments}                     { addError(); stateToReturn = TAGS; yybegin(COMMENT); }
   "$$" {Spaces}* "("             { addError(); yybegin(VARIABLE); }
-  [^ \n\r\t</>$] [^</>$]+          { return symbol(Tokens.TEXT, yytext()); }
+  [^ \n\r\t</>$] [^</>$]+        { return symbol(Tokens.TEXT, yytext()); }
 }
 
 <VARIABLE> {
-  {Comments} |
+  {Comments}                     { addError(); stateToReturn = VARIABLE; yybegin(COMMENT); }
   {Spaces}                       { addError(); }
   ")" {Spaces}* "$$"             { addError(); yybegin(TAGS); }
   "RESULT"                       { return symbol(Tokens.RESULT); }
@@ -159,7 +167,7 @@ Id = [ña-zA-Z$_] [ña-zA-Z_$0-9]+ | [ña-zA-Z$] [ña-zA-Z_$0-9]*
 }
 
 <FOR> {
-  {Comments} |
+  {Comments}                     { addError(); stateToReturn = FOR; yybegin(COMMENT); }
   {Spaces}                       { addError(); }
 
   "RESULT"                       { return symbol(Tokens.RESULT); }

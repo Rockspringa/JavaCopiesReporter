@@ -479,7 +479,7 @@ valor    ::= valor_
              valor_ RELATIONAL1 NEW concat_
              |
              error:get
-             {: addError(getleft, getright, "a expresion valida"); :}
+             {: addError(getleft, getright, " separador, coma u operador de expresion valida"); :}
              ;
 
 concat_  ::= func PUNTO concat_

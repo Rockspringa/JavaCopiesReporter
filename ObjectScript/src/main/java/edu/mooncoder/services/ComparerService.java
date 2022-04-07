@@ -2,16 +2,20 @@ package edu.mooncoder.services;
 
 import edu.mooncoder.controllers.managers.ProjectsComparer;
 import edu.mooncoder.exceptions.JavaFilesHasErrorsException;
+import edu.mooncoder.model.wrappers.Error;
+import edu.mooncoder.view.Console;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ComparerService {
     private ProjectsComparer comparer;
     private Socket communicator;
+    private Console console;
 
     public ComparerService(int port) {
         try {
@@ -69,16 +73,15 @@ public class ComparerService {
     }
 
     private void printErrors(ObjectOutputStream output) throws IOException {
-        List<Map<String, Object>> errors = comparer.getBugs();
+        List<Error> errors = comparer.getBugs();
         output.writeObject(errors);
 
-        String genMsg = "Error en el archivo '%s', del projecto %d:\n" +
-                "\tLinea %d:Columna %d. Mensaje: %s";
-        for (Map<String, Object> error : errors) {
-            String msg = String.format(genMsg, error.get("Archivo"), error.get("Projecto"),
-                    error.get("Linea"), error.get("Columna"), error.get("Mensage"));
-
-            System.out.println(msg);
+        if (console == null) {
+            console = new Console();
         }
+
+        List<Object[]> errorsData = new ArrayList<>();
+        for (Error error : errors) errorsData.add(error.getArrayData());
+        SwingUtilities.invokeLater(() -> console.showErrors(errorsData.toArray(new Object[0][])));
     }
 }
